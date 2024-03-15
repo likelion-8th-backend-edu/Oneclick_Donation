@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: sa
+    password: password
+    url: url
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: create
+    show-sql: false
+
+
+jwt:
+  secret: aaaabbbsdifqbvaesoioegwaaaabbbsdifqbvaesoioegwaaaabbbsdifqbvaes
+
+toss:
+  secret: <toss-secret>

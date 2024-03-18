@@ -11,4 +11,4 @@ public class OneclickDonationApplication {
 	}
 
 }
-//test
+//예를들어서

@@ -45,4 +45,9 @@ public class PostService {
 //        return postRepository.findByUsername(userDetails.getUsername())
 //                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 //    }
+public PostDto readOne(Long id) {
+    Post post = postRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Post not found with id: " + id));
+    return PostDto.fromEntity(post);
+}
 }

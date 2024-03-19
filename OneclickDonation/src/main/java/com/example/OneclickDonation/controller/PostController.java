@@ -4,6 +4,7 @@ import com.example.OneclickDonation.dto.PostDto;
 import com.example.OneclickDonation.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -20,7 +21,14 @@ public class PostController {
             @RequestParam("postTitle") String title,
             @RequestParam("postContents") String description
     ) {
-        postService.create(new PostDto(title, description));
-        return "redirect:/z"; // 저장 후에 리다이렉트
+        Long newId = postService.create(new PostDto(title, description)).getId();
+        return String.format("redirect:/post/%d", newId);
+    }
+
+    @GetMapping("/{id}")
+    public String viewPost(@PathVariable Long id, Model model) {
+        PostDto post = postService.readOne(id);
+        model.addAttribute("post", post);
+        return "/post/view";
     }
 }

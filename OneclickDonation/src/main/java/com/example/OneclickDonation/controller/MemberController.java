@@ -15,14 +15,15 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     private final MemberService service;
 
+    // 홈 화면 -- 모금 중 리스트 나열된 화면
     @GetMapping("/home")
     public String homePage() {
-        return "home";
+        return "member/home";
     }
 
     @GetMapping("/signup")
     public String signupPage() {
-        return "signup";
+        return "member/signup";
     }
 
     @PostMapping("/signup")
@@ -35,7 +36,7 @@ public class MemberController {
     public String login(@ModelAttribute MemberDto memberDto) {
         MemberDto loginResult = service.login(memberDto);
         if(loginResult != null){
-            return "home"; // 홈화면
+            return "member/home"; // 홈화면
         } else {
             return "login";
         }

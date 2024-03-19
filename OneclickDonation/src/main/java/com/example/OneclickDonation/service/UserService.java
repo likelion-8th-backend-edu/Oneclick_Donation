@@ -9,8 +9,4 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService {
 
-    public void register() {
-
-    }
-
 }

@@ -1,5 +1,6 @@
 package com.example.OneclickDonation.dto;
 
+import com.example.OneclickDonation.entity.Member;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,9 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 public class CustomUserDetails implements UserDetails {
     private Long id;
-    private String email;
+    private String username;  // email
     private String password;
-    private String username;  // 밑에 필수 메서드 때문에 이름을 username으로 사용
     private String profile;
     private String phone;
     private String age;
@@ -25,6 +25,14 @@ public class CustomUserDetails implements UserDetails {
     private Integer businessNumber;
     private Integer donationAmount;
     private String authorities;
+    @Getter
+    private Member member;
+
+    public static CustomUserDetails fromEntity(Member entity) {
+        return CustomUserDetails.builder()
+                .member(entity)
+                .build();
+    }
 
 
 

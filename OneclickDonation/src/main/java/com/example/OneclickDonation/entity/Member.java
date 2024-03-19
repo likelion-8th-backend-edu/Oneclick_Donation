@@ -17,10 +17,9 @@ public class Member {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String email;  // 아이디
+    private String username;  // 아이디(이메일)
     @Column(nullable = false)
     private String password;
-    private String username;
     private String profile;
     private String phone;
     private Integer age;

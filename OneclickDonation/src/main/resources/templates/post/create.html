@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+  <meta charset="UTF-8">
+  <title>save</title>
+  <style>
+      a {
+          text-decoration: none;
+          color: #007BFF;
+          font-weight: bold;
+      }
+      body {
+          font-family: Arial, sans-serif;
+          margin: 20px;
+      }
+
+      form {
+          max-width: 600px;
+          margin: 0 auto;
+      }
+
+      input[type="text"],
+      textarea,
+      input[type="password"],
+      select {
+          width: 100%;
+          padding: 8px;
+          margin: 5px 0 20px 0;
+          display: inline-block;
+          border: 1px solid #ccc;
+          box-sizing: border-box;
+          border-radius: 4px;
+      }
+
+      input[type="submit"] {
+          background-color: #4CAF50;
+          color: white;
+          padding: 10px 15px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+      }
+  </style>
+</head>
+<body>
+<form action="/post/create" method="post" enctype="multipart/form-data">
+  제목: <input type="text" name="postTitle"> <br>
+  내용: <textarea name="postContents" cols="30" rows="10"></textarea> <br>
+  <input type="submit" value="글작성">
+</form>
+<br>
+<br>
+<a href="/">back</a>
+</body>
+</html>

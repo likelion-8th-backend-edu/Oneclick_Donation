@@ -29,11 +29,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/members/home",
-                                "/members/signup")
+                                "/members/signup",
+                                "/post/create",
+                                "/z",
+                                "/post/{postId}")
                         .permitAll()
-
-
-
 
                         .anyRequest()
                         .authenticated()
@@ -46,7 +46,7 @@ public class SecurityConfig {
                         new JwtTokenFilter(jwtTokenUtils, manager),
                         AuthorizationFilter.class
                 )
-        ;
+        ;   
         return http.build();
     }
 }

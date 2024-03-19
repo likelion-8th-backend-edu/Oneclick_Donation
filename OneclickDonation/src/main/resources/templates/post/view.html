@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+  <meta charset="UTF-8">
+  <title>View Post</title>
+</head>
+<body>
+<h1>View Post</h1>
+<div>
+  <strong>Title:</strong>
+  <span th:text="${post.title}"></span>
+</div>
+<div>
+  <strong>Description:</strong>
+  <span th:text="${post.description}"></span>
+</div>
+<div>
+  <a th:href="@{/post/{id}/edit(id=${post.id})}">Edit</a>
+  <form th:action="@{/post/{id}/delete(id=${post.id})}" method="post" style="display: inline;">
+    <button type="submit">Delete</button>
+  </form>
+</div>
+</body>
+</html>

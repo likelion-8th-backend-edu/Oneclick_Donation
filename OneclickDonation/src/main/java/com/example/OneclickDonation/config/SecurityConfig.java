@@ -26,8 +26,12 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-
-
+                        .requestMatchers("/post/create")
+                        .permitAll()
+                        .requestMatchers(
+                                "/z",
+                                "/post/{postId}")
+                        .permitAll()
 
 
 
@@ -42,7 +46,7 @@ public class SecurityConfig {
                         new JwtTokenFilter(jwtTokenUtils, manager),
                         AuthorizationFilter.class
                 )
-        ;
+        ;   
         return http.build();
     }
 }

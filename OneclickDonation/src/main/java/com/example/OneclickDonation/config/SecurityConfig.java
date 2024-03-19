@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
@@ -17,7 +18,7 @@ import org.springframework.security.web.access.intercept.AuthorizationFilter;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtTokenUtils jwtTokenUtils;
-    private final UserDetailsManager manager;
+    private final UserDetailsService manager;
 
     @Bean
     public SecurityFilterChain securityFilterChain(
@@ -26,14 +27,13 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/post/create")
-                        .permitAll()
                         .requestMatchers(
+                                "/members/home",
+                                "/members/signup",
+                                "/post/create",
                                 "/z",
                                 "/post/{postId}")
                         .permitAll()
-
-
 
                         .anyRequest()
                         .authenticated()

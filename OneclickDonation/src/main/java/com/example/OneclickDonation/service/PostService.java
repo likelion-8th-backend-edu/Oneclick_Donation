@@ -54,6 +54,7 @@ public class PostService {
         post.setTargetAmount(dto.getTargetAmount());
         post.setPostImage(dto.getPostImage());
         return PostDto.fromEntity(postRepository.save(post));
+        //ㅁㄴ
     }
 
     public void delete(Long id) {

@@ -5,28 +5,171 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>signup</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Sign Up Page</title>
+  <style>
+      body {
+          font-family: "Montserrat", sans-serif;
+          background: white;
+      }
+
+      .container {
+          display: block;
+          max-width: 680px;
+          width: 80%;
+          margin: 120px auto;
+      }
+
+      h1 {
+          color: #ffed4d;
+          font-size: 48px;
+          letter-spacing: -3px;
+          text-align: center;
+          margin: 120px 0 80px 0;
+          transition: 0.2s linear;
+      }
+
+      form {
+          width: 100%;
+          max-width: 680px;
+          margin: 40px auto 10px;
+      }
+
+      .input__block {
+          margin: 20px auto;
+          display: block;
+          position: relative;
+      }
+
+      .input__block.first-input__block::before {
+          content: "";
+          position: absolute;
+          top: -15px;
+          left: 50px;
+          display: block;
+          width: 0;
+          height: 0;
+          background: transparent;
+          border-left: 15px solid transparent;
+          border-right: 15px solid transparent;
+          border-bottom: 15px solid rgba(15, 19, 42, 0.1);
+          transition: 0.2s linear;
+      }
+
+      .input {
+          display: block;
+          width: 90%;
+          max-width: 680px;
+          height: 50px;
+          margin: 0 auto;
+          border-radius: 8px;
+          border: none;
+          background: rgba(15, 19, 42, 0.1);
+          color: rgba(15, 19, 42, 0.3);
+          padding: 0 0 0 15px;
+          font-size: 14px;
+          font-family: "Montserrat", sans-serif;
+      }
+
+      .input__block input:focus,
+      .input__block input:active {
+          outline: none;
+          border: none;
+          color: #0f132a;
+      }
+
+      .signup__btn {
+          background: #ffed4d;
+          color: white;
+          display: block;
+          width: 92.5%;
+          max-width: 680px;
+          height: 50px;
+          border-radius: 8px;
+          margin: 0 auto;
+          border: none;
+          cursor: pointer;
+          font-size: 14px;
+          font-family: "Montserrat", sans-serif;
+          box-shadow: 0 15px 30px rgb(255, 237, 77, 0.36);
+          transition: 0.2s linear;
+      }
+
+      .signup__btn:hover {
+          box-shadow: 0 0 0 rgba(233, 30, 99, 0);
+      }
+      .separator {
+          display: block;
+          margin: 30px auto 10px;
+          text-align: center;
+          height: 40px;
+          position: relative;
+          background: transparent;
+          color: rgba(15, 19, 42, 0.4);
+          font-size: 13px;
+          width: 90%;
+          max-width: 680px;
+      }
+      .separator::before {
+          content: "";
+          position: absolute;
+          top: 8px;
+          left: 0;
+          background: rgba(15, 19, 42, 0.2);
+          height: 1px;
+          width: 45%;
+      }
+      .separator::after {
+          content: "";
+          position: absolute;
+          top: 8px;
+          right: 0;
+          background: rgba(15, 19, 42, 0.2);
+          height: 1px;
+          width: 45%;
+      }
+  </style>
+
 </head>
 <body>
-<h1>회원가입</h1>
-<p>원활한 서비스를 이용을 위해 회원가입을 해주세요</p>
-<form action="/members/signup" method="post">
-  <div class="first-input input__block first-input__block">
-      <input type="email" placeholder="Email" class="input" id="email">
-  </div>
-  <div class="input__block">
-    <input type="password" placeholder="Password" class="input" id="password">
-  </div>
-  <button class="signup__btn">
-    회원가입
-  </button>
+<div class="container">
+  <h1>SIGN UP</h1>
+  <form action="/members/signup" method="post">
+    <!-- email input -->
+    <div class="first-input input__block first-input__block">
+      <label for="username">
+        <input name="username" type="email" placeholder="Email" class="input" id="username"   />
+      </label>
+    </div>
+    <!-- password input -->
+    <div class="input__block">
+      <label for="password">
+        <input name="password" type="password" placeholder="Password" class="input" id="password"   />
+      </label>
+    </div>
+    <!-- repeat password input -->
+    <div class="input__block">
+      <label for="repeatPassword">
+        <input type="password" placeholder="Repeat password" class="input repeat__password" id="repeatPassword"/>
+      </label>
+    </div>
+    <button class="signup__btn" type="submit">
+      회원가입
+    </button>
+  </form>
   <div class="separator">
     <p>OR</p>
   </div>
-<!--  소셜 로그인 넣기 -->
+<!--  소셜 로그인 할 수 있도록 넣기-->
 
-</form>
+</div>
+
+<!--<script>-->
+<!--    // 회원가입 버튼을 클릭하면 로그인 페이지로 이동-->
+<!--    document.getElementById('signupForm').addEventListener('submit', function(event) {-->
+<!--        event.preventDefault(); // 기본 동작(페이지 이동) 방지-->
+<!--        window.location.href = "/member/home"; // 로그인 페이지로 이동-->
+<!--    });-->
+<!--</script>-->
 
 </body>
 </html>

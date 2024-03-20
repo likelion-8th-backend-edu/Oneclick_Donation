@@ -3,10 +3,12 @@ package com.example.OneclickDonation.controller;
 import com.example.OneclickDonation.dto.MemberDto;
 import com.example.OneclickDonation.dto.RegisterDto;
 import com.example.OneclickDonation.service.MemberService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
 @Controller
@@ -37,13 +39,15 @@ public class MemberController {
         return "member/signin";
     }
 
-    @PostMapping ("/signin")
+    //로그인
+    @PostMapping("/signin")
     public String login(@ModelAttribute MemberDto memberDto) {
         MemberDto loginResult = service.login(memberDto);
         if(loginResult != null){
-            return "redirect:/member/home"; // 홈화면
+            return "redirect:/member/home";
         } else {
             return "redirect:/member/signin";
         }
     }
+
 }

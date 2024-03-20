@@ -42,7 +42,6 @@ public class SecurityConfig {
                                 "/members/signup",
                                 "/post/create",
                                 "/members/signin",
-                                "/z",
                                 "/post/{postId}")
                         .permitAll()
 
@@ -51,11 +50,13 @@ public class SecurityConfig {
 
                 );
 
+
                   //커스텀 로그인 필터 추가
                  AuthenticationManager authManager = authenticationManager(authenticationConfiguration);
                  http.addFilterAt(new LoginFilter(authManager), UsernamePasswordAuthenticationFilter.class);
 
                  //세션 설정
+
         http
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -68,4 +69,5 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 }

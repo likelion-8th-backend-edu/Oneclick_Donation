@@ -31,4 +31,21 @@ public class PostController {
         model.addAttribute("post", post);
         return "/post/view";
     }
+
+    @GetMapping("/{id}/edit")
+    public String editPostForm(@PathVariable Long id, Model model) {
+        PostDto post = postService.readOne(id);
+        model.addAttribute("post", post);
+        return "/post/edit";
+    }
+
+    @PostMapping("/{id}/edit")
+    public String editPost(
+            @PathVariable Long id,
+            @RequestParam("title") String title,
+            @RequestParam("contents") String description
+    ) {
+        postService.update(id, new PostDto(title, description));
+        return "redirect:/post/" + id;
+    }
 }

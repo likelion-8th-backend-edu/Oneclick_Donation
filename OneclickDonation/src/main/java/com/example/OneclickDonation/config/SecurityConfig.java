@@ -27,22 +27,13 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-<<<<<<<<< Temporary merge branch 1
                         .requestMatchers(
                                 "/members/home",
-                                "/members/signup")
+                                "/members/signup",
+                                "/post/create",
+                                "/post/{postId}",
+                                "/post/{postId}/edit")
                         .permitAll()
-
-=========
-                        .requestMatchers("/post/create")
-                        .permitAll()
-                        .requestMatchers(
-                                "/z",
-                                "/post/{postId}")
-                        .permitAll()
->>>>>>>>> Temporary merge branch 2
-
-
 
                         .anyRequest()
                         .authenticated()
@@ -55,7 +46,7 @@ public class SecurityConfig {
                         new JwtTokenFilter(jwtTokenUtils, manager),
                         AuthorizationFilter.class
                 )
-        ;   
+        ;
         return http.build();
     }
 }

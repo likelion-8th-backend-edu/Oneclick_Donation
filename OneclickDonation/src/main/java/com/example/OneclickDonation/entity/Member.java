@@ -26,4 +26,5 @@ public class Member {
     private String organization;  // 단체
     private Integer businessNumber;  // 사업자 번호
     private Integer donationAmount; // 개인 기부금
+    private String authorities; // 사용자 역할 권한
 }

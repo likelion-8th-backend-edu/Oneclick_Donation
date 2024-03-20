@@ -32,13 +32,18 @@ public class MemberController {
         return "redirect:/members/signin";
     }
 
+    @GetMapping("/signin")
+    public String signinPage(){
+        return "member/signin";
+    }
+
     @PostMapping ("/signin")
     public String login(@ModelAttribute MemberDto memberDto) {
         MemberDto loginResult = service.login(memberDto);
         if(loginResult != null){
-            return "member/home"; // 홈화면
+            return "redirect:/member/home"; // 홈화면
         } else {
-            return "login";
+            return "redirect:/member/signin";
         }
     }
 }

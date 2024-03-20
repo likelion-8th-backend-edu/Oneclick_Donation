@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -42,15 +43,14 @@ public class MemberService implements UserDetailsService {
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .build()));
     }
+
     //로그인
-    public MemberDto login(MemberDto memberDto) {
-        Optional<Member> optionalMember = memberRepository.findByUsername(memberDto.getUsername());
-        if (optionalMember.isPresent()) {
-            Member memberEntity = optionalMember.get();
-            if (passwordEncoder.matches(memberDto.getPassword(), memberEntity.getPassword())) {
-                return memberDto;
-            }
-        }
-        return null;
+    @Transactional
+    public MemberDto login(MemberDto memberDto) throws UsernameNotFoundException {
+        return memberRepository.findByUsername(memberDto.getUsername())
+                .filter(member -> passwordEncoder.matches(memberDto.getPassword(), member.getPassword()))
+                .map(member -> memberDto)
+                .orElseThrow(() -> new UsernameNotFoundException("로그인 정보가 올바르지 않습니다.") {
+                });
     }
 }

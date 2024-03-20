@@ -1,28 +1,33 @@
 package com.example.OneclickDonation.controller;
 
 import com.example.OneclickDonation.dto.PostDto;
+import com.example.OneclickDonation.service.FileStorageService;
 import com.example.OneclickDonation.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/post")
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
+    private final FileStorageService fileStorageService;
     @GetMapping("/create")
     public String create() {
-        return "/post/create";
+        return "post/create";
     }
     @PostMapping("/create")
     public String createPost(
             @RequestParam("postTitle") String title,
-            @RequestParam("postContents") String description
+            @RequestParam("postContents") String description,
+            @RequestParam("postTargetAmount") Integer targetAmount,
+            @RequestParam("postImage") MultipartFile postImage
     ) {
-        Long newId = postService.create(new PostDto(title, description)).getId();
-        return String.format("redirect:/post/%d", newId);
+        String imageUrl = fileStorageService.storeFile(postImage);
+        return String.format("redirect:/post");
     }
 
     @GetMapping("/{id}")
@@ -43,13 +48,20 @@ public class PostController {
     public String editPost(
             @PathVariable Long id,
             @RequestParam("title") String title,
-            @RequestParam("contents") String description
+            @RequestParam("contents") String description,
+            @RequestParam("targetAmount") Integer targetAmount,
+            @RequestParam(value = "image", required = false) MultipartFile image
     ) {
-        postService.update(id, new PostDto(title, description));
+        String imageUrl = null;
+        if (image != null && !image.isEmpty()) {
+            // 이미지가 업로드되었을 경우에만 저장하고 이미지 URL을 얻어옴
+            imageUrl = fileStorageService.storeFile(image);
+        }
+        postService.update(id, new PostDto(title, description, targetAmount, imageUrl));
         return "redirect:/post/" + id;
     }
 
-    @PostMapping("/{id}/delete")
+    @PostMapping("/{id}/delete/")
     public String deletePost(@PathVariable Long id) {
         postService.delete(id);
         return "redirect:/post/create";

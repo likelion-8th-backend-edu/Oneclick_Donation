@@ -16,6 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Optional;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -40,7 +42,15 @@ public class MemberService implements UserDetailsService {
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .build()));
     }
-
-
-
+    //로그인
+    public MemberDto login(MemberDto memberDto) {
+        Optional<Member> optionalMember = memberRepository.findByUsername(memberDto.getUsername());
+        if (optionalMember.isPresent()) {
+            Member memberEntity = optionalMember.get();
+            if (passwordEncoder.matches(memberDto.getPassword(), memberEntity.getPassword())) {
+                return memberDto;
+            }
+        }
+        return null;
+    }
 }

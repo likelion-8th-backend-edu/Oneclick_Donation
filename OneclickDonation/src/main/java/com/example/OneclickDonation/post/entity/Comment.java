@@ -1,4 +1,4 @@
-package com.example.OneclickDonation.entity;
+package com.example.OneclickDonation.post.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class board {
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String boardName;  // 모금중, 모금 종료
+    private String content;
 }

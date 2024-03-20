@@ -1,7 +1,7 @@
 package com.example.OneclickDonation;
 
-import com.example.OneclickDonation.dto.CustomUserDetails;
-import com.example.OneclickDonation.entity.Member;
+import com.example.OneclickDonation.member.dto.CustomUserDetails;
+import com.example.OneclickDonation.member.entity.Member;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;

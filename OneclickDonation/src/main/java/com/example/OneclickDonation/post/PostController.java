@@ -1,7 +1,6 @@
-package com.example.OneclickDonation.controller;
+package com.example.OneclickDonation.post;
 
-import com.example.OneclickDonation.dto.PostDto;
-import com.example.OneclickDonation.service.PostService;
+import com.example.OneclickDonation.post.dto.PostDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

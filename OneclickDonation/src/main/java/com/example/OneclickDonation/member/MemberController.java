@@ -1,25 +1,21 @@
-package com.example.OneclickDonation.controller;
+package com.example.OneclickDonation.member;
 
-import com.example.OneclickDonation.dto.MemberDto;
-import com.example.OneclickDonation.dto.RegisterDto;
-import com.example.OneclickDonation.service.MemberService;
-import jakarta.servlet.http.HttpSession;
+import com.example.OneclickDonation.member.dto.MemberDto;
+import com.example.OneclickDonation.member.dto.RegisterDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
 @Controller
-@RequestMapping("members")
+@RequestMapping("donation")
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService service;
 
     // 홈 화면 -- 모금 중 리스트 나열된 화면
-    @GetMapping("/home")
+    @GetMapping
     public String homePage() {
         return "member/home";
     }
@@ -32,7 +28,7 @@ public class MemberController {
     @PostMapping("/signup")
     public String register(RegisterDto dto) {
         service.register(dto);
-        return "redirect:/members/home";
+        return "redirect:/donation/signin";
     }
 
     @GetMapping("/signin")
@@ -45,9 +41,9 @@ public class MemberController {
     public String login(@ModelAttribute MemberDto memberDto) {
         MemberDto loginResult = service.login(memberDto);
         if(loginResult != null){
-            return "redirect:/member/home";
+            return "redirect:/donation";
         } else {
-            return "redirect:/member/signin";
+            return "redirect:/donation/signin";
         }
     }
 

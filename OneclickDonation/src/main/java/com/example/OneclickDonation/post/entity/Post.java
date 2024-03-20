@@ -1,4 +1,4 @@
-package com.example.OneclickDonation.entity;
+package com.example.OneclickDonation.post.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

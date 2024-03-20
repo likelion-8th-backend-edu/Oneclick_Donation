@@ -59,4 +59,10 @@ public class PostService {
         return PostDto.fromEntity(postRepository.save(post));
     }
 
+    public void delete(Long id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Post not found with id: " + id));
+        postRepository.delete(post);
+    }
+
 }

@@ -32,7 +32,8 @@ public class SecurityConfig {
                                 "/members/signup",
                                 "/post/create",
                                 "/post/{postId}",
-                                "/post/{postId}/edit")
+                                "/post/{postId}/edit",
+                                "/post/{postId}/delete")
                         .permitAll()
 
                         .anyRequest()

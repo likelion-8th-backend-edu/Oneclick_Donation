@@ -10,29 +10,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
+    private final FileStorageService fileStorageService;
 
-    public PostDto create(PostDto dto) {
-        /*// SecurityContextHolder에서 사용자 가져오기
-        UserDetails userDetails =
-                (UserDetails) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        // 사용자 username 받아오기
-        String username = userDetails.getUsername();
-        // UserEntity 회수
-        UserEntity writer = userRepository.findByUsername(username)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));*/
-//        Member writer = getUserEntity();
+    public PostDto create(PostDto dto, MultipartFile image) {
+        String imageUrl = fileStorageService.storeFile(image);
         Post newPost = Post.builder()
                 .title(dto.getTitle())
                 .description(dto.getDescription())
+                .targetAmount(dto.getTargetAmount())
+                .postImage(imageUrl)
                 .build();
 
-        // 저장
         return PostDto.fromEntity(postRepository.save(newPost));
     }
 
@@ -56,6 +51,8 @@ public class PostService {
 
         post.setTitle(dto.getTitle());
         post.setDescription(dto.getDescription());
+        post.setTargetAmount(dto.getTargetAmount());
+        post.setPostImage(dto.getPostImage());
         return PostDto.fromEntity(postRepository.save(post));
     }
 

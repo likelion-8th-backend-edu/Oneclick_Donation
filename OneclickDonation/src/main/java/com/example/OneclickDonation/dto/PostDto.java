@@ -14,14 +14,16 @@ public class PostDto {
     private String title;
     @Setter
     private String description;
+    @Setter
+    private Integer targetAmount;
+    @Setter
+    private String postImage; // imageUrl을 postImage로 변경
 
-//    private ArticleWriterDto writer;
-//    @Setter
-//    private String writer;
-
-    public PostDto(String title, String description) {
+    public PostDto(String title, String description, Integer targetAmount, String postImage) {
         this.title = title;
         this.description = description;
+        this.targetAmount = targetAmount;
+        this.postImage = postImage;
     }
 
     public static PostDto fromEntity(Post entity) {
@@ -29,6 +31,8 @@ public class PostDto {
                 .id(entity.getId())
                 .title(entity.getTitle())
                 .description(entity.getDescription())
+                .targetAmount(entity.getTargetAmount())
+                .postImage(entity.getPostImage()) // imageUrl을 postImage로 변경
                 .build();
     }
 }

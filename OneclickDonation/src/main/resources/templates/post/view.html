@@ -1,24 +1,60 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>View Post</title>
+  <style>
+      body {
+          font-family: Arial, sans-serif;
+          margin: 20px;
+      }
+      h1 {
+          color: #007BFF;
+      }
+      strong {
+          font-weight: bold;
+      }
+      div {
+          margin-bottom: 10px;
+      }
+      a {
+          text-decoration: none;
+          color: #007BFF;
+          font-weight: bold;
+          margin-right: 10px;
+      }
+      button {
+          background-color: #007BFF;
+          color: white;
+          padding: 8px 12px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+      }
+  </style>
 </head>
 <body>
-<h1>View Post</h1>
+<h1 th:text="${post.title}"></h1>
 <div>
-  <strong>Title:</strong>
+  <strong>제목:</strong>
   <span th:text="${post.title}"></span>
 </div>
 <div>
-  <strong>Description:</strong>
+  <strong>캠페인 설명:</strong>
   <span th:text="${post.description}"></span>
+  <span th:text="${post.postImage}"></span>
 </div>
 <div>
-  <a th:href="@{/post/{id}/edit(id=${post.id})}">Edit</a>
+  <strong>목표 모금액:</strong>
+  <span th:text="${post.targetAmount}"></span>
+</div>
+<div>
+  <a th:href="@{/post/{id}/edit(id=${post.id})}">수정</a>
   <form th:action="@{/post/{id}/delete(id=${post.id})}" method="post" style="display: inline;">
-    <button type="submit">Delete</button>
+    <button type="submit">삭제</button>
   </form>
 </div>
+<a href="/donation/">기부하기</a>
+<a href="/news/">소식</a>
 </body>
 </html>

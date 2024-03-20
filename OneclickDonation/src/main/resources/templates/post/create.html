@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
   <meta charset="UTF-8">
-  <title>save</title>
+  <title>Save</title>
   <style>
       a {
           text-decoration: none;
@@ -46,6 +46,8 @@
 <form action="/post/create" method="post" enctype="multipart/form-data">
   제목: <input type="text" name="postTitle"> <br>
   내용: <textarea name="postContents" cols="30" rows="10"></textarea> <br>
+  사진 첨부: <input type="file" name ="postImage"> <br>
+  목표 모금액: <input type="text" name="postTargetAmount">
   <input type="submit" value="글작성">
 </form>
 <br>

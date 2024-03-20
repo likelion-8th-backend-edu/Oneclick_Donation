@@ -35,7 +35,6 @@ public class SecurityConfig {
                                 "/post/{postId}/edit",
                                 "/post/{postId}/delete")
                         .permitAll()
-
                         .anyRequest()
                         .authenticated()
 

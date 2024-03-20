@@ -1,4 +1,4 @@
-package com.example.OneclickDonation.entity;
+package com.example.OneclickDonation.member.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,11 +1,11 @@
-package com.example.OneclickDonation.service;
+package com.example.OneclickDonation.member;
 
 import com.example.OneclickDonation.Enum.Role;
-import com.example.OneclickDonation.dto.CustomUserDetails;
-import com.example.OneclickDonation.dto.MemberDto;
-import com.example.OneclickDonation.dto.RegisterDto;
-import com.example.OneclickDonation.entity.Member;
-import com.example.OneclickDonation.repo.MemberRepository;
+import com.example.OneclickDonation.member.dto.CustomUserDetails;
+import com.example.OneclickDonation.member.dto.MemberDto;
+import com.example.OneclickDonation.member.dto.RegisterDto;
+import com.example.OneclickDonation.member.entity.Member;
+import com.example.OneclickDonation.member.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

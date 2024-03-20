@@ -1,4 +1,4 @@
-package com.example.OneclickDonation.dto;
+package com.example.OneclickDonation.member.dto;
 
 import lombok.Builder;
 import lombok.Getter;

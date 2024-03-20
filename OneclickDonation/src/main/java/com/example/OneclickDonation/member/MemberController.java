@@ -1,8 +1,7 @@
-package com.example.OneclickDonation.controller;
+package com.example.OneclickDonation.member;
 
-import com.example.OneclickDonation.dto.MemberDto;
-import com.example.OneclickDonation.dto.RegisterDto;
-import com.example.OneclickDonation.service.MemberService;
+import com.example.OneclickDonation.member.dto.MemberDto;
+import com.example.OneclickDonation.member.dto.RegisterDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

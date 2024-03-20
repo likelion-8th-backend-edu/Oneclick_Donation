@@ -1,6 +1,6 @@
-package com.example.OneclickDonation.dto;
+package com.example.OneclickDonation.post.dto;
 
-import com.example.OneclickDonation.entity.Post;
+import com.example.OneclickDonation.post.entity.Post;
 import lombok.*;
 
 @Getter

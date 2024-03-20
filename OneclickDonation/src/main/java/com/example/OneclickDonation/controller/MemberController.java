@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -25,13 +26,13 @@ public class MemberController {
 
     @GetMapping("/signup")
     public String signupPage() {
-        return "member/signup";
+        return "/member/signup";
     }
 
     @PostMapping("/signup")
-    public String register( RegisterDto dto) {
+    public String register(RegisterDto dto) {
         service.register(dto);
-        return "redirect:/members/signin";
+        return "redirect:/members/home";
     }
 
     @GetMapping("/signin")

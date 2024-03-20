@@ -35,11 +35,18 @@ public class MemberService implements UserDetailsService {
     }
 
     @Transactional
-    public void register(RegisterDto dto) {
+    public MemberDto register(RegisterDto dto) {
+        if (!dto.getPassword().equals(dto.getRepeatPassword()))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+
         if (memberRepository.existsByUsername(dto.getUsername()))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
 
-        MemberDto.fromEntity(memberRepository.save(Member.builder()
+        if (dto.getPassword() == null || dto.getPassword().isEmpty()) {
+            throw new IllegalArgumentException("비밀번호를 입력해주세요.");
+        }
+
+        return MemberDto.fromEntity(memberRepository.save(Member.builder()
                 .username(dto.getUsername())
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .build()));
@@ -54,4 +61,8 @@ public class MemberService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("로그인 정보가 올바르지 않습니다.") {
                 });
     }
+
+
+
+    // 개인-> 단체 사용자 전환 신청
 }

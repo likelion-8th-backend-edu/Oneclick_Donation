@@ -5,7 +5,7 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Sign Up Page</title>
+  <title>단체/기업 등록하기</title>
   <style>
       body {
           font-family: "Montserrat", sans-serif;
@@ -97,88 +97,29 @@
       .signup__btn:hover {
           box-shadow: 0 0 0 rgba(233, 30, 99, 0);
       }
-      .separator {
-          display: block;
-          margin: 30px auto 10px;
-          text-align: center;
-          height: 40px;
-          position: relative;
-          background: transparent;
-          color: rgba(15, 19, 42, 0.4);
-          font-size: 13px;
-          width: 90%;
-          max-width: 680px;
-      }
-      .separator::before {
-          content: "";
-          position: absolute;
-          top: 8px;
-          left: 0;
-          background: rgba(15, 19, 42, 0.2);
-          height: 1px;
-          width: 45%;
-      }
-      .separator::after {
-          content: "";
-          position: absolute;
-          top: 8px;
-          right: 0;
-          background: rgba(15, 19, 42, 0.2);
-          height: 1px;
-          width: 45%;
-      }
   </style>
 
 </head>
 <body>
 <div class="container">
-  <h1>SIGN UP</h1>
-  <form action="/donation/signup" method="post">
-    <!-- email input -->
+  <h1>단체/기업 등록하기</h1>
+  <form action="/donation/upgrade-request" method="post">
+    <!-- 단체/기업 input -->
     <div class="first-input input__block first-input__block">
-      <label for="username">
-        <input name="username" type="email" placeholder="Email" class="input" id="username"   />
+      <label for="organization">
+        <input name="organization" type="text" placeholder="단체/기관 이름을 기입해주세요." class="input" id="organization"   />
       </label>
     </div>
-    <!-- password input -->
+    <!-- 사업자번호 input -->
     <div class="input__block">
-      <label for="password">
-        <input name="password" type="password" placeholder="Password" class="input" id="password"   />
-      </label>
-    </div>
-    <!-- repeat password input -->
-    <div class="input__block">
-      <label for="repeatPassword">
-        <input name="repeatPassword" type="password" placeholder="Repeat password" class="input repeat__password" id="repeatPassword"/>
-      </label>
-    </div>
-    <!-- 이름 input-->
-    <div class="input__block">
-      <label for="nickname">
-        <input name="nickname" type="text" placeholder="Name" class="input" id="nickname"   />
-      </label>
-    </div>
-    <!-- 나이 input-->
-    <div class="input__block">
-      <label for="age">
-        <input name="age" type="text" placeholder="Age" class="input" id="age"   />
-      </label>
-    </div>
-    <!-- 핸드폰 input-->
-    <div class="input__block">
-      <label for="phone">
-        <input name="phone" type="text" placeholder="Phone" class="input" id="phone"   />
+      <label for="businessNumber">
+        <input name="businessNumber" type="number" placeholder="사업자 번호를 기입해주세요." class="input" id="businessNumber"   />
       </label>
     </div>
     <button class="signup__btn" type="submit">
-      회원가입
+      등록하기
     </button>
   </form>
-  <div class="separator">
-    <p>OR</p>
-  </div>
-  <!--  소셜 로그인 할 수 있도록 넣기-->
-
 </div>
 </body>
 </html>

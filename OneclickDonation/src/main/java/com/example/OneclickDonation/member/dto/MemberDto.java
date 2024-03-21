@@ -1,7 +1,10 @@
 package com.example.OneclickDonation.member.dto;
 
 import com.example.OneclickDonation.member.entity.Member;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Builder

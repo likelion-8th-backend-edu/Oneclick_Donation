@@ -1,6 +1,6 @@
 package com.example.OneclickDonation.post.service;
 
-import com.example.OneclickDonation.post.PostRepository;
+import com.example.OneclickDonation.post.repo.PostRepository;
 import com.example.OneclickDonation.post.dto.PostDto;
 import com.example.OneclickDonation.post.entity.Post;
 import lombok.RequiredArgsConstructor;

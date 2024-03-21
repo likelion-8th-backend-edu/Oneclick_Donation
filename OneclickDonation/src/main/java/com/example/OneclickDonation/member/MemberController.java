@@ -1,9 +1,14 @@
 package com.example.OneclickDonation.member;
 
+import com.example.OneclickDonation.jwt.JwtRequestDto;
+import com.example.OneclickDonation.jwt.JwtResponseDto;
 import com.example.OneclickDonation.member.dto.MemberDto;
+import com.example.OneclickDonation.member.dto.MemberUpgradeDto;
 import com.example.OneclickDonation.member.dto.RegisterDto;
+import com.example.OneclickDonation.member.entity.MemberUpgrade;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +33,7 @@ public class MemberController {
     @PostMapping("/signup")
     public String register(RegisterDto dto) {
         service.register(dto);
-        return "redirect:/donation/signin";
+        return "redirect:/donation";
     }
 
     @GetMapping("/signin")
@@ -47,4 +52,20 @@ public class MemberController {
         }
     }
 
+    /*@PostMapping("/signin")
+    public String signIn(JwtRequestDto dto) {
+        service.signin(dto);
+        return "redirect:/donation";
+    }*/
+
+    // 마이페이지에서 신청 버튼 누르면 해당 엔드포인트로 이등 후 폼으로 이동
+    @GetMapping("/upgrade-request")
+    public String upgradeRequestPage() {
+        log.info("단체 신청하기");
+        return "/member/upgradeReq";
+    }
+    @PutMapping("/upgrade-request")
+    public void upgradeRequest(MemberUpgradeDto dto) {
+        service.upgradeRequest(dto);
+    }
 }

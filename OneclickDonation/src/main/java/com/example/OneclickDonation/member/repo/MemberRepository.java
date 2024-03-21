@@ -1,4 +1,4 @@
-package com.example.OneclickDonation.member;
+package com.example.OneclickDonation.member.repo;
 
 import com.example.OneclickDonation.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;

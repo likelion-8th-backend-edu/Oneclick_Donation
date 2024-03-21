@@ -1,10 +1,7 @@
 package com.example.OneclickDonation.member.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Builder
@@ -20,11 +17,12 @@ public class Member {
     private String username;  // 아이디(이메일)
     @Column(nullable = false)
     private String password;
+    @Setter
     private String profile;
-    private String phone;
+    private String nickname;
     private Integer age;
-    private String organization;  // 단체
-    private Integer businessNumber;  // 사업자 번호
+    private String phone;
     private Integer donationAmount; // 개인 기부금
+    @Setter
     private String authorities; // 사용자 역할 권한
 }

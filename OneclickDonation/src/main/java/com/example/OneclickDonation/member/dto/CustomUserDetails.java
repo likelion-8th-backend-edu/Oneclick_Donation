@@ -19,8 +19,9 @@ public class CustomUserDetails implements UserDetails {
     private String username;  // email
     private String password;
     private String profile;
-    private String phone;
+    private String nickname;
     private String age;
+    private String phone;
     private String organization;
     private Integer businessNumber;
     private Integer donationAmount;
@@ -33,8 +34,6 @@ public class CustomUserDetails implements UserDetails {
                 .member(entity)
                 .build();
     }
-
-
 
     public String getRawAuthorities() {
         return this.authorities;

@@ -1,10 +1,13 @@
 package com.example.OneclickDonation.post.service;
 
+import com.example.OneclickDonation.Enum.Status;
 import com.example.OneclickDonation.post.repo.PostRepository;
 import com.example.OneclickDonation.post.dto.PostDto;
 import com.example.OneclickDonation.post.entity.Post;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,6 +31,13 @@ public class PostService {
         return PostDto.fromEntity(postRepository.save(newPost));
     }
 
+    // 홈페이지 모금 중의 전체 모금
+    public Page<PostDto> readPage(Pageable pageable) {
+        Page<Post> posts = postRepository.findAllByStatus(Status.ING, pageable);
+        return posts.map(PostDto::fromEntity);
+    }
+
+
 //    TODO 나중에 구현
 //    private Member getUserEntity() {
 //        UserDetails userDetails =
@@ -36,7 +46,7 @@ public class PostService {
 //        return postRepository.findByUsername(userDetails.getUsername())
 //                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 //    }
-public PostDto readOne(Long id) {
+    public PostDto readOne(Long id) {
     Post post = postRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Post not found with id: " + id));
     return PostDto.fromEntity(post);

@@ -27,6 +27,34 @@
           margin: 120px 0 80px 0;
           transition: 0.2s linear;
       }
+      .links {
+          list-style-type: none;
+      }
+      .links li {
+          display: inline-block;
+          margin: 0 20px 0 0;
+          transition: 0.2s linear;
+      }
+      .links li:nth-child(2) {
+          opacity: 0.6;
+      }
+      .links li:nth-child(2):hover {
+          opacity: 1;
+      }
+      .links li:nth-child(3) {
+          opacity: 0.6;
+          float: right;
+      }
+      .links li:nth-child(3):hover {
+          opacity: 1;
+      }
+      .links li a {
+          text-decoration: none;
+          color: #0f132a;
+          font-weight: bold;
+          text-align: center;
+          cursor: pointer;
+      }
 
       form {
           width: 100%;
@@ -133,6 +161,14 @@
 <body>
 <div class="container">
   <h1>SIGN UP</h1>
+  <ul class="links">
+    <li>
+      <a href="/donation/signup" id="signup">SIGN UP</a>
+    </li>
+    <li> <!-- 로그인 페이지도 똑같이 구현해서 포인터만 이동시키도록할 수 있다-->
+      <a href="/donation/signin" id="signin">SIGN IN</a>
+    </li>
+  </ul>
   <form action="/donation/signup" method="post">
     <!-- email input -->
     <div class="first-input input__block first-input__block">

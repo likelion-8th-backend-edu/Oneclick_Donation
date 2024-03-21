@@ -1,5 +1,6 @@
 package com.example.OneclickDonation.post.dto;
 
+import com.example.OneclickDonation.Enum.Status;
 import com.example.OneclickDonation.post.entity.Post;
 import lombok.*;
 
@@ -13,6 +14,7 @@ public class PostDto {
     private String description;
     private Integer targetAmount;
     private String postImage;
+    private Status status;  // 상태(진행중, 종료)
 
     public PostDto(String title, String description, Integer targetAmount, String postImage) {
         this.title = title;
@@ -21,13 +23,15 @@ public class PostDto {
         this.postImage = postImage;
     }
 
+    // 빌더로 변경해도 좋을꺼 같습니다.
     public static PostDto fromEntity(Post entity) {
         return new PostDto(
                 entity.getId(),
                 entity.getTitle(),
                 entity.getDescription(),
                 entity.getTargetAmount(),
-                entity.getPostImage()
+                entity.getPostImage(),
+                entity.getStatus()
         );
     }
 }

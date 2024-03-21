@@ -6,10 +6,16 @@ import com.example.OneclickDonation.member.dto.MemberDto;
 import com.example.OneclickDonation.member.dto.MemberUpgradeDto;
 import com.example.OneclickDonation.member.dto.RegisterDto;
 import com.example.OneclickDonation.member.entity.MemberUpgrade;
+import com.example.OneclickDonation.post.dto.PostDto;
+import com.example.OneclickDonation.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -18,10 +24,13 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService service;
+    private final PostService postService;
 
     // 홈 화면 -- 모금 중 리스트 나열된 화면
     @GetMapping
-    public String homePage() {
+    public String homePage(Model model, Pageable pageable) {
+        Page<PostDto> page = postService.readPage(PageRequest.of(0, 10));
+        model.addAttribute("page", page);
         return "member/home";
     }
 

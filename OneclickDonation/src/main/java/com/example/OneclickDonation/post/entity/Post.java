@@ -1,9 +1,7 @@
 package com.example.OneclickDonation.post.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.OneclickDonation.Enum.Status;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -26,6 +24,9 @@ public class Post {
     private Integer targetAmount; // 목표 모금 금액
     private String startDate; // 모금 시작 날짜
     private String endDate; // 모금 종료 날짜
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.ING;
     // 상태(진행중, 종료)
     // if enddate + 1 ==> 상태 = 종료
 

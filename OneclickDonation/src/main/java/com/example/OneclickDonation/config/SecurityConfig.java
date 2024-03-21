@@ -43,7 +43,9 @@ public class SecurityConfig {
                                 "/post/create",
                                 "/post/{postId}",
                                 "/post/{postId}/edit",
-                                "/post/{postId}/delete")
+                                "/post/{postId}/delete",
+                                "/upgrade-request"
+                        )
                         .permitAll()
 
 

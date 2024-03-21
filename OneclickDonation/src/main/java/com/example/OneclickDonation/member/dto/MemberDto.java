@@ -1,7 +1,10 @@
 package com.example.OneclickDonation.member.dto;
 
 import com.example.OneclickDonation.member.entity.Member;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
@@ -12,10 +15,9 @@ public class MemberDto {
     private String username;
     private String password;
     private String profile;
-    private String phone;
+    private String nickname;
     private Integer age;
-    private String organization;
-    private Integer businessNumber;
+    private String phone;
     private Integer donationAmount;
 
 
@@ -25,10 +27,9 @@ public class MemberDto {
                 .username(entity.getUsername())
                 .password(entity.getPassword())
                 .profile(entity.getProfile())
-                .phone(entity.getPhone())
+                .nickname(entity.getNickname())
                 .age(entity.getAge())
-                .organization(entity.getOrganization())
-                .businessNumber(entity.getBusinessNumber())
+                .phone(entity.getPhone())
                 .donationAmount(entity.getDonationAmount())
                 .build();
     }

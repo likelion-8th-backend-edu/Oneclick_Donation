@@ -11,4 +11,7 @@ public class RegisterDto {
     private String username;
     private String password;
     private String repeatPassword;
+    private String nickname;
+    private String phone;
+    private Integer age;
 }

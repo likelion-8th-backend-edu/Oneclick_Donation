@@ -1,4 +1,4 @@
-package com.example.OneclickDonation.post;
+package com.example.OneclickDonation.post.controller;
 
 import com.example.OneclickDonation.post.dto.PostDto;
 import com.example.OneclickDonation.post.service.FileStorageService;
@@ -48,23 +48,22 @@ public class PostController {
     @PostMapping("/{id}/edit")
     public String editPost(
             @PathVariable Long id,
-            @RequestParam("title") String title,
-            @RequestParam("contents") String description,
-            @RequestParam("targetAmount") Integer targetAmount,
-            @RequestParam(value = "image", required = false) MultipartFile image
+            @RequestParam("postTitle") String title,
+            @RequestParam("postContents") String description,
+            @RequestParam("postTargetAmount") Integer targetAmount,
+            @RequestParam(value = "postImage", required = false) MultipartFile image
     ) {
         String imageUrl = null;
         if (image != null && !image.isEmpty()) {
-            // 이미지가 업로드되었을 경우에만 저장하고 이미지 URL을 얻어옴
             imageUrl = fileStorageService.storeFile(image);
         }
         postService.update(id, new PostDto(title, description, targetAmount, imageUrl));
         return "redirect:/post/" + id;
     }
 
-    @PostMapping("/{id}/delete/")
+    @PostMapping("/{id}/delete")
     public String deletePost(@PathVariable Long id) {
         postService.delete(id);
-        return "redirect:/post/create";
+        return "redirect:/post/test";
     }
 }

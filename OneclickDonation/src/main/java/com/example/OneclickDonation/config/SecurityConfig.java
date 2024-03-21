@@ -53,11 +53,11 @@ public class SecurityConfig {
                 );
 
 
-                  //커스텀 로그인 필터 추가
-                 AuthenticationManager authManager = authenticationManager(authenticationConfiguration);
-                 http.addFilterAt(new LoginFilter(authManager), UsernamePasswordAuthenticationFilter.class);
+        //커스텀 로그인 필터 추가
+        AuthenticationManager authManager = authenticationManager(authenticationConfiguration);
+        http.addFilterAt(new LoginFilter(authManager), UsernamePasswordAuthenticationFilter.class);
 
-                 //세션 설정
+        //세션 설정
         http
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

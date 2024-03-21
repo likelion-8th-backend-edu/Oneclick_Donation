@@ -1,58 +1,106 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>update</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>글 수정</title>
   <style>
-      a {
-          text-decoration: none;
-          color: #007BFF;
-          font-weight: bold;
-      }
       body {
           font-family: Arial, sans-serif;
-          margin: 20px;
+          background-color: #f0f0f0;
+          margin: 0;
+          padding: 0;
+      }
+
+      .container {
+          max-width: 900px;
+          margin: 50px auto;
+          background-color: #fff;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+          color: #ffa500;
+          text-align: center;
       }
 
       form {
-          max-width: 600px;
-          margin: 0 auto;
+          margin-top: 20px;
       }
 
-      input[type="text"],
-      textarea,
-      input[type="password"],
-      select {
+      .form-group {
+          margin-bottom: 20px;
+      }
+
+      .form-group label {
+          display: block;
+          margin-bottom: 5px;
+          color: #333;
+      }
+
+      .form-group input[type="text"],
+      .form-group textarea,
+      .form-group input[type="number"] {
           width: 100%;
-          padding: 8px;
-          margin: 5px 0 20px 0;
-          display: inline-block;
+          padding: 10px;
           border: 1px solid #ccc;
-          box-sizing: border-box;
-          border-radius: 4px;
+          border-radius: 5px;
       }
 
-      input[type="submit"] {
-          background-color: #4CAF50;
-          color: white;
-          padding: 10px 15px;
+      .form-group input[type="file"] {
+          margin-top: 5px;
+      }
+
+      .form-group input[type="submit"] {
+          background-color: #ffa500;
+          color: #fff;
           border: none;
-          border-radius: 4px;
+          padding: 10px 20px;
           cursor: pointer;
+          border-radius: 5px;
+      }
+
+      .form-group input[type="submit"]:hover {
+          background-color: #ff7f00;
+      }
+
+      .back-link {
+          display: block;
+          margin-top: 20px;
+          text-align: center;
+          color: #007bff;
+          text-decoration: none;
       }
   </style>
 </head>
 <body>
-<form th:action="@{/post/{id}/edit(id=${post.id})}" method="post" enctype="multipart/form-data">
-      제목: <input type="text" name="title" th:value="${post.title}">
-      내용: <input type="text" name="contents" th:value="${post.description}">
-      이미지: <input type="text" name="image" th:value="${post.postImage}">
-      목표 모금액: <input type="text" name="targetAmount" th:value="${post.targetAmount}">
-  <div class="mb-2">
-    <div class="mb-2">
-      <input type="submit">
+<div class="container">
+  <h1>Edit Post</h1>
+  <!-- 수정된 부분: th:action 속성에서 {id} 값을 받아오는 부분이 수정되었습니다. -->
+  <form th:action="@{/post/{id}/edit(id=${post.id})}" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="postTitle">캠페인 제목:</label>
+      <input type="text" name="postTitle" id="postTitle" th:value="${post.title}" required>
     </div>
-  </div>
-</form>
+    <div class="form-group">
+      <label for="postContents">캠페인 설명:</label>
+      <textarea name="postContents" id="postContents" rows="6" required th:value="${post.description}"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="postImage">대표 이미지:</label>
+      <input type="file" name="postImage" id="postImage" accept="image/*" th:value="${post.postImage}">
+    </div>
+    <div class="form-group">
+      <label for="postTargetAmount">목표 모금 금액:</label>
+      <input type="number" name="postTargetAmount" id="postTargetAmount" th:value="${post.targetAmount}" required>
+    </div>
+    <div class="form-group">
+      <input type="submit" value="수정하기">
+    </div>
+  </form>
+  <a href="/" class="back-link">Back</a>
+</div>
 </body>
 </html>

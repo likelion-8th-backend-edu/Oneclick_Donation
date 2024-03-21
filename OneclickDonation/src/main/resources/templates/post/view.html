@@ -2,62 +2,96 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>View Post</title>
   <style>
       body {
           font-family: Arial, sans-serif;
-          margin: 20px;
+          background-color: #f0f0f0;
+          margin: 0;
+          padding: 0;
       }
+
+      .container {
+          max-width: 900px;
+          margin: 50px auto;
+          background-color: #fff;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
       h1 {
-          color: #007BFF;
+          color: #ffa500;
+          text-align: center;
       }
-      strong {
-          font-weight: bold;
+
+      .post-details {
+          margin-top: 20px;
       }
-      div {
+
+      .post-details div {
           margin-bottom: 10px;
       }
-      a {
+
+      .post-details strong {
+          color: #333;
+      }
+
+      .post-details img {
+          max-width: 100%;
+          display: block;
+          margin: 10px auto;
+          border-radius: 8px;
+      }
+
+      .action-buttons {
+          text-align: center;
+          margin-top: 20px;
+      }
+
+      .action-buttons a {
+          background-color: #ffa500;
+          color: #fff;
+          padding: 8px 16px;
           text-decoration: none;
-          color: #007BFF;
-          font-weight: bold;
+          border-radius: 5px;
           margin-right: 10px;
       }
-      button {
-          background-color: #007BFF;
-          color: white;
-          padding: 8px 12px;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
+
+      .action-buttons a:hover {
+          background-color: #ff7f00;
       }
   </style>
 </head>
 <body>
-<h1 th:text="${post.title}"></h1>
-<div>
-  <strong>제목:</strong>
-  <span th:text="${post.title}"></span>
-</div>
-<div>
-  <strong>캠페인 설명:</strong>
-  <span th:text="${post.description}"></span>
-</div>
-<div>
-  <strong>이미지:</strong>
-  <img th:src="@{'/uploads/' + ${post.postImage}}" alt="Post Image">
-</div>
-<div>
-  <strong>목표 모금액:</strong>
-  <span th:text="${post.targetAmount}"></span>
-</div>
-<div>
-  <a th:href="@{/post/{id}/edit(id=${post.id})}">수정</a>
+<div class="container">
+  <h1 th:text="${post.title}"></h1>
+  <div class="post-details">
+    <div>
+      <strong>제목:</strong>
+      <span th:text="${post.title}"></span>
+    </div>
+    <div>
+      <strong>캠페인 설명:</strong>
+      <span th:text="${post.description}"></span>
+    </div>
+    <div>
+      <strong>이미지:</strong>
+      <img th:src="@{'/uploads/' + ${post.postImage}}" alt="Post Image">
+    </div>
+    <div>
+      <strong>목표 모금액:</strong>
+      <span th:text="${post.targetAmount}"></span>
+    </div>
+  </div>
+  <div class="action-buttons">
+    <a th:href="@{'/post/' + ${post.id} + '/edit'}">수정</a>
+  </div>
   <form th:action="@{/post/{id}/delete(id=${post.id})}" method="post" style="display: inline;">
-    <button type="submit">삭제</button>
+    <button type="submit" style="background-color: #ffa500; color: #fff; padding: 8px 16px; text-decoration: none; border-radius: 5px; border: none; cursor: pointer;">삭제</button>
   </form>
+  <a href="/" class="back-link">Back</a>
 </div>
-<a href="/donation/">기부하기</a>
-<a href="/news/">소식</a>
 </body>
 </html>

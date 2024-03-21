@@ -4,20 +4,15 @@ import com.example.OneclickDonation.post.entity.Post;
 import lombok.*;
 
 @Getter
-@Builder
-@ToString
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostDto {
     private Long id;
-    @Setter
     private String title;
-    @Setter
     private String description;
-    @Setter
     private Integer targetAmount;
-    @Setter
-    private String postImage; // imageUrl을 postImage로 변경
+    private String postImage;
 
     public PostDto(String title, String description, Integer targetAmount, String postImage) {
         this.title = title;
@@ -27,13 +22,12 @@ public class PostDto {
     }
 
     public static PostDto fromEntity(Post entity) {
-        return PostDto.builder()
-                .id(entity.getId())
-                .title(entity.getTitle())
-                .description(entity.getDescription())
-                .targetAmount(entity.getTargetAmount())
-                .postImage(entity.getPostImage()) // imageUrl을 postImage로 변경
-                .build();
+        return new PostDto(
+                entity.getId(),
+                entity.getTitle(),
+                entity.getDescription(),
+                entity.getTargetAmount(),
+                entity.getPostImage()
+        );
     }
 }
-

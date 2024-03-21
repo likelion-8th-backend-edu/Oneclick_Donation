@@ -41,7 +41,9 @@ public class SecurityConfig {
                                 "/donation/signup",
                                 "/donation/signin",
                                 "/post/create",
-                                "/post/{postId}")
+                                "/post/{postId}",
+                                "/post/{postId}/edit",
+                                "/post/{postId}/delete")
                         .permitAll()
 
 

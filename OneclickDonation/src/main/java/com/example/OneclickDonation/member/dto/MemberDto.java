@@ -1,10 +1,8 @@
 package com.example.OneclickDonation.member.dto;
 
 import com.example.OneclickDonation.member.entity.Member;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 
 @Getter
 @Builder
@@ -19,7 +17,6 @@ public class MemberDto {
     private Integer age;
     private String phone;
     private Integer donationAmount;
-
 
     public static MemberDto fromEntity(Member entity) {
         return MemberDto.builder()

@@ -68,18 +68,21 @@ public class MemberService implements UserDetailsService {
     }
 
     //로그인
-    @Transactional
-    public MemberDto login(MemberDto memberDto) throws UsernameNotFoundException {
-        return memberRepository.findByUsername(memberDto.getUsername())
-                .filter(member -> passwordEncoder.matches(memberDto.getPassword(), member.getPassword()))
-                .map(member -> memberDto)
-                .orElseThrow(() -> new UsernameNotFoundException("로그인 정보가 올바르지 않습니다.") {
-                });
-    }
+//    @Transactional
+//    public MemberDto login(MemberDto memberDto) throws UsernameNotFoundException {
+//        return memberRepository.findByUsername(memberDto.getUsername())
+//                .filter(member -> passwordEncoder.matches(memberDto.getPassword(), member.getPassword()))
+//                .map(member -> memberDto)
+//                .orElseThrow(() -> new UsernameNotFoundException("로그인 정보가 올바르지 않습니다.") {
+//                });
+//
+//
+//    }
+
 
     // 여기서 생각해봐야될 것! -> ddl-auto: upddate로 하면 jwt가 발급이 안됨.
     // ddl-auto: create로 해도 header에 토큰을 어떻게 넣어야되는지..?
-    /*public JwtResponseDto signin(JwtRequestDto dto) {
+    public JwtResponseDto signin(JwtRequestDto dto) {
         Member member = memberRepository.findByUsername(dto.getUsername())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
 
@@ -93,10 +96,10 @@ public class MemberService implements UserDetailsService {
         String jwt = jwtTokenUtils.generateToken(CustomUserDetails.fromEntity(member));
         log.info("jwt 확인: {}", jwt);
         JwtResponseDto response = new JwtResponseDto();
-        log.info("response 확인: {}", response);  // 토큰이 안들어온다..
         response.setToken(jwt);
+        log.info("response 확인: {}", response);
         return response;
-    }*/
+    }
 
     // 개인-> 단체 사용자 전환 요청
     public void upgradeRequest(MemberUpgradeDto dto) {

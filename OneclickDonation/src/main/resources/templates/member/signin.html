@@ -30,5 +30,27 @@
     </div>
 </form>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.querySelector("form");
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const response = await fetch('/donation/signin', {
+                method: 'POST',
+                body: new URLSearchParams(formData)
+            });
+            if (response.ok) {
+                const data = await response.json();
+                // JWT 토큰을 로컬 스토리지에 저장
+                localStorage.setItem("token", data.token);
+                // 로그인 성공 후 처리, 예: 홈페이지로 리다이렉트
+                window.location.href = "home.html";
+            } else {
+                alert("로그인 실패");
+            }
+        };
+    });
+</script>
 </body>
 </html>

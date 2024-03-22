@@ -51,21 +51,21 @@ public class MemberController {
     }
 
     //로그인
-    @PostMapping("/signin")
-    public String login(@ModelAttribute MemberDto memberDto) {
-        MemberDto loginResult = service.login(memberDto);
-        if(loginResult != null){
-            return "redirect:/donation";
-        } else {
-            return "redirect:/donation/signin";
-        }
-    }
+//    @PostMapping("/signin")
+//    public String login(@ModelAttribute MemberDto memberDto) {
+//        MemberDto loginResult = service.login(memberDto);
+//        if(loginResult != null){
+//            return "redirect:/donation";
+//        } else {
+//            return "redirect:/donation/signin";
+//        }
+//    }
 
-    /*@PostMapping("/signin")
+    @PostMapping("/signin")
     public String signIn(JwtRequestDto dto) {
         service.signin(dto);
         return "redirect:/donation";
-    }*/
+    }
 
     // 마이페이지에서 신청 버튼 누르면 해당 엔드포인트로 이등 후 폼으로 이동
     @GetMapping("/upgrade-request")

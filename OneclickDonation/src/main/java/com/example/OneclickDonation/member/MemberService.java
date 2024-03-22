@@ -100,7 +100,7 @@ public class MemberService implements UserDetailsService {
         log.info("response 확인: {}", response);
         return response;
     }
-
+    //
     // 개인-> 단체 사용자 전환 요청
     public void upgradeRequest(MemberUpgradeDto dto) {
         log.info("실행 확인");

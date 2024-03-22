@@ -42,7 +42,7 @@ public class MemberController {
     @PostMapping("/signup")
     public String register(RegisterDto dto) {
         service.register(dto);
-        return "redirect:/donation";
+        return "redirect:/donation/signin";
     }
 
     @GetMapping("/signin")

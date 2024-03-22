@@ -68,11 +68,11 @@
           position: relative;
       }
 
-      .input__block.first-input__block::before {
+      .input__block.signup-input__block::before {
           content: "";
           position: absolute;
           top: -15px;
-          left: 50px;
+          left: 130px;
           display: block;
           width: 0;
           height: 0;
@@ -163,15 +163,15 @@
   <h1>SIGN UP</h1>
   <ul class="links">
     <li>
-      <a href="/donation/signup" id="signup">SIGN UP</a>
-    </li>
-    <li> <!-- 로그인 페이지도 똑같이 구현해서 포인터만 이동시키도록할 수 있다-->
       <a href="/donation/signin" id="signin">SIGN IN</a>
+    </li>
+    <li>
+      <a href="/donation/signup" id="signup">SIGN UP</a>
     </li>
   </ul>
   <form action="/donation/signup" method="post">
     <!-- email input -->
-    <div class="first-input input__block first-input__block">
+    <div class="first-input input__block signup-input__block">
       <label for="username">
         <input name="username" type="email" placeholder="Email" class="input" id="username"   />
       </label>

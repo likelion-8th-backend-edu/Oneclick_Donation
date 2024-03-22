@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
 @Controller
-@RequestMapping("/{id}/mypage")
+@RequestMapping("/mypage")
 @RequiredArgsConstructor
-public class mypageController {
+public class MypageController {
 
 }

@@ -4,6 +4,9 @@ import com.example.OneclickDonation.Enum.Status;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Builder
 @Getter
@@ -29,5 +32,7 @@ public class Post {
     private Status status = Status.ING;
     // 상태(진행중, 종료)
     // if enddate + 1 ==> 상태 = 종료
+    @OneToMany(mappedBy = "post")
+    private final List<Comment> comment = new ArrayList<>();
 
 }

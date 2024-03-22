@@ -72,14 +72,17 @@
     </li>
   </ul>
   <!-- 마이페이지로 옮기기-->
-<a href="/donation/upgrade-request">단체로 변경하기</a>
+<a href="/donation/upgrade-request">단체로 변경하기</a> <br>
+<a href="/post/create">캠페인 제안하기</a>
+  <br>
+
 
   <div th:if="${page.content.empty}">
     <p>진행 중인 캠페인이 없습니다.</p>
   </div>
   <div th:unless="${page.content.empty}">
     <div th:each="post : ${page.content}">
-      <h2 th:text="${post.title}"></h2>
+      <a th:href="@{/post/{id}(id=${post.id})}">[[${post.title}]]</a>
       <p th:text="${post.description}"></p>
       <!-- 기타 필요한 정보 출력 -->
     </div>

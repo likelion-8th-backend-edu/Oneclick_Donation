@@ -214,5 +214,49 @@
         };
     });
 </script>
+
+<!-- TODO 로그인 버튼 누르면 홈으로 이동 // 헤더에 토큰 발급은 안됨.-->
+<!--<script>-->
+<!--    document.getElementById('loginForm').addEventListener('submit', async function(event) {-->
+<!--        event.preventDefault();-->
+<!--        const formData = new FormData(this);-->
+<!--        try {-->
+<!--            const response = await fetch('/donation/signin', {-->
+<!--                method: 'POST',-->
+<!--                body: formData-->
+<!--            });-->
+<!--            if (!response.ok) {-->
+<!--                throw new Error('Login failed');-->
+<!--            }-->
+<!--            const data = await response.json();-->
+<!--            localStorage.setItem('token', data.token);-->
+
+<!--            // 서버로 요청을 보낼 때마다 토큰을 포함하여 인증-->
+<!--            const token = localStorage.getItem('token');-->
+<!--            const requestOptions = {-->
+<!--                headers: {-->
+<!--                    'Authorization': `Bearer ${token}`-->
+<!--                }-->
+<!--            };-->
+
+<!--            // 관리자로 로그인하면 관리자 홈페이지로 이동-->
+<!--            const isAdmin = data.authorities.includes('ROLE_ADMIN');-->
+<!--            if (isAdmin) {-->
+<!--                const adminResponse = await fetch('/admin', requestOptions);-->
+<!--                if (adminResponse.ok) {-->
+<!--                    window.location.href = '/admin';-->
+<!--                } else {-->
+<!--                    throw new Error('Failed to access admin page');-->
+<!--                }-->
+<!--            } else {-->
+<!--                // 아이디/비밀번호가 일치하지 않는다는 메세지 전달할 수 있으면 좋겠다.-->
+<!--                window.location.href = '/donation/signin';-->
+<!--            }-->
+<!--        } catch (error) {-->
+<!--            console.error(error);-->
+<!--        }-->
+<!--    });-->
+<!--</script>-->
+
 </body>
 </html>

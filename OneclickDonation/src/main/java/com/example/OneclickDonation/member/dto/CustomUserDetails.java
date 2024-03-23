@@ -18,12 +18,19 @@ public class CustomUserDetails implements UserDetails {
     private Long id;
     private String username;  // email
     private String password;
+    @Getter
     private String profile;
+    @Getter
     private String nickname;
+    @Getter
     private String age;
+    @Getter
     private String phone;
+    @Getter
     private String organization;
+    @Getter
     private Integer businessNumber;
+    @Getter
     private Integer donationAmount;
     private String authorities;
     @Getter

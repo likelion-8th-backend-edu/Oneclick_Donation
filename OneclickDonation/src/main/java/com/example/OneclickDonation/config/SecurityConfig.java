@@ -47,8 +47,11 @@ public class SecurityConfig {
                                 "/post/{postId}/comment",
                                 "/post/{postId}/comment/{commentId}/delete",
                                 "/donation/upgrade-request",
-                                "admin/upgrades",
-                                "admin/upgrades/{id}"
+                                "/admin",
+                                "/admin/upgrades",
+                                "/admin/upgrades/{id}",
+                                "/admin//acceptUpgrade/{id}",
+                                "/admin/rejectUpgrade/{id}"
                         )
                         .permitAll()
 

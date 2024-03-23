@@ -25,14 +25,16 @@ public class Post {
     private Integer supportAmount; // 모금 현황
     @Setter
     private Integer targetAmount; // 목표 모금 금액
+    @Setter
     private String startDate; // 모금 시작 날짜
+    @Setter
     private String endDate; // 모금 종료 날짜
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private Status status = Status.ING;
     // 상태(진행중, 종료)
     // if enddate + 1 ==> 상태 = 종료
-    @OneToMany(mappedBy = "post")
-    private final List<Comment> comment = new ArrayList<>();
+    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
+    private final List<Comment> comments = new ArrayList<>();
 
 }

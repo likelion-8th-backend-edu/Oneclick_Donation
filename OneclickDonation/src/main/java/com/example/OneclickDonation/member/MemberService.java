@@ -29,7 +29,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class MemberService implements UserDetailsService {
     private final MemberRepository memberRepository;
     private final MemberUpgradeRepository upgradeRepository;
@@ -38,11 +37,56 @@ public class MemberService implements UserDetailsService {
     private final FileHandlerUtils fileHandlerUtils;
     private final JwtTokenUtils jwtTokenUtils;
 
+    public MemberService(
+            MemberRepository memberRepository,
+            MemberUpgradeRepository upgradeRepository,
+            PasswordEncoder passwordEncoder,
+            AuthenticationFacade authFacade,
+            FileHandlerUtils fileHandlerUtils,
+            JwtTokenUtils jwtTokenUtils
+    ) {
+        this.memberRepository = memberRepository;
+        this.upgradeRepository = upgradeRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.authFacade = authFacade;
+        this.fileHandlerUtils = fileHandlerUtils;
+        this.jwtTokenUtils = jwtTokenUtils;
+
+        adminCreate(CustomUserDetails.builder()
+                .username("admin@donation.com")
+                .password(passwordEncoder.encode("password"))
+                .nickname("관리자")
+                .authorities(Role.ROLE_ADMIN.name())
+                .build()
+
+        );
+        adminCreate(CustomUserDetails.builder()
+                .username("alex@gmail.com")
+                .password(passwordEncoder.encode("111"))
+                .nickname("테스트 사용자")
+                .authorities(Role.ROLE_INDIVIDUAL.name())
+                .build()
+
+        );
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return memberRepository.findByUsername(username)
                 .map(CustomUserDetails::fromEntity)
                 .orElseThrow(() -> new UsernameNotFoundException("email not found"));
+    }
+
+    // 관리자 생성
+    public void adminCreate(UserDetails user) {
+        CustomUserDetails userDetails = (CustomUserDetails) user;
+        Member admin = Member.builder()
+                .username(userDetails.getUsername())
+                .password(userDetails.getPassword())
+                .nickname(userDetails.getNickname())
+                .authorities(userDetails.getRawAuthorities())
+                .build();
+        memberRepository.save(admin);
     }
 
     @Transactional
@@ -51,7 +95,7 @@ public class MemberService implements UserDetailsService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다.");
 
         if (memberRepository.existsByUsername(dto.getUsername()))
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "이미 존재한 이메일 입니다.");
 
         if (dto.getPassword() == null || dto.getPassword().isEmpty()) {
             throw new IllegalArgumentException("비밀번호를 입력해주세요.");
@@ -100,8 +144,8 @@ public class MemberService implements UserDetailsService {
         log.info("response 확인: {}", response);
         return response;
     }
-    //
-    // 개인-> 단체 사용자 전환 요청
+
+    // 개인-> 단체 사용자 전환 신청
     public void upgradeRequest(MemberUpgradeDto dto) {
         log.info("실행 확인");
         Member member = authFacade.extractUser();

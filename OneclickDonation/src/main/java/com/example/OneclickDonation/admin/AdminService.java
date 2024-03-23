@@ -29,19 +29,19 @@ public class AdminService {
 
     // 단체 사용자 신청 수락
     @Transactional
-    public UpgradeAdminDto approveUpgrade(Long id) {
+    public UpgradeAdminDto acceptUpgrade(Long id) {
         MemberUpgrade upgrade = upgradeRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         upgrade.setApproved(true);
         upgrade.getUpgradeMem().setAuthorities(Role.ROLE_GROUP.name());
-        // 캠페인을 쓸 수 있도록 하기
+        // TODO 캠페인을 쓸 수 있도록 하기
 
         return UpgradeAdminDto.fromEntity(upgrade);
     }
 
     // 단체 사용자 신청 거절
     @Transactional
-    public UpgradeAdminDto disapproveUpgrade(Long id) {
+    public UpgradeAdminDto rejectUpgrade(Long id) {
         MemberUpgrade upgrade = upgradeRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         upgrade.setApproved(false);

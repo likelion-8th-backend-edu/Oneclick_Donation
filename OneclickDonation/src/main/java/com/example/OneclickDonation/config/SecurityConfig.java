@@ -3,7 +3,6 @@ package com.example.OneclickDonation.config;
 
 import com.example.OneclickDonation.jwt.JwtTokenFilter;
 import com.example.OneclickDonation.jwt.JwtTokenUtils;
-import com.example.OneclickDonation.jwt.LoginFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,10 +23,6 @@ public class SecurityConfig {
     private final UserDetailsService manager;
     private final AuthenticationConfiguration authenticationConfiguration;
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception{
-        return configuration.getAuthenticationManager();
-    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(
@@ -54,17 +49,11 @@ public class SecurityConfig {
                                 "/admin/rejectUpgrade/{id}"
                         )
                         .permitAll()
-
-
                         .anyRequest()
                         .authenticated()
-
                 );
 
 
-        //커스텀 로그인 필터 추가
-        AuthenticationManager authManager = authenticationManager(authenticationConfiguration);
-        http.addFilterAt(new LoginFilter(authManager), UsernamePasswordAuthenticationFilter.class);
 
         //세션 설정
         http
@@ -76,8 +65,6 @@ public class SecurityConfig {
                         AuthorizationFilter.class
                 )
         ;
-
         return http.build();
     }
-
 }

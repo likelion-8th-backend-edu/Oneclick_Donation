@@ -11,10 +11,13 @@ spring:
     show-sql: true
   web:
     resources:
-      static-locations: file:uploads/
+      static-locations: "file:uploads/"
+
 
 jwt:
   secret: aaaabbbsdifqbvaesoioegwaaaabbbsdifqbvaesoioegwaaaabbbsdifqbvaes
 
 toss:
   secret: <toss-secret>
+
+

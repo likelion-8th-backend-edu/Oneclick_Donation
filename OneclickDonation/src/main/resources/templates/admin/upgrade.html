@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Upgrades Page</title>
+</head>
+<body>
+<h1>단체/기업 전환 신청 목록</h1>
+<div th:unless="${upgradeList.isEmpty()}">
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>조직</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="upgradeRequest : ${upgradeList.content}">
+      <td th:text="${upgradeRequest.id}"></td>
+      <td>
+        <a th:href="@{/admin/upgrades/{id}(id=${upgradeRequest.id})}" th:text="${upgradeRequest.organization}"></a>
+      </td>
+      <td>
+        <form th:action="@{/admin/acceptUpgrade/{id}(id=${upgradeRequest.id})}" method="post">
+          <button type="submit">수락</button>
+        </form>
+        <form th:action="@{/admin/rejectUpgrade/{id}(id=${upgradeRequest.id})}" method="delete">
+          <button type="submit">거절</button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div th:if="${upgradeList.isEmpty()}">
+  <p>전환 신청이 없습니다.</p>
+</div>
+</body>
+</html>

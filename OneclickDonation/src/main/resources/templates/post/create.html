@@ -83,15 +83,21 @@
       <input type="text" name="postTitle" id="postTitle" required>
     </div>
     <div class="form-group">
+      <label for="postImage">대표 이미지:</label>
+      <input type="file" name="postImage" id="postImage" accept="image/*">
+    </div>
+    <div class="form-group">
       <label for="postContents">캠페인 설명:</label>
       <textarea name="postContents" id="postContents" rows="6" required></textarea>
     </div>
     <div class="form-group">
-      <label for="postImage">대표 이미지:</label>
-      <input type="file" name="postImage" id="postImage" accept="image/*">
+      <label for="startDate">모금 시작 날짜:</label>
+      <input type="text" name="startDate" id="startDate" placeholder="YYYY-MM-DD" required>
     </div>
-    <input type="date" name="startDate">
-    <input type="date" name="endDate">
+    <div class="form-group">
+      <label for="endDate">모금 종료 날짜:</label>
+      <input type="text" name="endDate" id="endDate" placeholder="YYYY-MM-DD" required>
+    </div>
     <div class="form-group">
       <label for="postTargetAmount">목표 모금 금액:</label>
       <input type="number" name="postTargetAmount" id="postTargetAmount" required>
@@ -100,7 +106,7 @@
       <input type="submit" value="Create Post">
     </div>
   </form>
-  <a href="/" class="back-link">Back</a>
+  <a href="/donation" class="back-link">Back</a>
 </div>
 </body>
 </html>

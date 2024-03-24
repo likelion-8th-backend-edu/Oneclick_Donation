@@ -62,11 +62,11 @@ public class MemberController {
 //        }
 //    }
 
-    @PostMapping("/signin")
-    public String signIn(JwtRequestDto dto) {
-        service.signin(dto);
-        return "redirect:/donation";
-    }
+//    @PostMapping("/signin")
+//    public String signIn(JwtRequestDto dto) {
+//        service.signin(dto);
+//        return "redirect:/donation";
+//    }
 
     // 마이페이지에서 신청 버튼 누르면 해당 엔드포인트로 이등 후 폼으로 이동
     @GetMapping("/upgrade-request")

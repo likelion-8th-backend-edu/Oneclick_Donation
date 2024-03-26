@@ -213,7 +213,9 @@
                 console.log(`data = ${JSON.stringify(data)}`);
                 localStorage.setItem("token", data.token);
                 console.log(data.token);
-                location.replace('/donation');    // 사용자가 관리자유무 확인필요
+                fetchData("/")
+                location.replace('/donation');
+                // 사용자가 관리자유무 확인필요
             } else {
                 const errorData = await response.json();
                 alert("로그인 실패: " + errorData.message);

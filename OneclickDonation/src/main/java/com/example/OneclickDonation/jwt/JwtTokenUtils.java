@@ -46,7 +46,7 @@ public class JwtTokenUtils {
             return true;
         } catch (Exception e) {
             log.warn("유효하지 않은 JWT입니다.: {}", e.toString());
-            log.warn("문제의 토큰: {}", token); // 여기를 추가합니다.
+            log.warn("문제토큰: {}", token);
         }
         return false;
     }

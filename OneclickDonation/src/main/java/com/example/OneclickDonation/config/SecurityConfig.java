@@ -37,6 +37,7 @@ public class SecurityConfig {
                                 "/donation/signin",
                                 "/post/create",
                                 "/post/{postId}",
+                                "/post/{postId}/news",
                                 "/post/{postId}/edit",
                                 "/post/{postId}/delete",
                                 "/post/{postId}/comment",

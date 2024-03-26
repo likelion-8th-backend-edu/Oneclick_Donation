@@ -56,6 +56,24 @@
           text-align: center;
           cursor: pointer;
       }
+      /* 게시글 박스 스타일 */
+      .post-box {
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          padding: 10px;
+          width: 120px;
+          height: 120px;
+          display: inline-block;
+          margin-right: 20px;
+          margin-bottom: 20px;
+          transition: 0.2s linear;
+          vertical-align: top; /* 상단 정렬 */
+          box-sizing: border-box; /* 요소 크기 계산 시 border와 padding 포함 */
+      }
+      .post-box h2 {
+          margin: 0;
+          color: #333;
+      }
   </style>
 </head>
 <body>
@@ -69,14 +87,12 @@
   <!-- 마이페이지로 옮기기-->
   <a href="/donation/upgrade-request">단체로 변경하기</a> <br>
   <a href="/post/create">캠페인 제안하기</a> <br>
-  <a href="/admin">관리자 페이지</a>
-  <div th:if="${page.content.isEmpty()}">
+  <div th:if="${page.content.empty}">
     <p>진행 중인 캠페인이 없습니다.</p>
   </div>
-  <div th:unless="${page.content.isEmpty()}">
-    <div th:each="post : ${page.content}">
-      <h2 th:text="${post.title}"></h2>
-      <p th:text="${post.description}"></p>
+  <div th:unless="${page.content.empty}">
+    <div th:each="post, postStat : ${page.content}" class="post-box" th:style="'margin-right: ' + (postStat.last ? '0' : '20px')">
+      <a th:href="@{/post/{id}(id=${post.id})}">[[${post.title}]]</a>
       <!-- 기타 필요한 정보 출력 -->
     </div>
     <!-- 페이지네이션 링크 추가 -->
@@ -92,3 +108,4 @@
 </div>
 
 </body>
+</html>

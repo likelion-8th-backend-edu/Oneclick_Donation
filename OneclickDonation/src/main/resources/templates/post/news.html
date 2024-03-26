@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>News</title>
+  <style>
+      body {
+          font-family: Arial, sans-serif;
+          background-color: #f0f0f0;
+          margin: 0;
+          padding: 0;
+      }
+
+      .container {
+          max-width: 900px;
+          margin: 50px auto;
+          background-color: #fff;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+          color: #ffed4d;
+          text-align: center;
+      }
+
+      .news-content {
+          margin-top: 20px;
+          text-align: center; /* p 요소들을 가운데 정렬 */
+      }
+
+      .news-content p {
+          margin-bottom: 10px;
+          display: inline-block; /* 가운데 정렬을 위해 inline-block으로 설정 */
+      }
+
+      .action-link {
+          display: block;
+          text-align: center;
+          margin-top: 20px;
+          text-decoration: none;
+          background-color: #ffed4d;
+          color: #fff;
+          padding: 8px 16px;
+          border-radius: 5px;
+      }
+
+      .action-link:hover {
+          background-color: #ffd700;
+      }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>News</h1>
+  <div class="news-content">
+    <div th:if="${post.news == null or post.news.empty}">
+      <p>새로운 소식이 아직 없어요.</p>
+      <p>기부금이 잘 쓰였는지 확인할 수 있는</p>
+      <p>프로젝트팀 사업 소식과 후기를 준비하고 있어요.</p>
+      <p>곧 훈훈한 소식으로 찾아올게요.</p>
+    </div>
+    <div th:if="${post.news != null and not #strings.isEmpty(post.news)}">
+      <p th:text="${post.news}"></p>
+    </div>
+  </div>
+  <a th:href="@{/post/{id}(id=${post.id})}" class="action-link">Back</a>
+</div>
+</body>
+</html>

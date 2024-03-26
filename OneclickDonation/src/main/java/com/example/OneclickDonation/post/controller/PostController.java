@@ -58,13 +58,14 @@ public class PostController {
             @RequestParam("postTargetAmount") Integer targetAmount,
             @RequestParam("startDate") String startDate,
             @RequestParam("endDate") String endDate,
+            @RequestParam("news") String news,
             @RequestParam(value = "postImage", required = false) MultipartFile image
     ) {
         String imageUrl = null;
         if (image != null && !image.isEmpty()) {
             imageUrl = fileStorageService.storeFile(image);
         }
-        postService.update(id, new PostDto(title, description, targetAmount, imageUrl, startDate, endDate));
+        postService.update(id, new PostDto(title, description, targetAmount, imageUrl, startDate, endDate, news));
         return "redirect:/post/" + id;
     }
 
@@ -72,5 +73,12 @@ public class PostController {
     public String deletePost(@PathVariable Long id) {
         postService.delete(id);
         return "redirect:/donation";
+    }
+
+    @GetMapping("/{id}/news")
+    public String viewNews(@PathVariable Long id, Model model) {
+        PostDto post = postService.readOne(id);
+        model.addAttribute("post", post);
+        return "/post/news";
     }
 }

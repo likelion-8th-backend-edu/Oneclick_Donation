@@ -22,7 +22,7 @@
       }
 
       h1 {
-          color: #ffa500;
+          color: #ffed4d;
           text-align: center;
       }
 
@@ -61,7 +61,7 @@
       }
 
       .form-group input[type="submit"] {
-          background-color: #ffa500;
+          background-color: #ffed4d;
           color: #fff;
           border: none;
           padding: 10px 20px;
@@ -70,7 +70,7 @@
       }
 
       .form-group input[type="submit"]:hover {
-          background-color: #ff7f00;
+          background-color: #ffed4d;
       }
 
       .back-link {
@@ -111,6 +111,10 @@
     <div class="form-group">
       <label for="postTargetAmount">목표 모금 금액:</label>
       <input type="number" name="postTargetAmount" id="postTargetAmount" th:value="${post.targetAmount}" required>
+    </div>
+    <div class="form-group">
+      <label for="news">소식(모금 종료 후 작성):</label>
+      <textarea name="news" id="news" rows="20" required th:text="${post.news}"></textarea>
     </div>
     <div class="form-group">
       <input type="submit" value="수정하기">

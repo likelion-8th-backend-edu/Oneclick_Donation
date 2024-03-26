@@ -211,7 +211,7 @@
             if (response.ok) {
                 const data = await response.json();
                 localStorage.setItem("token", data.token);
-                // 로그인 성공 후 바로 데이터를 가져옵니다.
+                console.log(data.token);
                 fetchData('/donation');
             } else {
                 const errorData = await response.json();
@@ -230,11 +230,9 @@
                     'Authorization': `Bearer ${token}`
                 }
             });
-
             if (response.ok) {
                 const data = await response.json();
                 console.log('데이터 로드 성공:', data);
-                // 여기에서 데이터를 페이지에 표시하는 등의 처리를 할 수 있습니다.
             } else {
                 const errorData = await response.json();
                 throw new Error("서버 오류: " + errorData.message);

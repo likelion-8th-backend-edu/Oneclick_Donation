@@ -17,17 +17,17 @@ import java.util.Map;
 public class AuthController {
 
     @Autowired
-    private MemberService service; // 실제 서비스 이름에 맞게 변경해주세요.
+    private MemberService service;
 
     @PostMapping("/signin")
     public ResponseEntity<?> signIn(@RequestBody JwtRequestDto dto) {
-        String token = String.valueOf(service.signin(dto)); // 로그인 성공 시 토큰 반환. signin 메소드 구현에 따라 다를 수 있음.
+        String token = String.valueOf(service.signin(dto));
         if (token != null) {
             return ResponseEntity.ok().body(Map.of("token", token)); // 토큰을 JSON 형태로 반환
         } else {
             return ResponseEntity
                     .badRequest()
-                    .body(Map.of("message", "로그인 실패")); // 로그인 실패 시 메시지 반환
+                    .body(Map.of("message", "로그인 실패"));
         }
     }
 }

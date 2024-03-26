@@ -52,9 +52,6 @@ public class SecurityConfig {
                         .anyRequest()
                         .authenticated()
                 );
-
-
-
         //세션 설정
         http
                 .sessionManagement(session -> session

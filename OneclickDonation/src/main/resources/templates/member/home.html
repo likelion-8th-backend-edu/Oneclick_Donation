@@ -91,40 +91,29 @@
   <a href="/donation/upgrade-request">단체로 변경하기</a> <br>
   <a href="/post/create">캠페인 제안하기</a> <br>
   <a href="/admin">관리자 페이지</a> <br>
-  <div th:if="${page.content.empty}">
+  <div th:if="${page.content.isEmpty()}">
     <p>진행 중인 캠페인이 없습니다.</p>
   </div>
-  <div th:unless="${page.content.empty}">
+  <div th:unless="${page.content.isEmpty()}">
     <div th:each="post, postStat : ${page.content}" class="post-box" th:style="'margin-right: ' + (postStat.last ? '0' : '20px')">
-      <a th:href="@{/post/{id}(id=${post.id})}">[[${post.title}]]</a>
+      <a th:href="@{/post/{id}(id=${post.id})}" th:text="${post.title}"></a>
       <!-- 기타 필요한 정보 출력 -->
     </div>
-    <!-- 페이지네이션 링크 추가 -->
-    <div th:if="${page.totalPages > 1}">
-      <div>
-        <span>페이지:</span>
-        <a th:each="i : ${#numbers.sequence(0, page.totalPages-1)}" th:href="@{'/?page=' + ${i}}">
-          <span th:text="${i} + 1"></span>
-        </a>
-      </div>
-    </div>
   </div>
+
+  <script>
+      async function logout() {
+          localStorage.removeItem("token");
+          location.replace('/donation/signin');
+      }
+      document.addEventListener("DOMContentLoaded", function() {
+          const logoutButton = document.getElementById("logoutButton");
+          if (logoutButton) {
+              logoutButton.addEventListener("click", logout);
+          }
+      });
+  </script>
+
 </div>
-
-
-<script>
-  async function logout() {
-    localStorage.removeItem("token");
-    location.replace('/donation/signin');
-  }
-  document.addEventListener("DOMContentLoaded", function() {
-    const logoutButton = document.getElementById("logoutButton");
-    if (logoutButton) {
-      logoutButton.addEventListener("click", logout);
-    }
-  });
-</script>
-
-
 </body>
 </html>

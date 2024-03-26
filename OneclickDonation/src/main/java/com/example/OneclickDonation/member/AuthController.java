@@ -23,7 +23,7 @@ public class AuthController {
     public ResponseEntity<?> signIn(@RequestBody JwtRequestDto dto) {
         String token = String.valueOf(service.signin(dto));
         if (token != null) {
-            return  ResponseEntity.ok().body(service.signin(dto)); // 토큰을 JSON 형태로 반환
+           return ResponseEntity.ok().body(service.signin(dto));
             //ResponseEntity.ok().body(Map.of("token", token));
         } else {
             return ResponseEntity

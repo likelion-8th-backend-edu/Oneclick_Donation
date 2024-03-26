@@ -23,7 +23,7 @@ public class CustomUserDetails implements UserDetails {
     @Getter
     private String nickname;
     @Getter
-    private String age;
+    private Integer age;
     @Getter
     private String phone;
     @Getter
@@ -38,7 +38,13 @@ public class CustomUserDetails implements UserDetails {
 
     public static CustomUserDetails fromEntity(Member entity) {
         return CustomUserDetails.builder()
-                .member(entity)
+                .username(entity.getUsername())
+                .password(entity.getPassword())
+                .age(entity.getAge())
+                .phone(entity.getPhone())
+                .organization(entity.getOrganization())
+                .donationAmount(entity.getDonationAmount())
+                .authorities(entity.getAuthorities())
                 .build();
     }
 

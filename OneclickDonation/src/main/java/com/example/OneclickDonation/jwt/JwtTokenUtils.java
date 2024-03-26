@@ -45,8 +45,7 @@ public class JwtTokenUtils {
             jwtParser.parseClaimsJws(token);
             return true;
         } catch (Exception e) {
-            log.warn("유효하지 않은 JWT입니다.: {}", e.toString());
-            log.warn("문제토큰: {}", token);
+            log.warn("유효하지 않은 JWT입니다: {}", e.toString());
         }
         return false;
     }

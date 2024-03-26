@@ -22,6 +22,7 @@ public class Member {
     private String nickname;
     private Integer age;
     private String phone;
+    private  String organization;
     private Integer donationAmount; // 개인 기부금
     @Setter
     private String authorities; // 사용자 역할 권한

@@ -103,7 +103,7 @@
 <body>
 <div class="container">
   <h1>단체/기업 등록하기</h1>
-  <form action="/donation/upgrade-request" method="post">
+  <form id="upgradeForm">
     <!-- 단체/기업 input -->
     <div class="first-input input__block first-input__block">
       <label for="organization">
@@ -121,5 +121,39 @@
     </button>
   </form>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const upgradeForm = document.getElementById("upgradeForm");
+        upgradeForm.onsubmit = async function(event) {
+            event.preventDefault();
+            const formData = new FormData(upgradeForm);
+            const json = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('/donation/upgrade-request', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token') // 로컬 스토리지에서 토큰 가져오기
+                    },
+                    body: JSON.stringify(json)
+                });
+
+                if (response.ok) {
+                    alert("등록되었습니다.");
+                    // 등록 성공 후 처리할 작업 수행(홈페이지로 이동)
+                    location.replace('/donation');
+                } else {
+                    const errorData = await response.json();
+                    alert("등록 실패: " + errorData.message);
+                }
+            } catch (error) {
+                console.error("에러 발생:", error);
+                alert("등록 중 오류가 발생했습니다.");
+            }
+        };
+    });
+</script>
 </body>
 </html>

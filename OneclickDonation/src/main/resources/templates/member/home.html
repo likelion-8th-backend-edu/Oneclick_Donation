@@ -108,5 +108,20 @@
   </div>
 </div>
 
+
+<script>
+  async function logout() {
+    localStorage.removeItem("token");
+    location.replace('/donation/signin');
+  }
+  document.addEventListener("DOMContentLoaded", function() {
+    const logoutButton = document.getElementById("logoutButton");
+    if (logoutButton) {
+      logoutButton.addEventListener("click", logout);
+    }
+  });
+</script>
+
+
 </body>
 </html>

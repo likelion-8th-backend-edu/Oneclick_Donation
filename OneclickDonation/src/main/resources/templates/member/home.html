@@ -83,6 +83,9 @@
     <li>
       <a href="/donation/signin" id="signin">SIGN IN</a>
     </li>
+    <li>
+      <a href="/donation/signin" id="logoutButton">LOGOUT</a>
+    </li>
   </ul>
   <!-- 마이페이지로 옮기기-->
   <a href="/donation/upgrade-request">단체로 변경하기</a> <br>
@@ -107,6 +110,21 @@
     </div>
   </div>
 </div>
+
+
+<script>
+  async function logout() {
+    localStorage.removeItem("token");
+    location.replace('/donation/signin');
+  }
+  document.addEventListener("DOMContentLoaded", function() {
+    const logoutButton = document.getElementById("logoutButton");
+    if (logoutButton) {
+      logoutButton.addEventListener("click", logout);
+    }
+  });
+</script>
+
 
 </body>
 </html>

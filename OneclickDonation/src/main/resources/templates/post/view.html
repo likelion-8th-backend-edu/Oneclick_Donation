@@ -22,7 +22,7 @@
       }
 
       h1 {
-          color: #ffa500;
+          color: #ffed4d;
           text-align: center;
       }
 
@@ -46,12 +46,15 @@
       }
 
       .action-buttons {
-          text-align: right; /* 버튼을 오른쪽 정렬 */
           margin-top: 20px;
+          text-align: right;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
       }
 
       .action-buttons a {
-          background-color: #ffa500;
+          background-color: #ffed4d;
           color: #fff;
           padding: 8px 16px;
           text-decoration: none;
@@ -59,37 +62,56 @@
           margin-right: 10px;
       }
 
-      .action-buttons a:hover {
-          background-color: #ff7f00;
+      .action-buttons a.news-button {
+          background-color: #ff4d4d;
+          padding: 10px 20px;
+          border-radius: 20px;
+          margin-right: auto;
       }
 
-      /* 댓글 스타일 */
+      .action-buttons a.news-button:hover {
+          background-color: #ff6666;
+      }
+
+      /* Comment Style */
+      .comments {
+          margin-top: 30px;
+      }
+
       .comment {
           background-color: #f9f9f9;
           border-radius: 5px;
-          padding: 10px;
-          margin-bottom: 10px;
-          position: relative; /* 상대 위치 설정 */
+          padding: 15px;
+          margin-bottom: 20px;
       }
 
       .comment p {
           margin: 0;
+          font-size: 16px;
       }
 
       .comment .delete-btn {
-          position: absolute; /* 절대 위치 설정 */
-          top: 5px; /* 위쪽 여백 조정 */
-          right: 5px; /* 오른쪽 여백 조정 */
-          background-color: #ffa500;
+          background-color: #ff4d4d;
           color: #fff;
-          padding: 6px 12px;
+          padding: 5px 10px;
           border: none;
-          border-radius: 5px;
+          border-radius: 3px;
           cursor: pointer;
+          float: right;
       }
 
       .comment .delete-btn:hover {
-          background-color: #ff7f00;
+          background-color: #ff6666;
+      }
+
+      .comment .delete-btn:focus {
+          outline: none;
+      }
+
+      .comment-footer {
+          margin-top: 10px;
+          font-size: 14px;
+          color: #777;
       }
   </style>
 </head>
@@ -107,7 +129,7 @@
     </div>
     <div>
       <strong>캠페인 설명:</strong>
-      <p th:text="${post.description}" style="word-wrap: break-word;"></p> <!-- 자동 줄 바꿈 설정 -->
+      <p th:text="${post.description}" style="word-wrap: break-word;"></p>
     </div>
     <div>
       <strong>모금 시작 날짜:</strong> <br>
@@ -122,10 +144,12 @@
       <span th:text="${post.targetAmount + '원'}"></span>
     </div>
   </div>
+  <br>
   <div class="action-buttons">
+    <a th:href="@{/post/{id}/news(id=${post.id})}" class="news-button">소식</a>
     <a th:href="@{'/post/' + ${post.id} + '/edit'}">수정</a>
     <form th:action="@{'/post/' + ${post.id} + '/delete'}" method="post" style="display: inline;">
-      <button type="submit" style="background-color: #ffa500; color: #fff; padding: 8px 16px; text-decoration: none; border-radius: 5px; border: none; cursor: pointer;">삭제</button>
+      <button type="submit" style="background-color: #ffed4d; color: #fff; padding: 8px 16px; text-decoration: none; border-radius: 5px; border: none; cursor: pointer;">삭제</button>
     </form>
     <a href="/donation" class="back-link">Home</a>
   </div>
@@ -136,16 +160,17 @@
     <h3>댓글</h3>
     <div th:unless="${#lists.isEmpty(comment)}" th:each="cmt : ${comment}" class="comment">
       <p th:text="${cmt.content}"></p>
-      <!-- 댓글 삭제 폼 -->
-      <form th:action="@{/post/{postId}/comment/{commentId}/delete(postId=${post.id}, commentId=${cmt.id})}" method="post">
-        <button type="submit" class="delete-btn">댓글 삭제</button>
-      </form>
+      <div class="comment-footer">
+        <span>작성자: <em>John Doe</em></span>
+        <form th:action="@{/post/{postId}/comment/{commentId}/delete(postId=${post.id}, commentId=${cmt.id})}" method="post">
+          <button type="submit" class="delete-btn">댓글 삭제</button>
+        </form>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="container">
   <hr>
+
   <h3>댓글 작성</h3>
   <form th:action="@{/post/{id}/comment(id=${post.id})}" method="post">
     <div class="container">

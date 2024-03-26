@@ -36,5 +36,9 @@ public class Post {
     // if enddate + 1 ==> 상태 = 종료
     @OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
     private final List<Comment> comments = new ArrayList<>();
+    @Setter
+    private String news;
+    @Setter
+    private Integer donationPeople;
 
 }

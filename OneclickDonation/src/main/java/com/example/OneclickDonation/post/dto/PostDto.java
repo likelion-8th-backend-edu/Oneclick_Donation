@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@Builder
 @AllArgsConstructor
 public class PostDto {
     private Long id;
@@ -21,14 +22,17 @@ public class PostDto {
     private final List<CommentDto> comments = new ArrayList<>();
     private String startDate;
     private String endDate;
+    private String news;
+    private Integer donationPeople;
 
-    public PostDto(String title, String description, Integer targetAmount, String postImage, String startDate, String endDate) {
+    public PostDto(String title, String description, Integer targetAmount, String postImage, String startDate, String endDate, String news) {
         this.title = title;
         this.description = description;
         this.targetAmount = targetAmount;
         this.postImage = postImage;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.news = news;
     }
 
     // 빌더로 변경해도 좋을꺼 같습니다.
@@ -41,7 +45,10 @@ public class PostDto {
                 entity.getPostImage(),
                 entity.getStatus(),
                 entity.getStartDate(),
-                entity.getEndDate()
+                entity.getEndDate(),
+                entity.getNews(),
+                entity.getDonationPeople()
         );
     }
+
 }

@@ -43,7 +43,7 @@ public class AdminController {
     }
 
     // 수락
-    @PostMapping("/acceptUpgrade/{id}")
+    @PostMapping("/upgrades/{id}/accept")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public UpgradeAdminDto approve(
             @PathVariable("id")
@@ -53,7 +53,7 @@ public class AdminController {
     }
 
     // 거절
-    @DeleteMapping("/rejectUpgrade/{id}")
+    @DeleteMapping("/upgrades/{id}/accept")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public UpgradeAdminDto disapprove(
             @PathVariable("id")

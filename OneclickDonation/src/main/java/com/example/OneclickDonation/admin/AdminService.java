@@ -33,7 +33,7 @@ public class AdminService {
         MemberUpgrade upgrade = upgradeRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         upgrade.setApproved(true);
-        upgrade.getUpgradeMem().setAuthorities(Role.ROLE_GROUP.name());
+        upgrade.getMember().setAuthorities(Role.ROLE_GROUP.name());
         // TODO 캠페인을 쓸 수 있도록 하기
 
         return UpgradeAdminDto.fromEntity(upgrade);

@@ -26,7 +26,7 @@ public class AdminRestController {
     }
 
     // 거절
-    @DeleteMapping("/upgrades/{id}/accept")
+    @DeleteMapping("/upgrades/{id}/reject")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public UpgradeAdminDto disapprove(
             @PathVariable("id")

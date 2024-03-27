@@ -1,16 +1,11 @@
-package com.example.OneclickDonation.admin;
+package com.example.OneclickDonation.admin.controller;
 
+import com.example.OneclickDonation.admin.AdminService;
 import com.example.OneclickDonation.admin.dto.UpgradeAdminDto;
-import com.example.OneclickDonation.post.dto.PostDto;
-import com.example.OneclickDonation.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j

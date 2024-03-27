@@ -129,14 +129,13 @@ public class MemberService implements UserDetailsService {
     }
 
     // 개인-> 단체 사용자 전환 신청
+    @Transactional
     public void upgradeRequest(MemberUpgradeDto dto) {
-        log.info("실행 확인");
-        Member member = authFacade.extractUser();
-        log.info("멤버 확인: {}", member);
+
         upgradeRepository.save(MemberUpgrade.builder()
-                .upgradeMem(member)
                 .organization(dto.getOrganization())
                 .businessNumber(dto.getBusinessNumber())
+                .applicationReason(dto.getApplicationReason())
                 .build());
     }
 

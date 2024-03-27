@@ -12,21 +12,26 @@
     <tr>
       <th>ID</th>
       <th>조직</th>
+      <th>신청 사유</th>
+      <th>수락</th>
+      <th>거절</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="upgradeRequest : ${upgradeList.content}">
       <td th:text="${upgradeRequest.id}"></td>
+      <td th:text="${upgradeRequest.organization}"></td>
+      <!--      <td>-->
+      <!--        <a th:href="@{/admin/upgrades/{id}(id=${upgradeRequest.id})}" th:text="${upgradeRequest.organization}"></a>-->
+      <!--      </td>-->
+      <td th:text="${upgradeRequest.applicationReason}"></td>
       <td>
-        <a th:href="@{/admin/upgrades/{id}(id=${upgradeRequest.id})}" th:text="${upgradeRequest.organization}"></a>
+        <!-- 신청 수락 버튼 -->
+        <button onclick="acceptUpgrade(${upgradeRequest.id})">수락</button>
       </td>
       <td>
-        <form th:action="@{/admin/upgrades/{id}/accept(id=${upgradeRequest.id})}" method="post">
-          <button type="submit">수락</button>
-        </form>
-        <form th:action="@{/admin/upgrades/{id}/accept(id=${upgradeRequest.id})}" method="delete">
-          <button type="submit">거절</button>
-        </form>
+        <!-- 신청 거절 버튼 -->
+        <button onclick="rejectUpgrade(${upgradeRequest.id})">거절</button>
       </td>
     </tr>
     </tbody>
@@ -36,5 +41,58 @@
 <div th:if="${upgradeList.isEmpty()}">
   <p>전환 신청이 없습니다.</p>
 </div>
+
+<script>
+    // 수락 함수
+    async function acceptUpgrade(id) {
+        const token = localStorage.getItem('token');
+        try {
+            const response = await fetch(`/admin/upgrades/${id}/accept`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                alert("수락 완료");
+                location.reload(); // 페이지 새로고침
+            } else {
+                const errorData = await response.json();
+                alert("수락 실패: " + errorData.message);
+            }
+        } catch (error) {
+            console.error("에러 발생:", error);
+            alert("수락 중에 에러가 발생했습니다. 다시 시도해주세요.");
+        }
+    }
+
+    // 거절 함수
+    async function rejectUpgrade(id) {
+        const token = localStorage.getItem('token');
+        try {
+            const response = await fetch(`/admin/upgrades/${id}/reject`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                alert("거절 완료");
+                location.reload(); // 페이지 새로고침
+            } else {
+                const errorData = await response.json();
+                alert("거절 실패: " + errorData.message);
+            }
+        } catch (error) {
+            console.error("에러 발생:", error);
+            alert("거절 중에 에러가 발생했습니다. 다시 시도해주세요.");
+        }
+    }
+</script>
+
 </body>
 </html>

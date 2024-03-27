@@ -134,7 +134,7 @@
       <a href="/donation/signin" id="signin">SIGN IN</a>
     </li>
     <li>
-      <a href="/donation/signin" id="logoutButton">LOGOUT</a>
+      <a href="/donation" id="logoutButton">LOGOUT</a>
     </li>
   </ul>
   <!-- 마이페이지로 옮기기-->
@@ -163,6 +163,21 @@
   </div>
 </div>
 <script>
+    // 로그아웃
+    async function logout() {
+        localStorage.removeItem("token");
+        location.replace('/donation');
+        alert("로그아웃 되었습니다.")
+    }
+    document.addEventListener("DOMContentLoaded", function() {
+        const logoutButton = document.getElementById("logoutButton");
+        if (logoutButton) {
+            logoutButton.addEventListener("click", logout);
+        }
+    });
+
+
+
     // updateProgressBar 함수를 정의합니다.
     function updateProgressBar(supportAmount, targetAmount, postId) {
         var progressBarFill = document.getElementById("progress-bar-fill-" + postId);

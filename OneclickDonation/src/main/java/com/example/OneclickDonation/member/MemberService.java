@@ -17,6 +17,8 @@ import com.example.OneclickDonation.member.repo.MemberUpgradeRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -131,12 +133,21 @@ public class MemberService implements UserDetailsService {
     // 개인-> 단체 사용자 전환 신청
     @Transactional
     public void upgradeRequest(MemberUpgradeDto dto) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String loggedInUsername = authentication.getName();
 
-        upgradeRepository.save(MemberUpgrade.builder()
+        Member member = memberRepository.findByUsername(loggedInUsername)
+                .orElseThrow(() -> new IllegalArgumentException("로그인한 사용자를 찾을 수 없습니다. 사용자 이름: " + loggedInUsername));
+        // 전환 신청 엔티티 생성 및 설정
+        MemberUpgrade upgrade = MemberUpgrade.builder()
+                .member(member)
                 .organization(dto.getOrganization())
                 .businessNumber(dto.getBusinessNumber())
                 .applicationReason(dto.getApplicationReason())
-                .build());
+                .build();
+
+        // 전환 신청 저장
+        upgradeRepository.save(upgrade);
     }
 
 

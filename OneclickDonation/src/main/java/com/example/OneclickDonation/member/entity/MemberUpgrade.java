@@ -12,8 +12,6 @@ public class MemberUpgrade {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Member upgradeMem;
     @Column(nullable = false)
     private String organization;  // 단체
     @Column(nullable = false)
@@ -24,4 +22,9 @@ public class MemberUpgrade {
     private String rejectReason; // 거절 사유(관리자)
     @Setter
     private Boolean approved;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;  // 전환 신청을 한 사용자
+
 }

@@ -13,5 +13,6 @@ import lombok.NoArgsConstructor;
 public class MemberUpgradeDto {
     private String organization;  // 요청이 수락이 되면 이름이 단체 이름을 나오게 하기
     private Integer businessNumber;
+    private String applicationReason;
     private Boolean approved; // 수락, 거절
 }

@@ -1,5 +1,6 @@
 package com.example.OneclickDonation.member.dto;
 
+import com.example.OneclickDonation.member.entity.MemberUpgrade;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,4 +16,13 @@ public class MemberUpgradeDto {
     private Integer businessNumber;
     private String applicationReason;
     private Boolean approved; // 수락, 거절
+
+    public static MemberUpgradeDto fromEntity(MemberUpgrade entity) {
+        return MemberUpgradeDto.builder()
+                .organization(entity.getOrganization())
+                .businessNumber(entity.getBusinessNumber())
+                .applicationReason(entity.getApplicationReason())
+                .approved(entity.getApproved())
+                .build();
+    }
 }

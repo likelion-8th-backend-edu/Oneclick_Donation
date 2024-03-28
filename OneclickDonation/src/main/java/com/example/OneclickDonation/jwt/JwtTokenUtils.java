@@ -43,7 +43,7 @@ public class JwtTokenUtils {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
-        jwtClaims.put("authorities", authorities);
+        jwtClaims.put("roles", authorities);
 
         log.info("토큰 정보: {}", jwtClaims);
         return Jwts.builder()

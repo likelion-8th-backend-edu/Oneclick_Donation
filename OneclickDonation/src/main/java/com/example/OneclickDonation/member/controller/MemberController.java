@@ -1,5 +1,6 @@
 package com.example.OneclickDonation.member.controller;
 
+
 import com.example.OneclickDonation.post.dto.PostDto;
 import com.example.OneclickDonation.post.service.PostService;
 import lombok.extern.slf4j.Slf4j;
@@ -28,19 +29,16 @@ public class MemberController {
         return "member/home";
     }
 
-    // 회원가입
     @GetMapping("/donation/signup")
     public String signupPage() {
         return "/member/signup";
     }
 
-    // 로그인
     @GetMapping("/donation/signin")
     public String signinPage(){
         return "member/signin";
     }
 
-    // 사용자 전환 신청
     @GetMapping("/donation/upgrade-request")
     public String upgradeRequestPage() {
         return "/member/upgradeReq";

@@ -19,9 +19,13 @@ public class Member {
     private String password;
     @Setter
     private String profile;
+    @Setter
     private String nickname;
+    @Setter
     private Integer age;
+    @Setter
     private String phone;
+    @Setter
     private  String organization;
     private Integer donationAmount; // 개인 기부금
     @Setter

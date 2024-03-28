@@ -24,8 +24,6 @@ public class PostDto {
     private String endDate;
     private String news;
     private Integer donationPeople;
-    private Integer supportAmount;
-
 
     public PostDto(String title, String description, Integer targetAmount, String postImage, String startDate, String endDate, String news) {
         this.title = title;
@@ -37,21 +35,20 @@ public class PostDto {
         this.news = news;
     }
 
-    // 빌더로 변경해도 좋을것 같습니다.
+    // 빌더로 변경해도 좋을꺼 같습니다.
     public static PostDto fromEntity(Post entity) {
-        return PostDto.builder()
-                .id(entity.getId())
-                .title(entity.getTitle())
-                .description(entity.getDescription())
-                .targetAmount(entity.getTargetAmount())
-                .postImage(entity.getPostImage())
-                .status(entity.getStatus())
-                .startDate(entity.getStartDate())
-                .endDate(entity.getEndDate())
-                .news(entity.getNews())
-                .donationPeople(entity.getDonationPeople())
-                .supportAmount(entity.getSupportAmount())
-                .build();
+        return new PostDto(
+                entity.getId(),
+                entity.getTitle(),
+                entity.getDescription(),
+                entity.getTargetAmount(),
+                entity.getPostImage(),
+                entity.getStatus(),
+                entity.getStartDate(),
+                entity.getEndDate(),
+                entity.getNews(),
+                entity.getDonationPeople()
+        );
     }
 
 }

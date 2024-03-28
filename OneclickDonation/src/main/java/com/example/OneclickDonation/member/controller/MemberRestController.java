@@ -2,10 +2,10 @@ package com.example.OneclickDonation.member.controller;
 
 import com.example.OneclickDonation.jwt.JwtRequestDto;
 import com.example.OneclickDonation.member.MemberService;
-import com.example.OneclickDonation.member.dto.MemberDto;
 import com.example.OneclickDonation.member.dto.MemberUpgradeDto;
 import com.example.OneclickDonation.member.dto.RegisterDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,22 +20,18 @@ import java.util.Map;
 public class MemberRestController {
     private final MemberService service;
 
-    // 회원가입
-    @PostMapping("/signup")
-    public MemberDto register(
-            @RequestBody RegisterDto dto
-    ) {
-        return service.register(dto);
-    }
+   @PostMapping("/signup")
+   public ResponseEntity<?> register(RegisterDto dto) {
+       service.register(dto);
+       return ResponseEntity.status(HttpStatus.FOUND).header("Location", "/donation/signin").build();
+   }
 
-    // 로그인
     @PostMapping("/signin")
-    public ResponseEntity<?> signIn(
-            @RequestBody JwtRequestDto dto
-    ) {
+    public ResponseEntity<?> signIn(@RequestBody JwtRequestDto dto) {
         String token = String.valueOf(service.signin(dto));
         if (token != null) {
            return ResponseEntity.ok().body(service.signin(dto));
+            //ResponseEntity.ok().body(Map.of("token", token));
         } else {
             return ResponseEntity
                     .badRequest()

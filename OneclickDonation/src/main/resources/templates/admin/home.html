@@ -61,19 +61,30 @@
           border: 1px solid #ccc;
           border-radius: 8px;
           padding: 10px;
-          width: 120px;
-          height: 120px;
+          width: calc(25% - 20px); /* 한 행에 최대 네 개의 상자가 들어가도록 너비 조정 */
           display: inline-block;
           margin-right: 20px;
           margin-bottom: 20px;
           transition: 0.2s linear;
-          vertical-align: top; /* 상단 정렬 */
+          position: relative; /* 게이지 바를 포함하기 위해 상대 위치 설정 */
           box-sizing: border-box; /* 요소 크기 계산 시 border와 padding 포함 */
       }
-      .post-box h2 {
-          margin: 0;
-          color: #333;
+
+      .post-box:nth-child(4n) {
+          margin-right: 0; /* 네 번째 상자의 오른쪽 마진 제거 */
       }
+
+      .post-box:nth-child(n+5) {
+          margin-top: 20px; /* 다섯 번째 상자부터는 위쪽에 아니라 아래쪽에 추가될 수 있도록 조정 */
+      }
+
+      .post-box img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 6px; /* 이미지 테두리를 둥글게 만듭니다. */
+      }
+  </style>
   </style>
 </head>
 <body>
@@ -94,5 +105,30 @@
     </div>
   </div>
 </div>
+
+
+<!--<script>-->
+<!--    async function fetchAdmin() {-->
+<!--        try {-->
+<!--            const response = await fetch('/admin', {-->
+<!--                method: 'GET',-->
+<!--                headers: {-->
+<!--                    'Authorization': `Bearer ${token}`-->
+<!--                }-->
+<!--            });-->
+
+<!--            if (response.ok) {-->
+<!--                const data = await response.json();-->
+<!--                console.log(data); // 서버에서 받은 데이터 확인-->
+<!--            } else {-->
+<!--                console.error('API 호출 실패:', response.statusText);-->
+<!--            }-->
+<!--        } catch (error) {-->
+<!--            console.error('API 호출 중 에러 발생:', error);-->
+<!--        }-->
+<!--    }-->
+
+<!--    window.addEventListener('load', fetchAdmin);-->
+<!--</script>-->
 
 </body>

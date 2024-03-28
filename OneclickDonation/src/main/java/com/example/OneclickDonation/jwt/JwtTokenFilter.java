@@ -47,9 +47,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 // 사용자 정보 회수
                 Claims jwtClaims = jwtTokenUtils
                         .parseClaims(token);
-
                 String username = jwtClaims.getSubject();
-                String authorities = jwtClaims.get("authorities", String.class);
+                String authorities = jwtClaims.get("roles", String.class);
 
                 CustomUserDetails customUserDetails = CustomUserDetails.builder()
                         .username(username)

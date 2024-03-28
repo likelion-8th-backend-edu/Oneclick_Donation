@@ -21,10 +21,10 @@
         <a th:href="@{/admin/upgrades/{id}(id=${upgradeRequest.id})}" th:text="${upgradeRequest.organization}"></a>
       </td>
       <td>
-        <form th:action="@{/admin/upgrades/{id}/accept(id=${upgradeRequest.id})}" method="post">
+        <form th:action="@{/admin/acceptUpgrade/{id}(id=${upgradeRequest.id})}" method="post">
           <button type="submit">수락</button>
         </form>
-        <form th:action="@{/admin/upgrades/{id}/accept(id=${upgradeRequest.id})}" method="delete">
+        <form th:action="@{/admin/rejectUpgrade/{id}(id=${upgradeRequest.id})}" method="delete">
           <button type="submit">거절</button>
         </form>
       </td>

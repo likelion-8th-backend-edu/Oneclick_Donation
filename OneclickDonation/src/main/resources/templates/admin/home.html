@@ -56,24 +56,6 @@
           text-align: center;
           cursor: pointer;
       }
-      /* 게시글 박스 스타일 */
-      .post-box {
-          border: 1px solid #ccc;
-          border-radius: 8px;
-          padding: 10px;
-          width: 120px;
-          height: 120px;
-          display: inline-block;
-          margin-right: 20px;
-          margin-bottom: 20px;
-          transition: 0.2s linear;
-          vertical-align: top; /* 상단 정렬 */
-          box-sizing: border-box; /* 요소 크기 계산 시 border와 padding 포함 */
-      }
-      .post-box h2 {
-          margin: 0;
-          color: #333;
-      }
   </style>
 </head>
 <body>
@@ -83,14 +65,35 @@
     <li>
       <a href="/admin/upgrades" id="admin">단체 신청 목록</a>
     </li>
+    <!-- 캠페인 제안 목록 볼 수 링크 추가 -->
   </ul>
   <div th:if="${page.content.isEmpty()}">
     <p>진행 중인 캠페인이 없습니다.</p>
   </div>
-  <div th:unless="${page.content.isEmpty()}">
-    <div th:each="post, postStat : ${page.content}" class="post-box" th:style="'margin-right: ' + (postStat.last ? '0' : '20px')">
-      <a th:href="@{/post/{id}(id=${post.id})}" th:text="${post.title}"></a>
-      <!-- 기타 필요한 정보 출력 -->
+<!--  <tbody>-->
+<!--  <tr th:each="post: ${page.content}">-->
+<!--    <th scope="col" th:text="${post.id}"></th>-->
+<!--    <th scope="col">-->
+<!--      <a th:href="@{/post/{id}(id=${post.id})}" th:text="${post.title}"></a>-->
+<!--    </th>-->
+<!--    <th th:if="${selected == null}" scope="col" th:text="${post.description}"></th>-->
+<!--  </tr>-->
+<!--  </tbody>-->
+  <div th:each="post : ${page.content}">
+
+    <!-- TODO 캠페인 클릭 시 상세 캠페인으로 이동 구현하기 -->
+    <a th:href="@{/post/{id}(id=${post.id})}">
+      <h2 th:text="${post.title}"></h2>
+    <p th:text="${post.description}"></p>
+    </a>
+    <!-- 페이지네이션 링크 추가 -->
+    <div th:if="${page.totalPages > 1}">
+      <div>
+        <span>페이지:</span>
+        <a th:each="i : ${#numbers.sequence(0, page.totalPages-1)}" th:href="@{'/?page=' + ${i}}">
+          <span th:text="${i} + 1"></span>
+        </a>
+      </div>
     </div>
   </div>
 </div>

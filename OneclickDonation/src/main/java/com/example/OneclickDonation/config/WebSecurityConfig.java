@@ -21,7 +21,6 @@ public class WebSecurityConfig {
     private final UserDetailsService manager;
 
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http
@@ -40,13 +39,12 @@ public class WebSecurityConfig {
                                 "/post/{postId}/delete",
                                 "/post/{postId}/comment",
                                 "/post/{postId}/comment/{commentId}/delete",
-                                "/post/{postId}/support-amount-target-amount",
                                 "/donation/upgrade-request",
                                 "/admin",
                                 "/admin/upgrades",
                                 "/admin/upgrades/{id}",
                                 "/admin/upgrades/{id}/accept",
-                                "/admin/upgrades/{id}/reject"
+                                "/admin/upgrades/{id}/accept"
                         )
                         .permitAll()
                         .anyRequest()
@@ -54,9 +52,6 @@ public class WebSecurityConfig {
                 );
         //세션 설정
         http
-                .oauth2Login(oauth2Login -> oauth2Login
-                        .loginPage("/donation/signin")
-                )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )

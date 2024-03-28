@@ -15,6 +15,7 @@ import com.example.OneclickDonation.member.entity.MemberUpgrade;
 import com.example.OneclickDonation.member.repo.MemberRepository;
 import com.example.OneclickDonation.member.repo.MemberUpgradeRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;

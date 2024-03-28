@@ -43,7 +43,7 @@ public class WebSecurityConfig {
                                 "/admin/upgrades",
                                 "/admin/upgrades/{id}",
                                 "/admin/upgrades/{id}/accept",
-                                "/admin/upgrades/{id}/accept"
+                                "/admin/upgrades/{id}/reject"
                         )
                         .permitAll()
                         .anyRequest()

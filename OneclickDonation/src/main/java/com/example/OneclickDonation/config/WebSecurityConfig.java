@@ -38,6 +38,7 @@ public class WebSecurityConfig {
                                 "/post/{postId}/delete",
                                 "/post/{postId}/comment",
                                 "/post/{postId}/comment/{commentId}/delete",
+                                "/post/{postId}/support-amount-target-amount",
                                 "/donation/upgrade-request",
                                 "/admin",
                                 "/admin/upgrades",

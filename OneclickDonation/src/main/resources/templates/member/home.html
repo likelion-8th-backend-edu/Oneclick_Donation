@@ -170,21 +170,28 @@
         </div>
       </div>
     </div>
+    <!-- 페이지네이션 링크 추가 -->
+    <div th:if="${page.totalPages > 1}">
+      <div>
+        <span>페이지:</span>
+        <a th:each="i : ${#numbers.sequence(0, page.totalPages-1)}" th:href="@{'/?page=' + ${i}}">
+          <span th:text="${i} + 1"></span>
+        </a>
+      </div>
+    </div>
   </div>
 </div>
-  <script>
-      // 로그아웃
-      async function logout() {
-          localStorage.removeItem("token");
-          location.replace('/donation');
-          alert("로그아웃 되었습니다.")
-      }
-      document.addEventListener("DOMContentLoaded", function() {
-          const logoutButton = document.getElementById("logoutButton");
-          if (logoutButton) {
-              logoutButton.addEventListener("click", logout);
-          }
-      });
-  </script>
+<script>
+    async function logout() {
+        localStorage.removeItem("token");
+        location.replace('/donation');
+    }
+    document.addEventListener("DOMContentLoaded", function() {
+        const logoutButton = document.getElementById("logoutButton");
+        if (logoutButton) {
+            logoutButton.addEventListener("click", logout);
+        }
+    });
+</script>
 </body>
 </html>

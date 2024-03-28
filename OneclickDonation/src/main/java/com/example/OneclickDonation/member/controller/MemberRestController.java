@@ -1,8 +1,11 @@
-package com.example.OneclickDonation.member;
+package com.example.OneclickDonation.member.controller;
 
 import com.example.OneclickDonation.jwt.JwtRequestDto;
 import com.example.OneclickDonation.member.MemberService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.OneclickDonation.member.dto.MemberUpgradeDto;
+import com.example.OneclickDonation.member.dto.RegisterDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,14 +13,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
-// 필요한 다른 import문 추가
 
 @RestController
 @RequestMapping("/donation")
-public class AuthController {
+@RequiredArgsConstructor
+public class MemberRestController {
+    private final MemberService service;
 
-    @Autowired
-    private MemberService service;
+   @PostMapping("/signup")
+   public ResponseEntity<?> register(RegisterDto dto) {
+       service.register(dto);
+       return ResponseEntity.status(HttpStatus.FOUND).header("Location", "/donation/signin").build();
+   }
 
     @PostMapping("/signin")
     public ResponseEntity<?> signIn(@RequestBody JwtRequestDto dto) {
@@ -30,5 +37,13 @@ public class AuthController {
                     .badRequest()
                     .body(Map.of("message", "로그인 실패"));
         }
+    }
+
+    // 사용자 전환 신청
+    @PostMapping("/upgrade-request")
+    public void upgradeRequest(
+            @RequestBody MemberUpgradeDto dto
+    ) {
+        service.upgradeRequest(dto);
     }
 }

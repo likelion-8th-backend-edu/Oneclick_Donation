@@ -18,6 +18,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -90,7 +92,7 @@ public class MemberService implements UserDetailsService {
     }
 
     @Transactional
-    public MemberDto register(RegisterDto dto) {
+    public void register(RegisterDto dto) {
         if (!dto.getPassword().equals(dto.getRepeatPassword()))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다.");
 
@@ -101,7 +103,7 @@ public class MemberService implements UserDetailsService {
             throw new IllegalArgumentException("비밀번호를 입력해주세요.");
         }
 
-        return MemberDto.fromEntity(memberRepository.save(Member.builder()
+        MemberDto.fromEntity(memberRepository.save(Member.builder()
                 .username(dto.getUsername())
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .nickname(dto.getNickname())
@@ -130,15 +132,23 @@ public class MemberService implements UserDetailsService {
     }
 
     // 개인-> 단체 사용자 전환 신청
+    @Transactional
     public void upgradeRequest(MemberUpgradeDto dto) {
-        log.info("실행 확인");
-        Member member = authFacade.extractUser();
-        log.info("멤버 확인: {}", member);
-        upgradeRepository.save(MemberUpgrade.builder()
-                .upgradeMem(member)
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String loggedInUsername = authentication.getName();
+
+        Member member = memberRepository.findByUsername(loggedInUsername)
+                .orElseThrow(() -> new IllegalArgumentException("로그인한 사용자를 찾을 수 없습니다. 사용자 이름: " + loggedInUsername));
+        // 전환 신청 엔티티 생성 및 설정
+        MemberUpgrade upgrade = MemberUpgrade.builder()
+                .member(member)
                 .organization(dto.getOrganization())
                 .businessNumber(dto.getBusinessNumber())
-                .build());
+                .applicationReason(dto.getApplicationReason())
+                .build();
+
+        // 전환 신청 저장
+        upgradeRepository.save(upgrade);
     }
 
 

@@ -3,11 +3,9 @@ package com.example.OneclickDonation.config;
 
 import com.example.OneclickDonation.jwt.JwtTokenFilter;
 import com.example.OneclickDonation.jwt.JwtTokenUtils;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -51,7 +49,6 @@ public class WebSecurityConfig {
                         .anyRequest()
                         .authenticated()
                 );
-
         //세션 설정
         http
                 .sessionManagement(session -> session

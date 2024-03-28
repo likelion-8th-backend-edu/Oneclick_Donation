@@ -17,8 +17,6 @@ configurations {
 	}
 }
 
-
-
 repositories {
 	mavenCentral()
 }
@@ -29,10 +27,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
-
-
-	// oauth2
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
 	implementation 'org.xerial:sqlite-jdbc:3.41.2.2'
 	runtimeOnly 'org.hibernate.orm:hibernate-community-dialects:6.2.4.Final'

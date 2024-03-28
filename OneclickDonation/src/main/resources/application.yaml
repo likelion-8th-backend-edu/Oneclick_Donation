@@ -1,35 +1,5 @@
 spring:
   datasource:
-    oauth2:
-      client:
-        # OAuth2 서비스 제공자를 사용하는데 필요한 정보
-        provider:
-          naver:
-            # 인증 요청 URL
-            authorization-uri: https://nid.naver.com/oauth2.0/authorize
-            # Access Token 요청 URL
-            token-uri: https://nid.naver.com/oauth2.0/token
-            # 사용자 정보 조회 URL
-            user-info-uri: https://openapi.naver.com/v1/nid/me
-            # 응답받은 사용자 정보 중 사용자 이름이 무엇인지 담겨있는 JSON Key
-            user-name-attribute: response
-
-
-        registration:
-          naver:
-            client-id: hUPFaBhZMq92TTzX65XS
-            client-secret: SzzT_Z0FJG
-            redirect-uri: http://localhost:8080/login/oauth2/code/naver
-            authorization-grant-type: authorization_code
-            client-authentication-method: client_secret_post
-            client-name: Naver
-            scope:
-              - nickname
-              - email
-              - name
-              - profile_image
-
-
     url: jdbc:sqlite:db.sqlite
     driver-class-name: org.sqlite.JDBC
     username: sa

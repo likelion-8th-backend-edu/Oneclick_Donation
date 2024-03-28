@@ -11,8 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDate;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -32,9 +30,6 @@ public class PostService {
                 .startDate(startDate)
                 .endDate(endDate)
                 .build();
-
-        // 상태를 업데이트합니다.
-        updatePostStatus(newPost);
         // 생성된 게시글을 데이터베이스에 저장하고 해당 게시글의 ID를 반환
         return PostDto.fromEntity(postRepository.save(newPost));
     }
@@ -57,7 +52,6 @@ public class PostService {
     public PostDto readOne(Long id) {
     Post post = postRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Post not found with id: " + id));
-    updatePostStatus(post);
     return PostDto.fromEntity(post);
     }
 
@@ -73,9 +67,6 @@ public class PostService {
         post.setStartDate(dto.getStartDate());
         post.setEndDate(dto.getEndDate());
         post.setNews(dto.getNews());
-
-        // 상태를 업데이트합니다.
-        updatePostStatus(post);
         // 업데이트된 게시글을 저장하고 PostDto로 변환하여 반환
         return PostDto.fromEntity(postRepository.save(post));
     }
@@ -86,17 +77,5 @@ public class PostService {
                 .orElseThrow(() -> new IllegalArgumentException("Post not found with id: " + id));
         postRepository.delete(post);
     }
-
-    public void updatePostStatus(Post post) {
-        if (post.getStartDate() != null && post.getEndDate() != null) {
-            LocalDate start = LocalDate.parse(post.getStartDate());
-            LocalDate end = LocalDate.parse(post.getEndDate());
-            LocalDate now = LocalDate.now();
-            if (now.isAfter(end) || now.isEqual(end)) {
-                post.setStatus(Status.END);
-            }
-        }
-    }
-
 }
 

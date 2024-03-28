@@ -15,6 +15,7 @@ import com.example.OneclickDonation.member.entity.MemberUpgrade;
 import com.example.OneclickDonation.member.repo.MemberRepository;
 import com.example.OneclickDonation.member.repo.MemberUpgradeRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -91,7 +92,7 @@ public class MemberService implements UserDetailsService {
     }
 
     @Transactional
-    public MemberDto register(RegisterDto dto) {
+    public void register(RegisterDto dto) {
         if (!dto.getPassword().equals(dto.getRepeatPassword()))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다.");
 
@@ -102,7 +103,7 @@ public class MemberService implements UserDetailsService {
             throw new IllegalArgumentException("비밀번호를 입력해주세요.");
         }
 
-        return MemberDto.fromEntity(memberRepository.save(Member.builder()
+        MemberDto.fromEntity(memberRepository.save(Member.builder()
                 .username(dto.getUsername())
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .nickname(dto.getNickname())

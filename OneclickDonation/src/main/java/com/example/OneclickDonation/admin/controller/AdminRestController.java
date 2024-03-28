@@ -1,7 +1,6 @@
 package com.example.OneclickDonation.admin.controller;
 
 import com.example.OneclickDonation.admin.AdminService;
-import com.example.OneclickDonation.admin.dto.UpgradeAdminDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -18,20 +17,23 @@ public class AdminRestController {
     // 수락
     @PostMapping("/upgrades/{id}/accept")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public UpgradeAdminDto approve(
+    public void accept(
             @PathVariable("id")
             Long id
     ) {
-        return service.acceptUpgrade(id);
+        service.acceptUpgrade(id);
     }
+
 
     // 거절
     @DeleteMapping("/upgrades/{id}/reject")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public UpgradeAdminDto disapprove(
+    public void reject(
             @PathVariable("id")
-            Long id
+            Long id,
+            @RequestBody
+            String rejectionReason
     ) {
-        return service.rejectUpgrade(id);
+        service.rejectUpgrade(id, rejectionReason);
     }
 }

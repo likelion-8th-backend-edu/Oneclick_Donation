@@ -28,3 +28,4 @@ public class MemberUpgrade {
     private Member member;  // 전환 신청을 한 사용자
 
 }
+

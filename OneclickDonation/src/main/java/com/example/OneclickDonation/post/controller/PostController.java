@@ -81,18 +81,4 @@ public class PostController {
         model.addAttribute("post", post);
         return "/post/news";
     }
-
-    @GetMapping("/{id}/support-amount-target-amount")
-    @ResponseBody
-    public String getSupportAmountAndTargetAmount(@PathVariable Long id) {
-        // 해당 ID에 대한 게시물을 조회합니다.
-        PostDto post = postService.readOne(id);
-
-        // 조회된 게시물의 지원 금액과 목표 금액을 가져옵니다.
-        Integer supportAmount = post.getSupportAmount();
-        Integer targetAmount = post.getTargetAmount();
-
-        // JSON 형식으로 결과를 반환합니다.
-        return "{ \"supportAmount\": " + supportAmount + ", \"targetAmount\": " + targetAmount + " }";
-    }
 }

@@ -115,7 +115,7 @@
 <script>
   async function logout() {
     localStorage.removeItem("token");
-    location.replace('/donation/signin');
+    location.replace('/donation');
   }
   document.addEventListener("DOMContentLoaded", function() {
     const logoutButton = document.getElementById("logoutButton");

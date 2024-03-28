@@ -3,6 +3,7 @@ package com.example.OneclickDonation.config;
 
 import com.example.OneclickDonation.jwt.JwtTokenFilter;
 import com.example.OneclickDonation.jwt.JwtTokenUtils;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -50,6 +51,7 @@ public class WebSecurityConfig {
                         .anyRequest()
                         .authenticated()
                 );
+
         //세션 설정
         http
                 .sessionManagement(session -> session

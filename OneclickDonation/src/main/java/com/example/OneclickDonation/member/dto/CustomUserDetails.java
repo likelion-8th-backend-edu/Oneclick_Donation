@@ -18,12 +18,19 @@ public class CustomUserDetails implements UserDetails {
     private Long id;
     private String username;  // email
     private String password;
+    @Getter
     private String profile;
+    @Getter
     private String nickname;
-    private String age;
+    @Getter
+    private Integer age;
+    @Getter
     private String phone;
+    @Getter
     private String organization;
+    @Getter
     private Integer businessNumber;
+    @Getter
     private Integer donationAmount;
     private String authorities;
     @Getter
@@ -31,7 +38,13 @@ public class CustomUserDetails implements UserDetails {
 
     public static CustomUserDetails fromEntity(Member entity) {
         return CustomUserDetails.builder()
-                .member(entity)
+                .username(entity.getUsername())
+                .password(entity.getPassword())
+                .age(entity.getAge())
+                .phone(entity.getPhone())
+                .organization(entity.getOrganization())
+                .donationAmount(entity.getDonationAmount())
+                .authorities(entity.getAuthorities())
                 .build();
     }
 

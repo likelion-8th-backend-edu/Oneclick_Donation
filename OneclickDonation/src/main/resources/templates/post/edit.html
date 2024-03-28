@@ -22,7 +22,7 @@
       }
 
       h1 {
-          color: #ffa500;
+          color: #ffed4d;
           text-align: center;
       }
 
@@ -53,8 +53,15 @@
           margin-top: 5px;
       }
 
+      .form-group input[type="date"] { /* 모금 시작 날짜와 모금 종료 날짜에 대한 입력 필드 스타일 */
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+      }
+
       .form-group input[type="submit"] {
-          background-color: #ffa500;
+          background-color: #ffed4d;
           color: #fff;
           border: none;
           padding: 10px 20px;
@@ -63,7 +70,7 @@
       }
 
       .form-group input[type="submit"]:hover {
-          background-color: #ff7f00;
+          background-color: #ffed4d;
       }
 
       .back-link {
@@ -85,23 +92,35 @@
       <input type="text" name="postTitle" id="postTitle" th:value="${post.title}" required>
     </div>
     <div class="form-group">
+      <label for="postImage">대표 이미지:</label>
+      <input type="file" name="postImage" id="postImage" accept="image/*" th:value="${post.postImage}">
+    </div>
+    <div class="form-group">
       <label for="postContents">캠페인 설명:</label>
       <!-- textarea로 변경 -->
       <textarea name="postContents" id="postContents" rows="6" required th:text="${post.description}"></textarea>
     </div>
     <div class="form-group">
-      <label for="postImage">대표 이미지:</label>
-      <input type="file" name="postImage" id="postImage" accept="image/*" th:value="${post.postImage}">
+      <label for="startDate">모금 시작 날짜:</label>
+      <input type="text" name="startDate" id="startDate" th:value="${post.startDate}" required>
+    </div>
+    <div class="form-group">
+      <label for="endDate">모금 종료 날짜:</label>
+      <input type="text" name="endDate" id="endDate" th:value="${post.endDate}" required>
     </div>
     <div class="form-group">
       <label for="postTargetAmount">목표 모금 금액:</label>
       <input type="number" name="postTargetAmount" id="postTargetAmount" th:value="${post.targetAmount}" required>
     </div>
     <div class="form-group">
+      <label for="news">소식(모금 종료 후 작성):</label>
+      <textarea name="news" id="news" rows="20" required th:text="${post.news}"></textarea>
+    </div>
+    <div class="form-group">
       <input type="submit" value="수정하기">
     </div>
   </form>
-  <a href="/" class="back-link">Back</a>
+  <a th:href="@{/post/{id}(id=${post.id})}" class="back-link">Back</a>
 </div>
 </body>
 </html>

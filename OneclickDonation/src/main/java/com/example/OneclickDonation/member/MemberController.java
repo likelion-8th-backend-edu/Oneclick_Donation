@@ -31,6 +31,7 @@ public class MemberController {
     public String homePage(Model model, Pageable pageable) {
         Page<PostDto> page = postService.readPage(PageRequest.of(0, 10));
         model.addAttribute("page", page);
+        model.addAttribute("selected", null);
         return "member/home";
     }
 
@@ -61,20 +62,20 @@ public class MemberController {
 //        }
 //    }
 
-    @PostMapping("/signin")
-    public String signIn(JwtRequestDto dto) {
-        service.signin(dto);
-        return "redirect:/donation";
-    }
+//    @PostMapping("/signin")
+//    public String signIn(JwtRequestDto dto) {
+//        service.signin(dto);
+//        return "redirect:/donation";
+//    }
 
     // 마이페이지에서 신청 버튼 누르면 해당 엔드포인트로 이등 후 폼으로 이동
     @GetMapping("/upgrade-request")
     public String upgradeRequestPage() {
-        log.info("단체 신청하기");
         return "/member/upgradeReq";
     }
-    @PutMapping("/upgrade-request")
-    public void upgradeRequest(MemberUpgradeDto dto) {
+    @PostMapping("/upgrade-request")
+    public String  upgradeRequest(MemberUpgradeDto dto) {
         service.upgradeRequest(dto);
+        return "redirect:/donation"; // 나중에 마이페이지로 이동하기로 변경
     }
 }

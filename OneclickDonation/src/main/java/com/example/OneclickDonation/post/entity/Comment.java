@@ -1,22 +1,23 @@
-package com.example.OneclickDonation.post.entity;
+    package com.example.OneclickDonation.post.entity;
+    
+    import jakarta.persistence.*;
+    import lombok.*;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+    @Entity
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public class Comment {
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+        @Setter
+        private String content;
+        @Setter
 
-@Entity
-@Builder
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public class Comment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String content;
-}
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "post_id")
+        private Post post;
+    
+    }

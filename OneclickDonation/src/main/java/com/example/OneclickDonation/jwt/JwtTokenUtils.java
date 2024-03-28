@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
 import java.security.Key;
 import java.sql.Date;
 import java.time.Instant;
@@ -20,13 +19,12 @@ public class JwtTokenUtils {
     private final JwtParser jwtParser;
 
     public JwtTokenUtils(
-            @Value("${jwt.secret}")
-            String jwtSecret
-    ) {
-        this.singningKey = Keys.hmacShaKeyFor(jwtSecret.getBytes());
-        this.jwtParser = Jwts.parserBuilder().setSigningKey(this.singningKey).build();
-
-    }
+               @Value("${jwt.secret}")
+               String jwtSecret
+       ) {
+           this.singningKey = Keys.hmacShaKeyFor(jwtSecret.getBytes());
+           this.jwtParser = Jwts.parserBuilder().setSigningKey(this.singningKey).build();
+        }
 
     public String generateToken(UserDetails userDetails) {
         Instant now = Instant.now();
@@ -47,7 +45,7 @@ public class JwtTokenUtils {
             jwtParser.parseClaimsJws(token);
             return true;
         } catch (Exception e) {
-            log.warn("유효하지 않은 JWT입니다.");
+            log.warn("유효하지 않은 JWT입니다: {}", e.toString());
         }
         return false;
     }

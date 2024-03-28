@@ -18,7 +18,8 @@ public class PostService {
     private final PostRepository postRepository;
     private final FileStorageService fileStorageService;
 
-    public PostDto create(String title, String description, Integer targetAmount, MultipartFile image) {
+    public PostDto create(String title, String description, Integer targetAmount,
+                          MultipartFile image, String startDate, String endDate) {
         String imageUrl = fileStorageService.storeFile(image); // 파일 저장 및 URL 획득
         // 게시글 생성을 위해 PostDto 객체를 생성하고 저장
         Post newPost = Post.builder()
@@ -26,6 +27,8 @@ public class PostService {
                 .description(description)
                 .targetAmount(targetAmount)
                 .postImage(imageUrl) // 이미지 URL 설정
+                .startDate(startDate)
+                .endDate(endDate)
                 .build();
         // 생성된 게시글을 데이터베이스에 저장하고 해당 게시글의 ID를 반환
         return PostDto.fromEntity(postRepository.save(newPost));
@@ -61,6 +64,9 @@ public class PostService {
         post.setDescription(dto.getDescription());
         post.setTargetAmount(dto.getTargetAmount());
         post.setPostImage(dto.getPostImage());
+        post.setStartDate(dto.getStartDate());
+        post.setEndDate(dto.getEndDate());
+        post.setNews(dto.getNews());
         // 업데이트된 게시글을 저장하고 PostDto로 변환하여 반환
         return PostDto.fromEntity(postRepository.save(post));
     }

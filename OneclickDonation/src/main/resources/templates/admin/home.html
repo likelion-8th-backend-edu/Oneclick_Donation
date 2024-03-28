@@ -14,7 +14,7 @@
 
       .container {
           display: block;
-          max-width: 680px;
+          max-width: 880px;
           width: 80%;
           margin: 50px auto;
       }
@@ -27,28 +27,35 @@
           margin: 15px 0 20px 0;
           transition: 0.2s linear;
       }
+
       .links {
           list-style-type: none;
           text-align: right;
       }
+
       .links li {
           display: inline-block;
           margin: 0 20px 0 0;
           transition: 0.2s linear;
       }
+
       .links li:nth-child(2) {
           opacity: 0.6;
       }
+
       .links li:nth-child(2):hover {
           opacity: 1;
       }
+
       .links li:nth-child(3) {
           opacity: 0.6;
           float: right;
       }
+
       .links li:nth-child(3):hover {
           opacity: 1;
       }
+
       .links li a {
           text-decoration: none;
           color: 	#a6a6a6;
@@ -56,6 +63,7 @@
           text-align: center;
           cursor: pointer;
       }
+
       /* 게시글 박스 스타일 */
       .post-box {
           border: 1px solid #ccc;
@@ -84,7 +92,47 @@
           object-fit: cover;
           border-radius: 6px; /* 이미지 테두리를 둥글게 만듭니다. */
       }
-  </style>
+
+      .post-box {
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          padding: 10px;
+          width: calc(25% - 20px); /* 한 행에 최대 네 개의 상자가 들어가도록 너비 조정 */
+          display: inline-block;
+          margin-right: 20px;
+          margin-bottom: 20px;
+          transition: 0.2s linear;
+          position: relative; /* 상대 위치 설정 */
+          box-sizing: border-box; /* 요소 크기 계산 시 border와 padding 포함 */
+      }
+
+      .progress-bar {
+          background-color: #e0e0e0;
+          height: 20px;
+          border-radius: 10px;
+          overflow: hidden;
+          position: absolute; /* 절대 위치 설정 */
+          bottom: -25px; /* 아래쪽에 위치하고 post-box의 바로 아래에 위치하도록 설정 */
+          left: 0;
+          width: 100%;
+      }
+
+      .progress-bar-fill {
+          background-color: #ff6f61;
+          height: 100%;
+          transition: width 0.3s ease-in-out;
+      }
+
+      .progress-percent {
+          font-size: 12px;
+          color: #fff;
+          padding: 2px 5px;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          left: 50%;
+          transform: translate(-50%, -50%);
+      }
   </style>
 </head>
 <body>
@@ -99,9 +147,30 @@
     <p>진행 중인 캠페인이 없습니다.</p>
   </div>
   <div th:unless="${page.content.isEmpty()}">
-    <div th:each="post, postStat : ${page.content}" class="post-box" th:style="'margin-right: ' + (postStat.last ? '0' : '20px')">
-      <a th:href="@{/post/{id}(id=${post.id})}" th:text="${post.title}"></a>
-      <!-- 기타 필요한 정보 출력 -->
+    <div th:each="post, postStat : ${page.content}" class="post-box" th:style="'margin-right: ' + (${postStat == null or postStat.last} ? '0' : '20px')" data-post-id="${post.id}">
+      <a th:href="@{/post/{id}(id=${post.id})}" th:text="${post.title}">
+        <!-- 이미지 불러오기 -->
+        <img th:src="@{'/uploads/' + ${post.postImage}}" alt="Post Image">
+      </a>
+      <!-- 제목 및 게이지 바 -->
+      <div class="post-details">
+        <h2 th:text="${post.title}" style="text-align: center;"></h2>
+        <!-- 게이지 바 -->
+        <div class="progress-bar">
+          <div class="progress-bar-fill" th:style="'width: ' + (${(post.supportAmount * 100) / post.targetAmount}) + '%'">
+            <span class="progress-percent" th:text="${post.supportAmount + '원'}"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 페이지네이션 링크 추가 -->
+    <div th:if="${page.totalPages > 1}">
+      <div>
+        <span>페이지:</span>
+        <a th:each="i : ${#numbers.sequence(0, page.totalPages-1)}" th:href="@{'/?page=' + ${i}}">
+          <span th:text="${i} + 1"></span>
+        </a>
+      </div>
     </div>
   </div>
 </div>

@@ -93,36 +93,45 @@
           border-radius: 6px; /* 이미지 테두리를 둥글게 만듭니다. */
       }
 
-      /* 게이지 바 스타일 */
+      .post-box {
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          padding: 10px;
+          width: calc(25% - 20px); /* 한 행에 최대 네 개의 상자가 들어가도록 너비 조정 */
+          display: inline-block;
+          margin-right: 20px;
+          margin-bottom: 20px;
+          transition: 0.2s linear;
+          position: relative; /* 상대 위치 설정 */
+          box-sizing: border-box; /* 요소 크기 계산 시 border와 padding 포함 */
+      }
+
       .progress-bar {
-          width: calc(100% - 22px); /* 테두리를 고려하여 게이지 바의 너비 조정 */
-          height: 20px; /* 게이지 바의 높이 */
-          background-color: #f0f0f0;
-          border-radius: 5px;
+          background-color: #e0e0e0;
+          height: 20px;
+          border-radius: 10px;
           overflow: hidden;
-          margin-top: 10px; /* 게이지 바와 이미지 간의 간격 조절 */
-          position: absolute; /* 절대 위치로 설정하여 게시글 박스 내에 겹쳐지도록 함 */
-          bottom: -42px; /* 박스 아래에 위치하도록 설정 */
-          left: 50%; /* 가운데 정렬을 위해 왼쪽 여백 설정 */
-          transform: translateX(-50%); /* 가운데 정렬 */
+          position: absolute; /* 절대 위치 설정 */
+          bottom: -25px; /* 아래쪽에 위치하고 post-box의 바로 아래에 위치하도록 설정 */
+          left: 0;
+          width: 100%;
       }
 
       .progress-bar-fill {
+          background-color: #ff6f61;
           height: 100%;
-          background-color: #4CAF50;
-          text-align: center;
-          line-height: 20px; /* 세로 가운데 정렬 */
-          color: white;
-          transition: width 0.5s ease-in-out; /* 진행 애니메이션 추가 */
-          width: 0; /* 초기 상태에서는 너비를 0으로 설정 */
+          transition: width 0.3s ease-in-out;
       }
 
       .progress-percent {
-          font-size: 12px; /* 퍼센트 수치의 글꼴 크기 */
-          color: black; /* 퍼센트 색상 설정 */
-          position: absolute; /* 절대 위치로 설정하여 게시글 박스 내에 겹쳐지도록 함 */
-          top: -25px; /* 위쪽에 위치하도록 설정 */
-          right: 10px; /* 오른쪽에 위치하도록 설정 */
+          font-size: 12px;
+          color: #fff;
+          padding: 2px 5px;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          left: 50%;
+          transform: translate(-50%, -50%);
       }
   </style>
 </head>
@@ -134,7 +143,7 @@
       <a href="/donation/signin" id="signin">SIGN IN</a>
     </li>
     <li>
-      <a href="/donation/signin" id="logoutButton">LOGOUT</a>
+      <a href="/donation" id="logoutButton">LOGOUT</a>
     </li>
   </ul>
   <!-- 마이페이지로 옮기기-->
@@ -154,55 +163,28 @@
       <div class="post-details">
         <h2 th:text="${post.title}" style="text-align: center;"></h2>
         <!-- 게이지 바 -->
-        <div class="progress-bar" th:id="'progress-bar-' + ${post.id}">
-          <div class="progress-bar-fill" th:id="'progress-bar-fill-' + ${post.id}" style="width: 50%;"></div>
-          <div class="progress-percent" th:id="'progress-percent-' + ${post.id}">50%</div>
+        <div class="progress-bar">
+          <div class="progress-bar-fill" th:style="'width: ' + (${(post.supportAmount * 100) / post.targetAmount}) + '%'">
+            <span class="progress-percent" th:text="${post.supportAmount + '원'}"></span>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-<script>
-    // updateProgressBar 함수를 정의합니다.
-    function updateProgressBar(supportAmount, targetAmount, postId) {
-        var progressBarFill = document.getElementById("progress-bar-fill-" + postId);
-        var progressBarWidth = progressBarFill.parentNode.offsetWidth; // 게이지 바의 너비를 가져옵니다.
-
-        var percent = supportAmount >= targetAmount ? 100 : (supportAmount / targetAmount) * 100;
-        progressBarFill.style.width = (progressBarWidth * percent / 100) + "px";
-        progressBarFill.innerText = percent.toFixed(2) + "% (" + supportAmount + "원" + ")";
-    }
-
-    // 페이지가 로드될 때 서버에서 데이터를 가져와서 게이지 바를 업데이트합니다.
-    document.addEventListener("DOMContentLoaded", function() {
-        // 각 게시글의 게이지 바를 업데이트합니다.
-        var postBoxes = document.getElementsByClassName("post-box");
-        for (var i = 0; i < postBoxes.length; i++) {
-            // 각 게시글의 ID를 가져옵니다.
-            var postId = postBoxes[i].getAttribute("data-post-id");
-            // Thymeleaf를 사용하여 서버에서 게시글의 ID를 가져옵니다.
-            // 이 부분이 수정되었습니다.
-            var postId = window.location.pathname.split("/")[2];
-            // AJAX 요청을 생성합니다.
-            var xhr = new XMLHttpRequest();
-            // GET 메서드를 사용하여 /{id}/support-amount-target-amount 엔드포인트로 요청을 보냅니다.
-            xhr.open("GET", "/post/" + postId + "/support-amount-target-amount", true);
-            // 응답이 도착하면 이벤트 리스너를 실행합니다.
-            xhr.onload = function (postId) {
-                return function () {
-                    // 만약 요청이 성공했다면
-                    if (xhr.status === 200) {
-                        // 서버에서 받은 JSON 데이터를 JavaScript 객체로 변환합니다.
-                        var data = JSON.parse(xhr.responseText);
-                        // 가져온 데이터를 이용하여 게이지 바를 업데이트합니다.
-                        updateProgressBar(data.supportAmount, data.targetAmount, postId);
-                    }
-                };
-            }(postId);
-            // AJAX 요청을 보냅니다.
-            xhr.send();
-        }
-    });
-</script>
+  <script>
+      // 로그아웃
+      async function logout() {
+          localStorage.removeItem("token");
+          location.replace('/donation');
+          alert("로그아웃 되었습니다.")
+      }
+      document.addEventListener("DOMContentLoaded", function() {
+          const logoutButton = document.getElementById("logoutButton");
+          if (logoutButton) {
+              logoutButton.addEventListener("click", logout);
+          }
+      });
+  </script>
 </body>
 </html>

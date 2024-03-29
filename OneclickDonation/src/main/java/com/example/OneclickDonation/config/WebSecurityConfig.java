@@ -1,8 +1,10 @@
 package com.example.OneclickDonation.config;
 
-
 import com.example.OneclickDonation.jwt.JwtTokenFilter;
 import com.example.OneclickDonation.jwt.JwtTokenUtils;
+//import com.example.OneclickDonation.oauth.OAuth2SuccessHandler;
+import com.example.OneclickDonation.oauth.OAuth2SuccessHandler;
+import com.example.OneclickDonation.oauth.OAuth2UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +20,8 @@ import org.springframework.security.web.access.intercept.AuthorizationFilter;
 public class WebSecurityConfig {
     private final JwtTokenUtils jwtTokenUtils;
     private final UserDetailsService manager;
+    private final OAuth2UserServiceImpl oAuth2UserService;
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
 
     @Bean
@@ -52,6 +56,12 @@ public class WebSecurityConfig {
                 );
         //세션 설정
         http
+                .oauth2Login(oauth2Login -> oauth2Login
+                        .loginPage("/donation")
+                        .userInfoEndpoint(userinfo -> userinfo
+                                .userService(oAuth2UserService))
+                        .successHandler(oAuth2SuccessHandler)
+                )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )

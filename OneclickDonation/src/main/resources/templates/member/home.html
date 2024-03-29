@@ -12,10 +12,17 @@
           background: white;
       }
 
-      .container {
+      .banner {
           display: block;
-          max-width: 880px;
-          width: 80%;
+          max-width: 1000px;
+          width: 90%;
+          margin: 50px auto;
+      }
+
+      .main {
+          display: block;
+          max-width: 1000px;
+          width: 90%;
           margin: 50px auto;
       }
 
@@ -58,52 +65,50 @@
 
       .links li a {
           text-decoration: none;
-          color: 	#a6a6a6;
+          color: #a6a6a6;
           font-weight: bold;
           text-align: center;
           cursor: pointer;
       }
 
-      /* 게시글 박스 스타일 */
+      /* Modified styles for post box */
       .post-box {
-          border: 1px solid #ccc;
-          border-radius: 8px;
-          padding: 10px;
-          width: calc(25% - 20px); /* 한 행에 최대 네 개의 상자가 들어가도록 너비 조정 */
-          display: inline-block;
+          font-size: 16px;
+          width: calc(25% - 25px); /* 한 행에 네 개씩 배치하므로 각 요소의 너비를 조정 */
+          height: 170px; /* 세로폭 조정 */
           margin-right: 20px;
-          margin-bottom: 20px;
-          transition: 0.2s linear;
-          position: relative; /* 게이지 바를 포함하기 위해 상대 위치 설정 */
-          box-sizing: border-box; /* 요소 크기 계산 시 border와 padding 포함 */
+          margin-bottom: 30px; /* 위아래 간격을 더 넓게 조정 */
+          margin-top: 30px; /* 위아래 간격을 더 넓게 조정 */
+          box-sizing: border-box; /* 원래의 전역 스타일에서 이동 */
+          float: left;
       }
 
-      .post-box:nth-child(4n) {
-          margin-right: 0; /* 네 번째 상자의 오른쪽 마진 제거 */
+      .post-image {
+          position: relative;
+          border: 1px solid #ccc; /* Added border for post image */
+          border-radius: 8px; /* Added border radius for post image */
+          width: 100%; /* 부모 요소에 꽉 차도록 */
+          height: 65%; /* 부모 요소 높이의 65%로 설정 */
+          padding: 1px; /* 테두리와 이미지 간의 간격을 보정 */
       }
 
-      .post-box:nth-child(n+5) {
-          margin-top: 20px; /* 다섯 번째 상자부터는 위쪽에 아니라 아래쪽에 추가될 수 있도록 조정 */
-      }
-
-      .post-box img {
+      .post-image img {
           width: 100%;
           height: 100%;
-          object-fit: cover;
-          border-radius: 6px; /* 이미지 테두리를 둥글게 만듭니다. */
+          border-radius: 6px; /* 이미지가 테두리 내에 꽉 차도록 설정 */
+          object-fit: cover; /* 이미지가 테두리 내에 꽉 차도록 설정 */
       }
 
-      .post-box {
-          border: 1px solid #ccc;
-          border-radius: 8px;
-          padding: 10px;
-          width: calc(25% - 20px); /* 한 행에 최대 네 개의 상자가 들어가도록 너비 조정 */
-          display: inline-block;
-          margin-right: 20px;
-          margin-bottom: 20px;
-          transition: 0.2s linear;
-          position: relative; /* 상대 위치 설정 */
-          box-sizing: border-box; /* 요소 크기 계산 시 border와 padding 포함 */
+      .post-details {
+          width: 100%; /* 부모 요소에 꽉 차도록 */
+          height: 35%; /* 부모 요소 높이의 35%로 설정 */
+          position: relative;
+      }
+
+      /* 제목과 게이지 바 위치 조정 */
+      .post-details h5 {
+          text-align: center;
+          margin-top: 10px; /* 제목과 게이지 바 사이의 간격 조정 */
       }
 
       .progress-bar {
@@ -111,8 +116,8 @@
           height: 20px;
           border-radius: 10px;
           overflow: hidden;
-          position: absolute; /* 절대 위치 설정 */
-          bottom: -25px; /* 아래쪽에 위치하고 post-box의 바로 아래에 위치하도록 설정 */
+          position: absolute;
+          bottom: 0;
           left: 0;
           width: 100%;
       }
@@ -136,7 +141,7 @@
   </style>
 </head>
 <body>
-<div class="container">
+<div class="banner">
   <h1>작은 선물이 큰 변화를 만듭니다.</h1>
   <ul class="links">
     <li>
@@ -150,19 +155,23 @@
   <a href="/donation/upgrade-request">단체로 변경하기</a> <br>
   <a href="/post/create">캠페인 제안하기</a> <br>
   <a href="/admin">관리자 페이지</a> <br>
+  <br>
+</div>
+<div class="main">
   <div th:if="${page.content.isEmpty()}">
     <p>진행 중인 캠페인이 없습니다.</p>
   </div>
   <div th:unless="${page.content.isEmpty()}">
     <div th:each="post, postStat : ${page.content}" class="post-box" th:style="'margin-right: ' + (${postStat == null or postStat.last} ? '0' : '20px')" data-post-id="${post.id}">
-      <a th:href="@{/post/{id}(id=${post.id})}" th:text="${post.title}">
-        <!-- 이미지 불러오기 -->
-        <img th:src="@{'/uploads/' + ${post.postImage}}" alt="Post Image">
-      </a>
-      <!-- 제목 및 게이지 바 -->
+      <div class="post-image">
+        <a th:href="@{/post/{id}(id=${post.id})}" th:text="${post.title}">
+          <!-- 이미지 불러오기 -->
+          <img th:src="@{'/uploads/' + ${post.postImage}}" alt="Post Image">
+        </a>
+      </div>
       <div class="post-details">
-        <h2 th:text="${post.title}" style="text-align: center;"></h2>
-        <!-- 게이지 바 -->
+        <h5 th:text="${post.title}" style="text-align: center;"></h5>
+        <!-- 제목 및 게이지 바 -->
         <div class="progress-bar">
           <div class="progress-bar-fill" th:style="'width: ' + (${(post.supportAmount * 100) / post.targetAmount}) + '%'">
             <span class="progress-percent" th:text="${post.supportAmount + '원'}"></span>

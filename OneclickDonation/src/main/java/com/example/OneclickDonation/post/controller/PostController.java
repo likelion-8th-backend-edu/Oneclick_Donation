@@ -31,7 +31,10 @@ public class PostController {
             @RequestParam("startDate") String startDate,
             @RequestParam("endDate") String endDate
     ) {
-        Long newId = postService.create(title, description, targetAmount, postImage, startDate, endDate).getId();
+        // 이미지 파일의 저장 경로를 얻어옵니다.
+        String imageUrl = fileStorageService.storeFile(postImage);
+        // 생성된 게시글의 ID를 얻어옵니다.
+        Long newId = postService.create(title, description, targetAmount, imageUrl, startDate, endDate).getId();
         return String.format("redirect:/post/%d", newId);
     }
 

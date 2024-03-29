@@ -19,8 +19,7 @@ public class PostService {
     private final FileStorageService fileStorageService;
 
     public PostDto create(String title, String description, Integer targetAmount,
-                          MultipartFile image, String startDate, String endDate) {
-        String imageUrl = fileStorageService.storeFile(image); // 파일 저장 및 URL 획득
+                          String imageUrl, String startDate, String endDate) {
         // 게시글 생성을 위해 PostDto 객체를 생성하고 저장
         Post newPost = Post.builder()
                 .title(title)

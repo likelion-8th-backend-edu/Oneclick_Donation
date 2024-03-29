@@ -31,7 +31,6 @@ public class MemberRestController {
         String token = String.valueOf(service.signin(dto));
         if (token != null) {
            return ResponseEntity.ok().body(service.signin(dto));
-            //ResponseEntity.ok().body(Map.of("token", token));
         } else {
             return ResponseEntity
                     .badRequest()

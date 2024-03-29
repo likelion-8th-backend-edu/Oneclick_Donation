@@ -152,13 +152,6 @@ public class MemberService implements UserDetailsService {
     }
 
 
-
-
-
-
-
-
-
     // 프로필
     public MemberDto profileImg(MultipartFile file) {
         Member member = authFacade.extractUser();

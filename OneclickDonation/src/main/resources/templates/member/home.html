@@ -164,9 +164,9 @@
   <div th:unless="${page.content.isEmpty()}">
     <div th:each="post, postStat : ${page.content}" class="post-box" th:style="'margin-right: ' + (${postStat == null or postStat.last} ? '0' : '20px')" data-post-id="${post.id}">
       <div class="post-image">
-        <a th:href="@{/post/{id}(id=${post.id})}" th:text="${post.title}">
-          <!-- 이미지 불러오기 -->
-          <img th:src="@{'/uploads/' + ${post.postImage}}" alt="Post Image">
+        <!-- 이미지 불러오기 -->
+        <a th:href="@{/post/{id}(id=${post.id})}">
+          <img th:src="@{'/static/' + ${post.postImage}}" alt="Post Image" id="post-image">
         </a>
       </div>
       <div class="post-details">

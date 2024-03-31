@@ -122,5 +122,34 @@
   </form>
   <a th:href="@{/post/{id}(id=${post.id})}" class="back-link">Back</a>
 </div>
+<script>
+    const postId = new URLSearchParams(location.search).get('id')
+    document.addEventListener("DOMContentLoaded", function() {
+        // 토큰이 있으면 요청 보내기
+        fetchData(`/post/${postId}/edit`);
+    });
+
+    async function fetchData(url) {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` // 토큰을 헤더에 포함하여 전달
+                }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                console.log('데이터 로드 성공:', data);
+            } else {
+                const errorData = await response.json();
+                throw new Error("서버 오류: " + errorData.message);
+            }
+        } catch (error) {
+            console.error("에러 발생:", error);
+        }
+    }
+</script>
 </body>
 </html>

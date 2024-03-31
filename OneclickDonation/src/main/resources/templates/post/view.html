@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>View Post</title>
+  <title>[[${post.title}]]</title>
   <style>
       body {
           font-family: Arial, sans-serif;
@@ -49,19 +49,18 @@
           margin-top: 20px;
           text-align: right;
           display: flex;
-          justify-content: space-between;
+          justify-content: flex-end; /* 우측 정렬 */
           align-items: center;
       }
 
       .action-buttons a {
-          background-color: #ffed4d;
-          color: #fff;
+          color: #333; /* 버튼 텍스트 색상 */
           padding: 8px 16px;
           text-decoration: none;
           border-radius: 5px;
+          margin-left: 10px;
           margin-right: 10px;
       }
-
       .action-buttons a.news-button {
           background-color: #ff4d4d;
           padding: 10px 20px;
@@ -71,6 +70,68 @@
 
       .action-buttons a.news-button:hover {
           background-color: #ff6666;
+      }
+
+      /* 기부하기 버튼 스타일 */
+      .action-buttons a.donation-button {
+          background-color: transparent;
+          border: 2px solid;
+          color: #1a75ff;
+          padding: 10px 10px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          margin-left: 10px;
+          cursor: pointer;
+          border-radius: 5px;
+      }
+
+      .action-buttons a.donation-button:hover {
+          background-color: #1a75ff;
+          color: white;
+      }
+
+      /* 홈 버튼 스타일 */
+      .action-buttons a.home-button {
+          background-color: transparent;
+          border: 2px solid;
+          color: #ffed4d;
+          padding: 10px 10px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          margin-left: 10px;
+          cursor: pointer;
+          border-radius: 5px;
+      }
+
+      .action-buttons a.home-button:hover {
+          background-color: #ffed4d;
+          color: white;
+      }
+
+      /* 수정 버튼 스타일 */
+      .action-buttons a.edit-button,
+      .action-buttons button.delete-button {
+          background-color: transparent;
+          border: 2px solid;
+          color: #333;
+          padding: 10px 10px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          margin-left: 10px;
+          cursor: pointer;
+          border-radius: 5px;
+      }
+
+      .action-buttons a.edit-button,
+      .action-buttons button.delete-button{
+          background-color: rgba(0, 0, 0, 0.3);
+          color: white;
       }
 
       /* Comment Style */
@@ -113,6 +174,7 @@
           font-size: 14px;
           color: #777;
       }
+
       .progress-bar {
           background-color: #e0e0e0;
           height: 20px;
@@ -141,6 +203,14 @@
           left: 50%;
           transform: translate(-50%, -50%);
       }
+
+      /* 캠페인 설명 */
+      .campaign-description {
+          font-size: 18px;
+          border: 2px solid #ccc;
+          border-radius: 8px;
+          padding: 10px;
+      }
   </style>
 </head>
 <body>
@@ -148,31 +218,19 @@
   <h1 th:text="${post.title}"></h1>
   <div class="post-details">
     <div>
-      <strong>캠페인 제목:</strong> <br>
-      <span th:text="${post.title}"></span>
+      <img th:src="@{'/static/' + ${post.postImage}}" alt="Post Image" id="post-image">
     </div>
     <div>
-      <strong>대표 이미지:</strong>
-      <img th:src="@{'/' + ${post.postImage}}" alt="Post Image">
+      <p class="campaign-description" th:text="${post.description}" style="word-wrap: break-word;"></p>
     </div>
+    <br>
     <div>
-      <strong>캠페인 설명:</strong>
-      <p th:text="${post.description}" style="word-wrap: break-word;"></p>
-    </div>
-    <div>
-      <strong>모금 시작 날짜:</strong> <br>
-      <span th:text="${post.startDate}"></span>
-    </div>
-    <div>
-      <strong>모금 종료 날짜:</strong> <br>
-      <span th:text="${post.endDate}"></span>
-    </div>
-    <div>
-      <strong>목표 모금액:</strong> <br>
-      <span th:text="${post.targetAmount + '원'}"></span>
+      <strong>모금 기간</strong> <br> <span th:text="${post.startDate}"></span> ~ <span th:text="${post.endDate}"></span>
+      <br><br>
+      <strong>목표 모금액</strong> <br> <span id="post-targetAmount" th:text="${post.targetAmount + '원'}"></span>
     </div>
   </div>
-  <br>
+
   <div class="container">
     <div class="progress-bar" id="progress-bar">
       <div class="progress-bar-fill" id="progress-bar-fill"></div>
@@ -183,11 +241,13 @@
   <br>
   <div class="action-buttons">
     <a th:href="@{/post/{id}/news(id=${post.id})}" class="news-button">소식</a>
-    <a th:href="@{'/post/' + ${post.id} + '/edit'}">수정</a>
-    <form th:action="@{'/post/' + ${post.id} + '/delete'}" method="post" style="display: inline;">
-      <button type="submit" style="background-color: #ffed4d; color: #fff; padding: 8px 16px; text-decoration: none; border-radius: 5px; border: none; cursor: pointer;">삭제</button>
+    <a th:href="@{'/post/' + ${post.id} + '/donation'}" class="donation-button">기부하기</a>
+    <!--    <a href="/templates/donation.html" class="donation-button">기부하기</a>-->
+    <a href="/donation" class="home-button" >Home</a>
+    <a th:href="@{'/post/' + ${post.id} + '/edit'}" class="edit-button">수정</a>
+    <form th:action="@{'/post/' + ${post.id} + '/delete'}" method="post">
+      <button type="submit" class="delete-button">삭제</button>
     </form>
-    <a href="/donation" class="back-link">Home</a>
   </div>
 </div>
 
@@ -251,6 +311,35 @@
         // AJAX 요청을 보냅니다.
         xhr.send();
     });
+
+    const postId = new URLSearchParams(location.search).get('id')
+    // 토큰 가져오기
+    document.addEventListener("DOMContentLoaded", function() {
+        // 토큰이 있으면 요청 보내기
+        fetchData(`/post/${postId}`);
+    });
+
+    async function fetchData(url) {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` // 토큰을 헤더에 포함하여 전달
+                }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                console.log('데이터 로드 성공:', data);
+            } else {
+                const errorData = await response.json();
+                throw new Error("서버 오류: " + errorData.message);
+            }
+        } catch (error) {
+            console.error("에러 발생:", error);
+        }
+    }
 </script>
 </body>
 </html>

@@ -38,10 +38,10 @@
         <form id="rejectForm">
           <button type="button" onclick="rejectUpgrade(${upgradeRequest.id})">거절</button>
         </form>
-        <!--        <form th:action="@{'/admin/upgrades/' + ${upgradeRequest.id} + '/reject'}" method="post">-->
-        <!--          <button type="submit">거절</button>-->
-        <!--        </form>-->
-        <!--        <form action="/admin/upgrades/${upgradeRequest.id}/reject" method="post">-->
+<!--        <form th:action="@{'/admin/upgrades/' + ${upgradeRequest.id} + '/reject'}" method="post">-->
+<!--          <button type="submit">거절</button>-->
+<!--        </form>-->
+        <!--        <form action="/admin/upgrades/${upgradedRequest.id}/reject" method="post">-->
         <!--          <button type="submit">거절</button>-->
         <!--        </form>-->
       </td>
@@ -54,97 +54,50 @@
   <p>전환 신청이 없습니다.</p>
 </div>
 <script>
-    // 토큰 가져오기
-    const token = localStorage.getItem('token');
-
-    // API 호출 시에 토큰을 포함하여 요청
-    async function fetchUpgradeList() {
+    const postId = new URLSearchParams(location.search).get('id')
+    document.addEventListener("DOMContentLoaded", function() {
+        // 스토리지에서 토큰 가져오기
+        const token = localStorage.getItem("token");
+        // 토큰이 있으면 요청 보내기
+        fetchData('/admin/upgrades');
+    });
+    async function fetchData(url) {
         try {
-            const response = await fetch('/admin/upgrades', {
+            const token = localStorage.getItem("token");
+            const response = await fetch(url, {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` // 토큰을 헤더에 포함하여 전달
                 }
             });
-
             if (response.ok) {
                 const data = await response.json();
-                console.log(data); // 서버에서 받은 데이터 확인
-            } else {
-                console.error('API 호출 실패:', response.statusText);
-            }
-        } catch (error) {
-            console.error('API 호출 중 에러 발생:', error);
-        }
-    }
-
-    // 페이지 로드 시 전환 신청 목록 가져오기
-    window.addEventListener('load', fetchUpgradeList);
-
-    // 거절 요청을 처리하는 함수
-    async function rejectUpgrade(id) {
-        try {
-            const rejectionReason = document.getElementById(`rejectionReason-${id}`).value;
-
-            const response = await fetch(`/admin/upgrades/${id}/reject`, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    rejectionReason: rejectionReason
-                }),
-            });
-
-            if (response.ok) {
-                alert("거절 완료");
-                location.reload(); // 페이지 새로고침
+                console.log('데이터 로드 성공:', data);
             } else {
                 const errorData = await response.json();
-                alert("거절 실패: " + errorData.message);
+                throw new Error("서버 오류: " + errorData.message);
             }
         } catch (error) {
             console.error("에러 발생:", error);
-            alert("거절 중에 에러가 발생했습니다. 다시 시도해주세요.");
         }
     }
-    // // 수락 함수
-    // async function acceptUpgrade(event, id) {
+
+    // 거절 요청을 처리하는 함수
+    // rejectUpgrade(`/admin/upgrades/${postId}/reject`);
+    // async function rejectUpgrade(url) {
     //     try {
-    //         const response = await fetch(`/admin/upgrades/${id}/accept`, {
-    //             method: 'PUT',
+    //         const rejectionReason = document.getElementById(`rejectionReason-${postId}`).value;
+    //
+    //         const response = await fetch(url, {
+    //             method: "DELETE",
     //             headers: {
+    //                 "Content-Type": "application/json",
     //                 'Authorization': `Bearer ${token}`
-    //             }
-    //         });
-    //
-    //         if (response.ok) {
-    //             alert("수락 완료");
-    //             location.reload(); // 페이지 새로고침
-    //         } else {
-    //             const errorData = await response.json();
-    //             alert("수락 실패: " + errorData.message);
-    //         }
-    //     } catch (error) {
-    //         console.error("에러 발생:", error);
-    //         alert("수락 중에 에러가 발생했습니다. 다시 시도해주세요.");
-    //     }
-    // }
-    // window.addEventListener('click', acceptUpgrade);
-
-
-    // // 거절 함수
-    // async function rejectUpgrade(id) {
-    //     try {
-    //         const rejectionReason = document.getElementById(`rejectionReason-${id}`).value; // 해당 전환 신청의 거절 사유 가져오기
-    //
-    //         const response = await fetch(`/admin/upgrades/${id}/reject`, {
-    //             method: 'DELETE',
-    //             headers: {
-    //                 'Content-Type': 'application/json'
     //             },
-    //             body: JSON.stringify({ reason: rejectionReason }) // 거절 사유를 JSON 형식으로 전송
+    //             body: JSON.stringify({
+    //                 rejectionReason: rejectionReason
+    //             }),
     //         });
     //
     //         if (response.ok) {
@@ -160,6 +113,5 @@
     //     }
     // }
 </script>
-
 </body>
 </html>

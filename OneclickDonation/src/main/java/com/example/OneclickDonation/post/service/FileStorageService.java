@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Service
 public class FileStorageService {
-    private final String uploadDir = "src/main/resources/static/img";
+    private final String uploadDir = "src/main/resources/static";
 
     public String storeFile(MultipartFile file) {
         try {

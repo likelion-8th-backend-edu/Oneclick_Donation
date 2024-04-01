@@ -69,7 +69,7 @@
   <a th:href="@{/post/{id}(id=${post.id})}" class="action-link">Back</a>
 </div>
 <script>
-    const postId = new URLSearchParams(location.search).get('id')
+    const postId = location.pathname.split("/")[2]
     document.addEventListener("DOMContentLoaded", function() {
         // 토큰이 있으면 요청 보내기
         fetchData(`/post/${postId}/news`);

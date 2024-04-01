@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -16,14 +17,15 @@
           display: block;
           max-width: 1000px;
           width: 90%;
-          margin: 50px auto;
+          margin: 20px auto;
       }
 
       .main {
           display: block;
           max-width: 1000px;
           width: 90%;
-          margin: 50px auto;
+          margin: 30px auto;
+          position: relative; /* main div를 relative로 설정 */
       }
 
       h1 {
@@ -70,12 +72,26 @@
           text-align: center;
           cursor: pointer;
       }
+      .proposal-button {
+          display: inline-block;
+          background-color: #ffed4d; /* 배경색 설정 */
+          color: #fff; /* 텍스트 색상 설정 */
+          font-weight: bold;
+          padding: 8px 16px; /* 버튼 내부 여백 조정 */
+          border-radius: 5px; /* 모서리를 둥글게 만듭니다 */
+          text-decoration: none; /* 링크의 밑줄 제거 */
+          position: absolute; /* 고정 위치로 설정합니다 */
+          top: 0; /* 상단 여백 조정 */
+          right: 0; /* 오른쪽 여백 조정 */
+          z-index: 999; /* 다른 요소 위에 배치될 수 있도록 z-index 설정 */
+          font-size: 14px; /* 버튼 텍스트 크기 조정 */
+      }
 
       /* Modified styles for post box */
       .post-box {
           font-size: 16px;
           width: calc(25% - 25px); /* 한 행에 네 개씩 배치하므로 각 요소의 너비를 조정 */
-          height: 170px; /* 세로폭 조정 */
+          height: 200px; /* 세로폭 조정 */
           margin-right: 20px;
           margin-bottom: 30px; /* 위아래 간격을 더 넓게 조정 */
           margin-top: 30px; /* 위아래 간격을 더 넓게 조정 */
@@ -88,7 +104,7 @@
           border: 1px solid #ccc; /* Added border for post image */
           border-radius: 8px; /* Added border radius for post image */
           width: 100%; /* 부모 요소에 꽉 차도록 */
-          height: 65%; /* 부모 요소 높이의 65%로 설정 */
+          height: 70%; /* 부모 요소 높이의 65%로 설정 */
           padding: 1px; /* 테두리와 이미지 간의 간격을 보정 */
       }
 
@@ -101,7 +117,7 @@
 
       .post-details {
           width: 100%; /* 부모 요소에 꽉 차도록 */
-          height: 35%; /* 부모 요소 높이의 35%로 설정 */
+          height: 30%; /* 부모 요소 높이의 35%로 설정 */
           position: relative;
       }
 
@@ -153,21 +169,21 @@
   </ul>
   <!-- 마이페이지로 옮기기-->
   <a href="/donation/upgrade-request">단체로 변경하기</a> <br>
-  <a href="/post/create">캠페인 제안하기</a> <br>
   <a href="/admin">관리자 페이지</a> <br>
   <br>
 </div>
 <div class="main">
+  <a href="/post/create" class="proposal-button">캠페인 제안하기</a> <br>
   <div th:if="${page.content.isEmpty()}">
     <p>진행 중인 캠페인이 없습니다.</p>
   </div>
   <div th:unless="${page.content.isEmpty()}">
     <div th:each="post, postStat : ${page.content}" class="post-box" th:style="'margin-right: ' + (${postStat == null or postStat.last} ? '0' : '20px')" data-post-id="${post.id}">
       <div class="post-image">
-        <!-- 이미지 불러오기 -->
-        <a th:href="@{/post/{id}(id=${post.id})}">
-          <img th:src="@{'/static/' + ${post.postImage}}" alt="Post Image" id="post-image">
-        </a>
+          <!-- 이미지 불러오기 -->
+          <a th:href="@{/post/{id}(id=${post.id})}">
+            <img th:src="@{'/static/' + ${post.postImage}}" alt="Post Image" id="post-image">
+          </a>
       </div>
       <div class="post-details">
         <h5 th:text="${post.title}" style="text-align: center;"></h5>

@@ -312,7 +312,7 @@
         xhr.send();
     });
 
-    const postId = new URLSearchParams(location.search).get('id')
+    const postId = location.pathname.split("/")[2]
     // 토큰 가져오기
     document.addEventListener("DOMContentLoaded", function() {
         // 토큰이 있으면 요청 보내기

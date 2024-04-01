@@ -32,6 +32,7 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
+                                "/static/**",
                                 "/donation",
                                 "/donation/signup",
                                 "/donation/signin",

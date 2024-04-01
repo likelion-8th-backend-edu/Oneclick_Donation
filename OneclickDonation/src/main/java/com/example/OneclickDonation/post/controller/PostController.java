@@ -2,43 +2,31 @@ package com.example.OneclickDonation.post.controller;
 
 import com.example.OneclickDonation.post.dto.PostDto;
 import com.example.OneclickDonation.post.service.CommentService;
-import com.example.OneclickDonation.post.service.FileStorageService;
 import com.example.OneclickDonation.post.service.PostService;
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
+@Slf4j
 @Controller
-@RequestMapping("/post")
-@RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
-    private final FileStorageService fileStorageService;
     private final CommentService commentService;
-    @GetMapping("/create")
+
+    @Autowired
+    public PostController(PostService postService, CommentService commentService) {
+        this.postService = postService;
+        this.commentService = commentService;
+    }
+
+    @GetMapping("/post/create")
     public String create() {
         return "post/create";
     }
 
-    @PostMapping("/create")
-    public String createPost(
-            @RequestParam("postTitle") String title,
-            @RequestParam("postContents") String description,
-            @RequestParam("postTargetAmount") Integer targetAmount,
-            @RequestParam("postImage") MultipartFile postImage,
-            @RequestParam("startDate") String startDate,
-            @RequestParam("endDate") String endDate
-    ) {
-        // 이미지 파일의 저장 경로를 얻어옵니다.
-        String imageUrl = fileStorageService.storeFile(postImage);
-        // 생성된 게시글의 ID를 얻어옵니다.
-        Long newId = postService.create(title, description, targetAmount, imageUrl, startDate, endDate).getId();
-        return String.format("redirect:/post/%d", newId);
-    }
-
-    @GetMapping("/{id}")
+    @GetMapping("/post/{id}")
     public String viewPost(@PathVariable Long id, Model model) {
         PostDto post = postService.readOne(id);
         model.addAttribute("post", post);
@@ -46,46 +34,21 @@ public class PostController {
         return "/post/view";
     }
 
-    @GetMapping("/{id}/edit")
+    @GetMapping("/post/{id}/edit")
     public String editPostForm(@PathVariable Long id, Model model) {
         PostDto post = postService.readOne(id);
         model.addAttribute("post", post);
         return "/post/edit";
     }
 
-    @PostMapping("/{id}/edit")
-    public String editPost(
-            @PathVariable Long id,
-            @RequestParam("postTitle") String title,
-            @RequestParam("postContents") String description,
-            @RequestParam("postTargetAmount") Integer targetAmount,
-            @RequestParam("startDate") String startDate,
-            @RequestParam("endDate") String endDate,
-            @RequestParam("news") String news,
-            @RequestParam(value = "postImage", required = false) MultipartFile image
-    ) {
-        String imageUrl = null;
-        if (image != null && !image.isEmpty()) {
-            imageUrl = fileStorageService.storeFile(image);
-        }
-        postService.update(id, new PostDto(title, description, targetAmount, imageUrl, startDate, endDate, news));
-        return "redirect:/post/" + id;
-    }
-
-    @PostMapping("/{id}/delete")
-    public String deletePost(@PathVariable Long id) {
-        postService.delete(id);
-        return "redirect:/donation";
-    }
-
-    @GetMapping("/{id}/news")
+    @GetMapping("/post/{id}/news")
     public String viewNews(@PathVariable Long id, Model model) {
         PostDto post = postService.readOne(id);
         model.addAttribute("post", post);
         return "/post/news";
     }
 
-    @GetMapping("/{id}/support-amount-target-amount")
+    @GetMapping("/post/{id}/support-amount-target-amount")
     @ResponseBody
     public String getSupportAmountAndTargetAmount(@PathVariable Long id) {
         // 해당 ID에 대한 게시물을 조회합니다.
@@ -100,7 +63,7 @@ public class PostController {
     }
 
     // 기부하기 결제 창
-    @GetMapping("/{id}/donation")
+    @GetMapping("/post/{id}/donation")
     public String donation(@PathVariable Long id, Model model) {
         PostDto post = postService.readOne(id);
         model.addAttribute("post", post);

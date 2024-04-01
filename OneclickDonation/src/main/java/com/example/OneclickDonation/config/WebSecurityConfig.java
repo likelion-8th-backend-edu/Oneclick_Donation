@@ -34,24 +34,28 @@ public class WebSecurityConfig {
                         .requestMatchers(
                                 "/static/**",
                                 "/donation",
+                                "/end",
                                 "/donation/signup",
                                 "/donation/signin",
-                                "/post/create",
                                 "/post/{postId}",
+                                "/post/create",
                                 "/post/{postId}/news",
                                 "/post/{postId}/edit",
                                 "/post/{postId}/delete",
                                 "/post/{postId}/comment",
                                 "/post/{postId}/comment/{commentId}/delete",
                                 "/post/{postId}/support-amount-target-amount",
+                                "/post/{id}/donation",
                                 "/donation/upgrade-request",
                                 "/admin",
                                 "/admin/upgrades",
                                 "/admin/upgrades/{id}",
                                 "/admin/upgrades/{id}/accept",
-                                "/admin/upgrades/{id}/reject"
+                                "/admin/upgrades/{id}/reject",
+                                "/toss/confirm-payment"
                         )
                         .permitAll()
+
                         .anyRequest()
                         .authenticated()
                 );

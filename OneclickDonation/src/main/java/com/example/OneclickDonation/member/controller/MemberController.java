@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @Controller
@@ -23,11 +24,23 @@ public class MemberController {
 
     // 홈 화면 -- 모금 중 리스트 나열된 화면
     @GetMapping("/donation")
-    public String homePage(Model model) {
-        Page<PostDto> postPage = postService.readPage(PageRequest.of(0, 10));
+    public String homePage(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
+        // 페이지네이션에 사용할 페이지 크기
+        int pageSize = 12;
+        Page<PostDto> postPage = postService.readPage(PageRequest.of(page, pageSize));
         model.addAttribute("page", postPage);
         return "member/home";
     }
+
+    @GetMapping("/end")
+    public String endPage(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
+        // 페이지네이션에 사용할 페이지 크기
+        int pageSize = 12;
+        Page<PostDto> postPage = postService.readEndPost(PageRequest.of(page, pageSize));
+        model.addAttribute("page", postPage);
+        return "member/endPost";
+    }
+
 
     @GetMapping("/donation/signup")
     public String signupPage() {

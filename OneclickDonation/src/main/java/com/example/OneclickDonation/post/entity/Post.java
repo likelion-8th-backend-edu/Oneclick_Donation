@@ -4,6 +4,7 @@ import com.example.OneclickDonation.Enum.Status;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,4 +54,19 @@ public class Post {
     @Setter
     private Integer donationPeople;
 
+    public void updateStatus() {
+        LocalDate today = LocalDate.now();
+        LocalDate startDate = LocalDate.parse(this.startDate); // 시작 날짜
+        LocalDate endDate = LocalDate.parse(this.endDate); // 종료 날짜
+
+        if (today.isAfter(endDate) || today.isEqual(endDate) || startDate.isEqual(endDate) || startDate.isAfter(endDate)) {
+            this.status = Status.END;
+        }
+    }
+
+    @PreUpdate
+    public void beforeUpdate() {
+        updateStatus(); // 상태 업데이트 메서드 호출
+    }
 }
+

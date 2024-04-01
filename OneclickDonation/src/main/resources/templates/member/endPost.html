@@ -202,8 +202,8 @@
 </div>
 <div class="main">
   <a href="/post/create" class="proposal-button">캠페인 제안하기</a> <br>
-  <a href="/donation" class="simple-link" style="border-bottom: 2px solid #ff6f61; margin-right: 5px;">모금중 캠페인</a>
-  <a href="/end" class="simple-link">종료 캠페인</a> <br>
+  <a href="/end" class="simple-link" style="border-bottom: 2px solid #ff6f61; margin-right: 5px;">종료 캠페인</a>
+  <a href="/donation" class="simple-link">모금중 캠페인</a> <br>
   <div th:if="${page.content.isEmpty()}">
     <p>진행 중인 캠페인이 없습니다.</p>
   </div>
@@ -230,12 +230,12 @@
 <div class="footer">
   <!-- 페이지네이션 링크 추가 -->
   <div th:if="${page.totalPages > 1}" class="pagination">
-  <div>
-    <a th:each="i : ${#numbers.sequence(0, page.totalPages-1)}" th:href="@{'/donation?page=' + ${i}}" th:class="${i == page.number} ? 'active'">
-      <span th:text="${i + 1}"></span>
-    </a>
+    <div>
+      <a th:each="i : ${#numbers.sequence(0, page.totalPages-1)}" th:href="@{'/end?page=' + ${i}}" th:class="${i == page.number} ? 'active'">
+        <span th:text="${i + 1}"></span>
+      </a>
+    </div>
   </div>
-</div>
 </div>
 <script>
     async function logout() {

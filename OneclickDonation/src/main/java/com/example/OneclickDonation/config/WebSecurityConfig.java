@@ -37,8 +37,8 @@ public class WebSecurityConfig {
                                 "/end",
                                 "/donation/signup",
                                 "/donation/signin",
-                                "/post/{postId}",
                                 "/post/create",
+                                "/post/{postId}",
                                 "/post/{postId}/news",
                                 "/post/{postId}/edit",
                                 "/post/{postId}/delete",
@@ -55,7 +55,6 @@ public class WebSecurityConfig {
                                 "/toss/confirm-payment"
                         )
                         .permitAll()
-
                         .anyRequest()
                         .authenticated()
                 );

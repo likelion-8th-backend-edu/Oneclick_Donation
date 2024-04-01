@@ -49,6 +49,7 @@ public class PostService {
                 .startDate(startDate)
                 .endDate(endDate)
                 .build();
+        newPost.beforeUpdate();
         // 생성된 게시글을 데이터베이스에 저장하고 해당 게시글의 ID를 반환
         return PostDto.fromEntity(postRepository.save(newPost));
     }
@@ -56,6 +57,12 @@ public class PostService {
     // 홈페이지 모금 중의 전체 모금
     public Page<PostDto> readPage(Pageable pageable) {
         Page<Post> posts = postRepository.findAllByStatus(Status.ING, pageable);
+        return posts.map(PostDto::fromEntity);
+    }
+
+    // 모금 종료 게시글
+    public Page<PostDto> readEndPost(Pageable pageable) {
+        Page<Post> posts = postRepository.findAllByStatus(Status.END, pageable);
         return posts.map(PostDto::fromEntity);
     }
 
@@ -86,6 +93,7 @@ public class PostService {
         post.setStartDate(dto.getStartDate());
         post.setEndDate(dto.getEndDate());
         post.setNews(dto.getNews());
+        post.beforeUpdate();
         // 업데이트된 게시글을 저장하고 PostDto로 변환하여 반환
         return PostDto.fromEntity(postRepository.save(post));
     }

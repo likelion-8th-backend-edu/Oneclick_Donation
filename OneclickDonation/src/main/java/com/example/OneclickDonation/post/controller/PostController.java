@@ -98,4 +98,12 @@ public class PostController {
         // JSON 형식으로 결과를 반환합니다.
         return "{ \"supportAmount\": " + supportAmount + ", \"targetAmount\": " + targetAmount + " }";
     }
+
+    // 기부하기 결제 창
+    @GetMapping("/{id}/donation")
+    public String donation(@PathVariable Long id, Model model) {
+        PostDto post = postService.readOne(id);
+        model.addAttribute("post", post);
+        return "toss/payment";
+    }
 }

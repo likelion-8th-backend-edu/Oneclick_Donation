@@ -38,10 +38,10 @@
         <form id="rejectForm">
           <button type="button" onclick="rejectUpgrade(${upgradeRequest.id})">거절</button>
         </form>
-<!--        <form th:action="@{'/admin/upgrades/' + ${upgradeRequest.id} + '/reject'}" method="post">-->
-<!--          <button type="submit">거절</button>-->
-<!--        </form>-->
-        <!--        <form action="/admin/upgrades/${upgradedRequest.id}/reject" method="post">-->
+        <!--        <form th:action="@{'/admin/upgrades/' + ${upgradeRequest.id} + '/reject'}" method="post">-->
+        <!--          <button type="submit">거절</button>-->
+        <!--        </form>-->
+        <!--        <form action="/admin/upgrades/${upgradeRequest.id}/reject" method="post">-->
         <!--          <button type="submit">거절</button>-->
         <!--        </form>-->
       </td>
@@ -54,10 +54,7 @@
   <p>전환 신청이 없습니다.</p>
 </div>
 <script>
-    const postId = new URLSearchParams(location.search).get('id')
     document.addEventListener("DOMContentLoaded", function() {
-        // 스토리지에서 토큰 가져오기
-        const token = localStorage.getItem("token");
         // 토큰이 있으면 요청 보내기
         fetchData('/admin/upgrades');
     });
@@ -84,20 +81,21 @@
     }
 
     // 거절 요청을 처리하는 함수
-    // rejectUpgrade(`/admin/upgrades/${postId}/reject`);
-    // async function rejectUpgrade(url) {
+    // const postId = location.pathname.split("/")[2]
+    // document.addEventListener("DOMContentLoaded", function() {
+    //     // 토큰이 있으면 요청 보내기
+    //     fetchUpgrade(`/admin/upgrades/${postId}/reject`);
+    // });
+    // async function fetchUpgrade() {
     //     try {
-    //         const rejectionReason = document.getElementById(`rejectionReason-${postId}`).value;
-    //
-    //         const response = await fetch(url, {
-    //             method: "DELETE",
+    //         const token = localStorage.getItem("token");
+    //         const response = await fetch(`/admin/upgrades/${postId}/reject`, {
+    //             method: 'DELETE',
     //             headers: {
-    //                 "Content-Type": "application/json",
-    //                 'Authorization': `Bearer ${token}`
+    //                 'Content-Type': 'application/json',
+    //                 'Authorization': `Bearer ${token}` // 토큰을 헤더에 포함하여 전달
     //             },
-    //             body: JSON.stringify({
-    //                 rejectionReason: rejectionReason
-    //             }),
+    //             body: JSON.stringify({ reason: rejectionReason })
     //         });
     //
     //         if (response.ok) {
@@ -113,5 +111,6 @@
     //     }
     // }
 </script>
+
 </body>
 </html>

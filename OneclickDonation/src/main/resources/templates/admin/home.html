@@ -12,18 +12,19 @@
           background: white;
       }
 
-      .container {
+      .banner {
           display: block;
           max-width: 1000px;
           width: 90%;
-          margin: 50px auto;
+          margin: 20px auto;
       }
 
       .main {
           display: block;
           max-width: 1000px;
           width: 90%;
-          margin: 50px auto;
+          margin: 30px auto;
+          position: relative; /* main div를 relative로 설정 */
       }
 
       h1 {
@@ -75,7 +76,7 @@
       .post-box {
           font-size: 16px;
           width: calc(25% - 25px); /* 한 행에 네 개씩 배치하므로 각 요소의 너비를 조정 */
-          height: 170px; /* 세로폭 조정 */
+          height: 200px; /* 세로폭 조정 */
           margin-right: 20px;
           margin-bottom: 30px; /* 위아래 간격을 더 넓게 조정 */
           margin-top: 30px; /* 위아래 간격을 더 넓게 조정 */
@@ -88,7 +89,7 @@
           border: 1px solid #ccc; /* Added border for post image */
           border-radius: 8px; /* Added border radius for post image */
           width: 100%; /* 부모 요소에 꽉 차도록 */
-          height: 65%; /* 부모 요소 높이의 65%로 설정 */
+          height: 70%; /* 부모 요소 높이의 65%로 설정 */
           padding: 1px; /* 테두리와 이미지 간의 간격을 보정 */
       }
 
@@ -101,7 +102,7 @@
 
       .post-details {
           width: 100%; /* 부모 요소에 꽉 차도록 */
-          height: 35%; /* 부모 요소 높이의 35%로 설정 */
+          height: 30%; /* 부모 요소 높이의 35%로 설정 */
           position: relative;
       }
 
@@ -141,47 +142,48 @@
   </style>
 </head>
 <body>
-<div class="container">
+<div class="banner">
   <h1>작은 선물이 큰 변화를 만듭니다.</h1>
   <ul class="links">
     <li>
       <a href="/admin/upgrades" id="admin">단체 신청 목록</a>
     </li>
   </ul>
-  <div class="main">
-    <div th:if="${page.content.isEmpty()}">
-      <p>진행 중인 캠페인이 없습니다.</p>
-    </div>
-    <div th:unless="${page.content.isEmpty()}">
-      <div th:each="post, postStat : ${page.content}" class="post-box" th:style="'margin-right: ' + (${postStat == null or postStat.last} ? '0' : '20px')" data-post-id="${post.id}">
-        <div class="post-image">
-          <!-- 이미지 불러오기 -->
-          <a th:href="@{/post/{id}(id=${post.id})}">
-            <img th:src="@{'/static/' + ${post.postImage}}" alt="Post Image" id="post-image">
-          </a>
-        </div>
-        <div class="post-details">
-          <h5 th:text="${post.title}" style="text-align: center;"></h5>
-          <!-- 제목 및 게이지 바 -->
-          <div class="progress-bar">
-            <div class="progress-bar-fill" th:style="'width: ' + (${(post.supportAmount * 100) / post.targetAmount}) + '%'">
-              <span class="progress-percent" th:text="${post.supportAmount + '원'}"></span>
-            </div>
+</div>
+<div class="main">
+  <div th:if="${page.content.isEmpty()}">
+    <p>진행 중인 캠페인이 없습니다.</p>
+  </div>
+  <div th:unless="${page.content.isEmpty()}">
+    <div th:each="post, postStat : ${page.content}" class="post-box" th:style="'margin-right: ' + (${postStat == null or postStat.last} ? '0' : '20px')" data-post-id="${post.id}">
+      <div class="post-image">
+        <!-- 이미지 불러오기 -->
+        <a th:href="@{/post/{id}(id=${post.id})}">
+          <img th:src="@{'/static/' + ${post.postImage}}" alt="Post Image" id="post-image">
+        </a>
+      </div>
+      <div class="post-details">
+        <h5 th:text="${post.title}" style="text-align: center;"></h5>
+        <!-- 제목 및 게이지 바 -->
+        <div class="progress-bar">
+          <div class="progress-bar-fill" th:style="'width: ' + (${(post.supportAmount * 100) / post.targetAmount}) + '%'">
+            <span class="progress-percent" th:text="${post.supportAmount + '원'}"></span>
           </div>
         </div>
       </div>
-      <!-- 페이지네이션 링크 추가 -->
-      <div th:if="${page.totalPages > 1}">
-        <div>
-          <span>페이지:</span>
-          <a th:each="i : ${#numbers.sequence(0, page.totalPages-1)}" th:href="@{'/?page=' + ${i}}">
-            <span th:text="${i} + 1"></span>
-          </a>
-        </div>
+    </div>
+    <!-- 페이지네이션 링크 추가 -->
+    <div th:if="${page.totalPages > 1}">
+      <div>
+        <span>페이지:</span>
+        <a th:each="i : ${#numbers.sequence(0, page.totalPages-1)}" th:href="@{'/?page=' + ${i}}">
+          <span th:text="${i} + 1"></span>
+        </a>
       </div>
     </div>
   </div>
 </div>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // 스토리지에서 토큰 가져오기
@@ -220,4 +222,3 @@
 </script>
 </body>
 </html>
-

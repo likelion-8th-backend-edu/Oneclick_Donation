@@ -33,9 +33,9 @@ public class DonationService {
         log.info(tossPaymentObj.toString());
         // 1. 결제한 물품 정보를 응답 Body에서 찾는다 (orderName)
         String donationName = ((LinkedHashMap<String, Object>) tossPaymentObj)
-                .get("donationName").toString();
+                .get("orderName").toString();
 
-        // 2. donationName에서 postId를 회수하고, 그에 해당하는 Post엔티티를 조회한다.
+        // 2. orderName에서 postId를 회수하고, 그에 해당하는 Post엔티티를 조회한다.
         Long postId = Long.parseLong(donationName.split("-")[0]);
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR));

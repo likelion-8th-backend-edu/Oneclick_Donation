@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PostDonationDto {
     private Long id;
-    private Long postId;
+    private Long orderId;
     private String postTitle;
     private String tossPaymentKey;
     private String tossDonationId;
@@ -21,7 +21,7 @@ public class PostDonationDto {
     public static PostDonationDto fromEntity(PostDonation entity) {
         return PostDonationDto.builder()
                 .id(entity.getId())
-                .postId(entity.getPost().getId())
+                .orderId(entity.getPost().getId())
                 .postTitle(entity.getPost().getTitle())
                 .tossPaymentKey(entity.getTossPaymentKey())
                 .tossDonationId(entity.getTossDonationId())

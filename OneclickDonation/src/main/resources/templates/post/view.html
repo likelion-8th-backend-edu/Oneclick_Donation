@@ -216,6 +216,7 @@
 <body>
 <div class="container">
   <h1 th:text="${post.title}"></h1>
+  <h4 th:text="${post.organization}"></h4>
   <div class="post-details">
     <div>
       <img th:src="@{'/static/' + ${post.postImage}}" alt="Post Image" id="post-image">

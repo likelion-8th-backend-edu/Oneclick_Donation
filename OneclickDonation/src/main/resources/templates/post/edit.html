@@ -96,6 +96,10 @@
       <input type="file" name="postImage" id="postImage" accept="image/*" th:value="${post.postImage}">
     </div>
     <div class="form-group">
+      <label for="organization">단체명:</label>
+      <input type="text" name="organization" id="organization" th:value="${post.organization}" required>
+    </div>
+    <div class="form-group">
       <label for="postContents">캠페인 설명:</label>
       <!-- textarea로 변경 -->
       <textarea name="postContents" id="postContents" rows="6" required th:text="${post.description}"></textarea>

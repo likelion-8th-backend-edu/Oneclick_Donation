@@ -1,6 +1,7 @@
 package com.example.OneclickDonation.post.entity;
 
 import com.example.OneclickDonation.Enum.Status;
+import com.example.OneclickDonation.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,6 +21,9 @@ public class Post {
 
     @Setter
     private String title; // 모금 제안 제목
+
+    @Setter
+    private String organization; // 조직
 
     @Setter
     @Column(name = "post_image")

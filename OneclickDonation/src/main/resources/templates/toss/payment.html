@@ -51,6 +51,11 @@
           border-radius: 8px;
       }
 
+      .action-buttons {
+          display: flex;
+          justify-content: flex-end;
+      }
+
       /* 캠페인 설명 */
       .campaign-description {
           font-size: 18px;
@@ -82,6 +87,9 @@
         <br><br>
         <strong>목표 모금액</strong> <br> <span id="post-targetAmount" th:text="${post.targetAmount + '원'}"></span>
       </div>
+      <div class="action-buttons">
+        <a th:href="@{'/post/' + ${post.id}}" class="home-button">뒤로가기</a>
+      </div>
     </div>
   </div>
   <div class="col-lg-6 p-3 mx-auto">
@@ -89,6 +97,9 @@
       <div id="payment-method"></div>
       <div id="agreement"></div>
       <div class="p-3 w-100">
+        <label for="donation-amount" class="form-label">기부 금액</label>
+        <input type="number" id="donation-amount" class="form-control" placeholder="기부하실 금액을 입력해주세요">
+        <br>
         <button id="payment-request-button" class="btn btn-primary w-100">기부하기</button>
       </div>
     </div>
@@ -121,6 +132,7 @@
             paymentWidget.requestPayment({
                 orderId: crypto.randomUUID().replaceAll('-', ''),
                 orderName: `${postId}-${document.getElementById('post-title').innerText}`,
+                amount: document.getElementById('donation-amount').value,
             }).then(async data => {
                 const token = localStorage.getItem('token');
                 const response = await fetch('/toss/confirm-payment', {
@@ -148,14 +160,14 @@
         }
     });
 
-    fetch(`/post/${postId}`,).then(async response => {
+    /*fetch(`/post/${postId}`,).then(async response => {
         if (!response.ok) location.href = 'http://localhost:8080/donation'
         const body = await response.json()
         document.getElementById('post-image').src = body.postImage
         document.getElementById('post-title').innerText = body.postTitle
         document.getElementById('post-targetAmount').innerHTML= body.targetAmount
         paymentMethodsWidget.updateAmount(body.targetAmount)
-    })
+    })*/
 </script>
 </body>
 </html>

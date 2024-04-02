@@ -20,8 +20,8 @@ public interface TossHttpService {
             @PathVariable("paymentsKey") String paymentKey
     );
 
-    @GetExchange("/donation/{donationId}")
-    Object getDonation(@PathVariable("donationId") String donationId);
+    @GetExchange("/donation/{orderId}")
+    Object getDonation(@PathVariable("orderId") String donationId);
 
 //    @PostExchange("{paymentKey}/cancel")
 //    Object cancelPayment(

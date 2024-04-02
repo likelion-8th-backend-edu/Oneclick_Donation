@@ -120,7 +120,7 @@
         try {
             paymentWidget.requestPayment({
                 orderId: crypto.randomUUID().replaceAll('-', ''),
-                donationName: `${postId}-${document.getElementById('post-title').innerText}`,
+                orderName: `${postId}-${document.getElementById('post-title').innerText}`,
             }).then(async data => {
                 const token = localStorage.getItem('token');
                 const response = await fetch('/toss/confirm-payment', {

@@ -60,12 +60,16 @@ public class Post {
     private Integer donationPeople;
 
     public void updateStatus() {
-        LocalDate today = LocalDate.now();
-        LocalDate startDate = LocalDate.parse(this.startDate); // 시작 날짜
-        LocalDate endDate = LocalDate.parse(this.endDate); // 종료 날짜
-
-        if (today.isAfter(endDate) || today.isEqual(endDate) || startDate.isEqual(endDate) || startDate.isAfter(endDate)) {
+        if (supportAmount >= targetAmount) {
             this.status = Status.END;
+        } else {
+            LocalDate today = LocalDate.now();
+            LocalDate startDate = LocalDate.parse(this.startDate);
+            LocalDate endDate = LocalDate.parse(this.endDate);
+
+            if (today.isAfter(endDate) || today.isEqual(endDate) || startDate.isEqual(endDate) || startDate.isAfter(endDate)) {
+                this.status = Status.END;
+            }
         }
     }
 

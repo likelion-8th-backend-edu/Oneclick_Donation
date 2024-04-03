@@ -161,6 +161,11 @@
           height: 1px;
           width: 45%;
       }
+      img {
+          max-width: 200px;
+          height: 50px;
+          object-fit: contain;
+      }
   </style>
 
   <!-- TODO 추가적으로 비밀번호가 내용하나라도 적지 않고 회원가입을 하면 안내문이 뜨도록 하기  -->
@@ -220,6 +225,13 @@
   </form>
   <div class="separator">
     <p>OR</p>
+    <a href="/oauth2/authorization/naver">
+      <img src="/static/naver.png" alt="네이버 로그인">
+    </a>
+    <br>
+    <a href="/oauth2/authorization/kakao">
+      <img src="/static/kakao.png" alt="카카오 로그인">
+    </a>
   </div>
   <!--  소셜 로그인 할 수 있도록 넣기-->
 

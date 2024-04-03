@@ -39,6 +39,8 @@ public class DonationService {
         Long postId = Long.parseLong(donationName.split("-")[0]);
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR));
+        post.setSupportAmount(post.getSupportAmount() + dto.getAmount());
+        postRepository.save(post);
 
         // 3. Post엔티티를 바탕으로 PostDonation을 만들자.
         return PostDonationDto.fromEntity(donationRepository.save(PostDonation.builder()
@@ -46,10 +48,10 @@ public class DonationService {
                 .tossPaymentKey(dto.getPaymentKey())
                 .tossDonationId(dto.getOrderId())
                 .status("DONE")
+                .amount(dto.getAmount())
                 .build()));
-
-//        return tossPaymentObj;
     }
+
     // readAll
     public List<PostDonationDto> readAll() {
         return donationRepository.findAll().stream()

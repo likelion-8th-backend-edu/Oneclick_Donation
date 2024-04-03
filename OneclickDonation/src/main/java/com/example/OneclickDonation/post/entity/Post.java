@@ -32,6 +32,7 @@ public class Post {
     @Setter
     private String description;
 
+    @Setter
     @Builder.Default
     private Integer supportAmount = 0; // 기본값 설정
 

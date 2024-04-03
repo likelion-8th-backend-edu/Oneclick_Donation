@@ -16,6 +16,7 @@ public class MemberDto {
     private String nickname;
     private Integer age;
     private String phone;
+    private String organization;
     private Integer donationAmount;
 
     public static MemberDto fromEntity(Member entity) {
@@ -27,6 +28,7 @@ public class MemberDto {
                 .nickname(entity.getNickname())
                 .age(entity.getAge())
                 .phone(entity.getPhone())
+                .organization(entity.getOrganization())
                 .donationAmount(entity.getDonationAmount())
                 .build();
     }

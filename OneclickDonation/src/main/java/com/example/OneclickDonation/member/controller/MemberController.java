@@ -1,6 +1,7 @@
 package com.example.OneclickDonation.member.controller;
 
 
+import com.example.OneclickDonation.member.MemberService;
 import com.example.OneclickDonation.post.dto.PostDto;
 import com.example.OneclickDonation.post.service.PostService;
 import lombok.extern.slf4j.Slf4j;
@@ -10,15 +11,18 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @Controller
 public class MemberController {
+    private final MemberService memberService;
     private final PostService postService;
 
     @Autowired
-    public MemberController(PostService postService) {
+    public MemberController(MemberService memberService, PostService postService) {
+        this.memberService = memberService;
         this.postService = postService;
     }
 
@@ -55,6 +59,15 @@ public class MemberController {
     @GetMapping("/donation/upgrade-request")
     public String upgradeRequestPage() {
         return "/member/upgradeReq";
+    }
+
+    @GetMapping("/mypage/{id}")
+    public String mypage(
+            @PathVariable("id") Long id,
+            Model model
+    ) {
+        model.addAttribute("member", memberService.readOne(id));
+        return "member/mypage";
     }
 
 }

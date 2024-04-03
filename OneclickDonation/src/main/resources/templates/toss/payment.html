@@ -108,6 +108,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 <script>
     const postId = location.pathname.split("/")[2]
+    console.log(`postId = ${postId}`)
     // Client Key가 들어가는 곳
     const clientKey = 'test_ck_DnyRpQWGrNwGdyg7E1Yg8Kwv1M9E'
 
@@ -128,46 +129,47 @@
 
     const paymentRequestButton = document.getElementById('payment-request-button');
     paymentRequestButton.addEventListener('click', () => {
+        var amount = document.getElementById('donation-amount').value;
+        amount = parseInt(amount, 10);
+
+        paymentMethodsWidget.updateAmount(amount);
         try {
             paymentWidget.requestPayment({
                 orderId: crypto.randomUUID().replaceAll('-', ''),
                 orderName: `${postId}-${document.getElementById('post-title').innerText}`,
-                amount: document.getElementById('donation-amount').value,
+                amount: amount,
             }).then(async data => {
+                console.log("확인2")
                 const token = localStorage.getItem('token');
-                const response = await fetch('/toss/confirm-payment', {
-                    method: 'post',
+                const response = await fetch('http://localhost:8080/toss/confirm-payment', {
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
+                        'Authorization': `Bearer ${token}` ,
                     },
                     body: JSON.stringify({
                         paymentKey: data.paymentKey,
                         orderId: data.orderId,
-                        amount: data.amount
+                        amount
                     }),
                 })
                 if (response.ok) {
-                    // 기부가 완료되었다는 창 뜨고, 캠페인 홈페이지로 이동.
                     location.pathname = '/templates/toss/success.html'
                 }
+            }).catch(err => {
+                console.log("ERR@")
+                console.log(err)
             });
         } catch (err) {
+            console.log("ERR!")
+            console.log(err)
+
             if (err.code === 'USER_CANCEL') {
                 alert('사용자 결제 취소')
             }
             else alert(err)
         }
     });
-
-    /*fetch(`/post/${postId}`,).then(async response => {
-        if (!response.ok) location.href = 'http://localhost:8080/donation'
-        const body = await response.json()
-        document.getElementById('post-image').src = body.postImage
-        document.getElementById('post-title').innerText = body.postTitle
-        document.getElementById('post-targetAmount').innerHTML= body.targetAmount
-        paymentMethodsWidget.updateAmount(body.targetAmount)
-    })*/
 </script>
 </body>
 </html>

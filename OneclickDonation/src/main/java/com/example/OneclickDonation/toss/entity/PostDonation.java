@@ -21,4 +21,5 @@ public class PostDonation {
     private String tossDonationId;
     @Setter
     private String status;
+    private Integer amount;
 }

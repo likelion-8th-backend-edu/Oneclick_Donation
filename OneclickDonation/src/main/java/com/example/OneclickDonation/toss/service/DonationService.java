@@ -40,6 +40,7 @@ public class DonationService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR));
         post.setSupportAmount(post.getSupportAmount() + dto.getAmount());
+        post.beforeUpdate();
         postRepository.save(post);
 
         // 3. Post엔티티를 바탕으로 PostDonation을 만들자.

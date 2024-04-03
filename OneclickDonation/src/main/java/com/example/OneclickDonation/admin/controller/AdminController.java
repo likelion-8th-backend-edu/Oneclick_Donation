@@ -26,13 +26,21 @@ public class AdminController {
     }
 
     @GetMapping("/admin")
-    public String adminPage(
-            Pageable pageable,
-            Model model
-    ) {
-        Page<PostDto> page = postService.readPage(PageRequest.of(0, 10));
-        model.addAttribute("page", page);
+    public String homePage(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
+        // 페이지네이션에 사용할 페이지 크기
+        int pageSize = 12;
+        Page<PostDto> postPage = postService.readPage(PageRequest.of(page, pageSize));
+        model.addAttribute("page", postPage);
         return "admin/home";
+    }
+
+    @GetMapping("/admin/end")
+    public String endPage(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
+        // 페이지네이션에 사용할 페이지 크기
+        int pageSize = 12;
+        Page<PostDto> postPage = postService.readEndPost(PageRequest.of(page, pageSize));
+        model.addAttribute("page", postPage);
+        return "admin/endPost";
     }
 
     @GetMapping("/admin/upgrades")

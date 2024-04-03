@@ -48,11 +48,13 @@ public class WebSecurityConfig {
                                 "/post/{id}/donation",
                                 "/donation/upgrade-request",
                                 "/admin",
+                                "/admin/end",
                                 "/admin/upgrades",
                                 "/admin/upgrades/{id}",
                                 "/admin/upgrades/{id}/accept",
                                 "/admin/upgrades/{id}/reject",
-                                "/toss/confirm-payment"
+                                "/toss/confirm-payment",
+                                "/toss/**"
                         )
                         .permitAll()
                         .anyRequest()

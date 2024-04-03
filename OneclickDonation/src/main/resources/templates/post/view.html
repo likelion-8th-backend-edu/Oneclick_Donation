@@ -244,7 +244,6 @@
   <div class="action-buttons">
     <a th:href="@{/post/{id}/news(id=${post.id})}" class="news-button">소식</a>
     <a th:href="@{'/post/' + ${post.id} + '/donation'}" class="donation-button">기부하기</a>
-    <!--    <a href="/templates/donation.html" class="donation-button">기부하기</a>-->
     <a href="/donation" class="home-button" >Home</a>
     <a th:href="@{'/post/' + ${post.id} + '/edit'}" class="edit-button">수정</a>
     <form th:action="@{'/post/' + ${post.id} + '/delete'}" method="post">

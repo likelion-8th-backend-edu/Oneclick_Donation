@@ -164,4 +164,11 @@ public class MemberService implements UserDetailsService {
         member.setProfile(requestPath);
         return MemberDto.fromEntity(memberRepository.save(member));
     }
+
+    // 마이페이지
+    public MemberDto readOne(Long id) {
+        return memberRepository.findById(id)
+                .map(MemberDto::fromEntity)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
 }

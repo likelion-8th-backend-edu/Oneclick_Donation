@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>소식 생성하기</title>
+  <link rel="stylesheet" href="/static/css/newsCreate-styles.css">
+</head>
+<body>
+<div class="container">
+  <h1>Create Post</h1>
+  <form th:action="@{/post/{postId}/newsCreate(postId=${post.id})}" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="newsImage">이미지:</label>
+      <input type="file" name="newsImage" id="newsImage" accept="image/*">
+    </div>
+    <div class="form-group">
+      <label for="newsContent">소식 내용:</label>
+      <textarea name="newsContent" id="newsContent" rows="6" required></textarea>
+    </div>
+    <div class="form-group">
+      <input type="submit" value="글 작성">
+    </div>
+  </form>
+  <a th:href="@{/post/{id}/news(id=${post.id})}" class="back-link">Back</a>
+</div>
+<script>
+    const postId = location.pathname.split("/")[2]
+    document.addEventListener("DOMContentLoaded", function() {
+        // 토큰이 있으면 요청 보내기
+        fetchData(`/post/${postId}/newsCreate`);
+    });
+
+    async function fetchData(url) {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` // 토큰을 헤더에 포함하여 전달
+                }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                console.log('데이터 로드 성공:', data);
+            } else {
+                const errorData = await response.json();
+                throw new Error("서버 오류: " + errorData.message);
+            }
+        } catch (error) {
+            console.error("에러 발생:", error);
+        }
+    }
+</script>
+</body>
+</html>

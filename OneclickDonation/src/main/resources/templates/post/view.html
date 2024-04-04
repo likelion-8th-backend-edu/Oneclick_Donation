@@ -34,12 +34,12 @@
   <br>
   <br>
   <div class="action-buttons">
-    <a th:href="@{/post/{id}/news(id=${post.id})}" class="news-button">소식</a>
+    <a th:href="@{/post/{id}/news(id=${post.id})}" class="simple-link" style="border-bottom: 2px solid orange; margin-right: 5px;">소식</a>
     <a th:href="@{'/post/' + ${post.id} + '/donation'}" class="donation-button">기부하기</a>
     <a href="/donation" class="home-button" >Home</a>
     <a th:href="@{'/post/' + ${post.id} + '/edit'}" class="edit-button">수정</a>
     <form th:action="@{'/post/' + ${post.id} + '/delete'}" method="post">
-      <button type="submit" class="delete-button">삭제</button>
+      <button type="submit" onclick="confirmDelete()" class="delete-button">삭제</button>
     </form>
   </div>
 </div>
@@ -50,7 +50,6 @@
     <div th:unless="${#lists.isEmpty(comment)}" th:each="cmt : ${comment}" class="comment">
       <p th:text="${cmt.content}"></p>
       <div class="comment-footer">
-        <span>작성자: <em>John Doe</em></span>
         <form th:action="@{/post/{postId}/comment/{commentId}/delete(postId=${post.id}, commentId=${cmt.id})}" method="post">
           <button type="submit" class="delete-btn">댓글 삭제</button>
         </form>
@@ -61,7 +60,7 @@
   <hr>
 
   <h3>댓글 작성</h3>
-  <form th:action="@{/post/{id}/comment(id=${post.id})}" method="post">
+  <form th:action="@{/post/{id}/comment(id=${post.id})}" method="post" class="comment-form"> <!-- 댓글 작성 폼에 comment-form 클래스 추가 -->
     <div class="container">
       <label>
         <input type="text" name="content" placeholder="댓글을 작성하세요.">
@@ -131,6 +130,16 @@
             }
         } catch (error) {
             console.error("에러 발생:", error);
+        }
+    }
+    function confirmDelete() {
+        // 사용자에게 확인을 받기 위한 알림창 표시
+        if (confirm("정말로 삭제하시겠습니까?")) {
+            // '확인' 버튼이 클릭된 경우 폼 제출
+            document.getElementById("deleteForm").submit();
+        } else {
+            // '취소' 버튼이 클릭된 경우 아무 작업도 하지 않음
+            return false;
         }
     }
 </script>

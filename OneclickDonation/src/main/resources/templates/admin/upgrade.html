@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Upgrades Page</title>
+</head>
+<body>
+<h1>단체/기업 전환 신청 목록</h1>
+<div th:unless="${upgradeList.isEmpty()}">
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>조직</th>
+      <th>신청 사유</th>
+      <th>수락</th>
+      <th>거절 사유</th>
+      <th>거절</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="upgradeRequest : ${upgradeList.content}">
+      <td th:text="${upgradeRequest.id}"></td>
+      <td th:text="${upgradeRequest.organization}"></td>
+      <td th:text="${upgradeRequest.applicationReason}"></td>
+      <td>
+        <!-- 신청 수락 버튼 -->
+        <form th:action="@{'/admin/upgrades/' + ${upgradeRequest.id} + '/accept'}" method="post">
+          <button type="submit">수락</button>
+        </form>
+      </td>
+      <td>
+        <!-- 거절 사유 입력 필드 -->
+        <input type="text" id="rejectionReason-${upgradeRequest.id}" placeholder="거절 사유 입력">
+      </td>
+      <td>
+        <!-- 신청 거절 버튼 -->
+        <form id="rejectForm">
+          <button type="button" onclick="rejectUpgrade(${upgradeRequest.id})">거절</button>
+        </form>
+        <!--        <form th:action="@{'/admin/upgrades/' + ${upgradeRequest.id} + '/reject'}" method="post">-->
+        <!--          <button type="submit">거절</button>-->
+        <!--        </form>-->
+        <!--        <form action="/admin/upgrades/${upgradeRequest.id}/reject" method="post">-->
+        <!--          <button type="submit">거절</button>-->
+        <!--        </form>-->
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div th:if="${upgradeList.isEmpty()}">
+  <p>전환 신청이 없습니다.</p>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // 토큰이 있으면 요청 보내기
+        fetchData('/admin/upgrades');
+    });
+    async function fetchData(url) {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` // 토큰을 헤더에 포함하여 전달
+                }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                console.log('데이터 로드 성공:', data);
+            } else {
+                const errorData = await response.json();
+                throw new Error("서버 오류: " + errorData.message);
+            }
+        } catch (error) {
+            console.error("에러 발생:", error);
+        }
+    }
+
+    // 거절 요청을 처리하는 함수
+    // const postId = location.pathname.split("/")[2]
+    // document.addEventListener("DOMContentLoaded", function() {
+    //     // 토큰이 있으면 요청 보내기
+    //     fetchUpgrade(`/admin/upgrades/${postId}/reject`);
+    // });
+    // async function fetchUpgrade() {
+    //     try {
+    //         const token = localStorage.getItem("token");
+    //         const response = await fetch(`/admin/upgrades/${postId}/reject`, {
+    //             method: 'DELETE',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 'Authorization': `Bearer ${token}` // 토큰을 헤더에 포함하여 전달
+    //             },
+    //             body: JSON.stringify({ reason: rejectionReason })
+    //         });
+    //
+    //         if (response.ok) {
+    //             alert("거절 완료");
+    //             location.reload(); // 페이지 새로고침
+    //         } else {
+    //             const errorData = await response.json();
+    //             alert("거절 실패: " + errorData.message);
+    //         }
+    //     } catch (error) {
+    //         console.error("에러 발생:", error);
+    //         alert("거절 중에 에러가 발생했습니다. 다시 시도해주세요.");
+    //     }
+    // }
+</script>
+
+</body>
+</html>

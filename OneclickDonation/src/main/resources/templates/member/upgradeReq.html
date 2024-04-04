@@ -6,106 +6,15 @@
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>단체/기업 등록하기</title>
-  <style>
-      body {
-          font-family: "Montserrat", sans-serif;
-          background: white;
-      }
-
-      .container {
-          display: block;
-          max-width: 680px;
-          width: 80%;
-          margin: 120px auto;
-      }
-
-      h1 {
-          color: #ffed4d;
-          font-size: 48px;
-          letter-spacing: -3px;
-          text-align: center;
-          margin: 120px 0 80px 0;
-          transition: 0.2s linear;
-      }
-
-      form {
-          width: 100%;
-          max-width: 680px;
-          margin: 40px auto 10px;
-      }
-
-      .input__block {
-          margin: 20px auto;
-          display: block;
-          position: relative;
-      }
-
-      .input__block.first-input__block::before {
-          content: "";
-          position: absolute;
-          top: -15px;
-          left: 50px;
-          display: block;
-          width: 0;
-          height: 0;
-          background: transparent;
-          border-left: 15px solid transparent;
-          border-right: 15px solid transparent;
-          border-bottom: 15px solid rgba(15, 19, 42, 0.1);
-          transition: 0.2s linear;
-      }
-
-      .input {
-          display: block;
-          width: 90%;
-          max-width: 680px;
-          height: 50px;
-          margin: 0 auto;
-          border-radius: 8px;
-          border: none;
-          background: rgba(15, 19, 42, 0.1);
-          color: rgba(15, 19, 42, 0.3);
-          padding: 0 0 0 15px;
-          font-size: 14px;
-          font-family: "Montserrat", sans-serif;
-      }
-
-      .input__block input:focus,
-      .input__block input:active {
-          outline: none;
-          border: none;
-          color: #0f132a;
-      }
-
-      .signup__btn {
-          background: #ffed4d;
-          color: white;
-          display: block;
-          width: 92.5%;
-          max-width: 680px;
-          height: 50px;
-          border-radius: 8px;
-          margin: 0 auto;
-          border: none;
-          cursor: pointer;
-          font-size: 14px;
-          font-family: "Montserrat", sans-serif;
-          box-shadow: 0 15px 30px rgb(255, 237, 77, 0.36);
-          transition: 0.2s linear;
-      }
-
-      .signup__btn:hover {
-          box-shadow: 0 0 0 rgba(233, 30, 99, 0);
-      }
-  </style>
+  <link rel="stylesheet" href="/static/css/upgradeReq-styles.css">
 
 </head>
 <body>
 <div class="container">
-  <h1>단체/기업 등록하기</h1>
-  <form action="/donation/upgrade-request" method="post">
+  <h1>단체/기업 신청하기</h1>
+  <form id="upgradeForm">
     <!-- 단체/기업 input -->
-    <div class="first-input input__block first-input__block">
+    <div class="first-input input__block">
       <label for="organization">
         <input name="organization" type="text" placeholder="단체/기관 이름을 기입해주세요." class="input" id="organization"   />
       </label>
@@ -116,10 +25,57 @@
         <input name="businessNumber" type="number" placeholder="사업자 번호를 기입해주세요." class="input" id="businessNumber"   />
       </label>
     </div>
+    <!-- 신청사유 input -->
+    <div class="input__block">
+      <label for="applicationReason">
+        <input name="applicationReason" type="text" placeholder="신청 사유를 기입해주세요." class="input" id="applicationReason"   />
+      </label>
+    </div>
+    <!-- 등록 후 검토 기간 안내 -->
+    <br>
+    <div class="docs">
+      <p>단체/기업 전환을 신청한 경우, 신청이 접수된 후 담당자가 해당 요청을 확인하고 처리하는 과정을 거칩니다.
+        일반적으로 이 과정은 2~3 영업일 정도 소요될 수 있습니다. 감사합니다.
+      </p>
+    </div>
     <button class="signup__btn" type="submit">
       등록하기
     </button>
   </form>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const upgradeForm = document.getElementById("upgradeForm");
+        upgradeForm.onsubmit = async function(event) {
+            event.preventDefault();
+            const formData = new FormData(upgradeForm);
+            const json = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('/donation/upgrade-request', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token') // 로컬 스토리지에서 토큰 가져오기
+                    },
+                    body: JSON.stringify(json)
+                });
+
+                if (response.ok) {
+                    alert("전환 신청이 제출되었습니다. 관리자의 승인을 기다려주세요.");
+                    // 등록 성공 후 처리할 작업 수행(홈페이지로 이동)
+                    location.replace('/donation');
+                } else {
+                    const errorData = await response.json();
+                    alert("전환 신청 실패: " + errorData.message);
+                }
+            } catch (error) {
+                console.error("에러 발생:", error);
+                alert("전환 신청 중에 문제가 발생했습니다. 다시 시도해주세요.");
+            }
+        };
+    });
+</script>
 </body>
 </html>

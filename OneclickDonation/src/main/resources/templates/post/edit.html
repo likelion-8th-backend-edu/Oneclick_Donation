@@ -4,76 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>글 수정</title>
-  <style>
-      body {
-          font-family: Arial, sans-serif;
-          background-color: #f0f0f0;
-          margin: 0;
-          padding: 0;
-      }
-
-      .container {
-          max-width: 900px;
-          margin: 50px auto;
-          background-color: #fff;
-          padding: 20px;
-          border-radius: 8px;
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
-
-      h1 {
-          color: #ffa500;
-          text-align: center;
-      }
-
-      form {
-          margin-top: 20px;
-      }
-
-      .form-group {
-          margin-bottom: 20px;
-      }
-
-      .form-group label {
-          display: block;
-          margin-bottom: 5px;
-          color: #333;
-      }
-
-      .form-group input[type="text"],
-      .form-group textarea,
-      .form-group input[type="number"] {
-          width: 100%;
-          padding: 10px;
-          border: 1px solid #ccc;
-          border-radius: 5px;
-      }
-
-      .form-group input[type="file"] {
-          margin-top: 5px;
-      }
-
-      .form-group input[type="submit"] {
-          background-color: #ffa500;
-          color: #fff;
-          border: none;
-          padding: 10px 20px;
-          cursor: pointer;
-          border-radius: 5px;
-      }
-
-      .form-group input[type="submit"]:hover {
-          background-color: #ff7f00;
-      }
-
-      .back-link {
-          display: block;
-          margin-top: 20px;
-          text-align: center;
-          color: #007bff;
-          text-decoration: none;
-      }
-  </style>
+  <link rel="stylesheet" href="/static/css/edit-styles.css">
 </head>
 <body>
 <div class="container">
@@ -85,23 +16,68 @@
       <input type="text" name="postTitle" id="postTitle" th:value="${post.title}" required>
     </div>
     <div class="form-group">
+      <label for="postImage">대표 이미지:</label>
+      <input type="file" name="postImage" id="postImage" accept="image/*" th:value="${post.postImage}">
+    </div>
+    <div class="form-group">
+      <label for="organization">단체명:</label>
+      <input type="text" name="organization" id="organization" th:value="${post.organization}" required>
+    </div>
+    <div class="form-group">
       <label for="postContents">캠페인 설명:</label>
       <!-- textarea로 변경 -->
       <textarea name="postContents" id="postContents" rows="6" required th:text="${post.description}"></textarea>
     </div>
     <div class="form-group">
-      <label for="postImage">대표 이미지:</label>
-      <input type="file" name="postImage" id="postImage" accept="image/*" th:value="${post.postImage}">
+      <label for="startDate">모금 시작 날짜:</label>
+      <input type="text" name="startDate" id="startDate" th:value="${post.startDate}" required>
+    </div>
+    <div class="form-group">
+      <label for="endDate">모금 종료 날짜:</label>
+      <input type="text" name="endDate" id="endDate" th:value="${post.endDate}" required>
     </div>
     <div class="form-group">
       <label for="postTargetAmount">목표 모금 금액:</label>
       <input type="number" name="postTargetAmount" id="postTargetAmount" th:value="${post.targetAmount}" required>
     </div>
     <div class="form-group">
+      <label for="news">소식(모금 종료 후 작성):</label>
+      <textarea name="news" id="news" rows="20" required th:text="${post.news}"></textarea>
+    </div>
+    <div class="form-group">
       <input type="submit" value="수정하기">
     </div>
   </form>
-  <a href="/" class="back-link">Back</a>
+  <a th:href="@{/post/{id}(id=${post.id})}" class="back-link">Back</a>
 </div>
+<script>
+    const postId = location.pathname.split("/")[2]
+    document.addEventListener("DOMContentLoaded", function() {
+        // 토큰이 있으면 요청 보내기
+        fetchData(`/post/${postId}/edit`);
+    });
+
+    async function fetchData(url) {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` // 토큰을 헤더에 포함하여 전달
+                }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                console.log('데이터 로드 성공:', data);
+            } else {
+                const errorData = await response.json();
+                throw new Error("서버 오류: " + errorData.message);
+            }
+        } catch (error) {
+            console.error("에러 발생:", error);
+        }
+    }
+</script>
 </body>
 </html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Donation Payment</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <script src="https://js.tosspayments.com/v1/payment-widget"></script>
+  <link rel="stylesheet" href="/static/css/toss-styles.css">
+</head>
+<body>
+<div>
+  <div class="container">
+    <h1 id="post-title" th:text="${post.title}"></h1>
+    <div class="post-details">
+      <div>
+        <img th:src="@{'/static/' + ${post.postImage}}" alt="Post Image" id="post-image">
+      </div>
+      <div>
+        <p class="campaign-description" th:text="${post.description}" style="word-wrap: break-word;"></p>
+      </div>
+      <br>
+      <div>
+        <strong>모금 기간</strong> <br> <span th:text="${post.startDate}"></span> ~ <span th:text="${post.endDate}"></span>
+        <br><br>
+        <strong>목표 모금액</strong> <br> <span id="post-targetAmount" th:text="${post.targetAmount + '원'}"></span>
+      </div>
+      <div class="action-buttons">
+        <a th:href="@{'/post/' + ${post.id}}" class="home-button">뒤로가기</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6 p-3 mx-auto">
+    <div id="payment-wrapper">
+      <div id="payment-method"></div>
+      <div id="agreement"></div>
+      <div class="p-3 w-100">
+        <label for="donation-amount" class="form-label">기부 금액</label>
+        <input type="number" id="donation-amount" class="form-control" placeholder="기부하실 금액을 입력해주세요">
+        <br>
+        <button id="payment-request-button" class="btn btn-primary w-100">기부하기</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script>
+    const postId = location.pathname.split("/")[2]
+    console.log(`postId = ${postId}`)
+    // Client Key가 들어가는 곳
+    const clientKey = 'test_ck_DnyRpQWGrNwGdyg7E1Yg8Kwv1M9E'
+
+    const paymentWidget = PaymentWidget(clientKey, PaymentWidget.ANONYMOUS)
+    const paymentMethodsWidget = paymentWidget.renderPaymentMethods(
+        '#payment-method',
+        {
+            value: 0,
+            currency: 'KRW',
+            country: 'KR'
+        },
+        { variantKey: 'widgetA' }
+    )
+    const paymentAgreement = paymentWidget.renderAgreement(
+        '#agreement',
+        { variantKey: 'AGREEMENT' }
+    )
+
+    const paymentRequestButton = document.getElementById('payment-request-button');
+    paymentRequestButton.addEventListener('click', () => {
+        var amount = document.getElementById('donation-amount').value;
+        amount = parseInt(amount, 10);
+
+        paymentMethodsWidget.updateAmount(amount);
+        try {
+            paymentWidget.requestPayment({
+                orderId: crypto.randomUUID().replaceAll('-', ''),
+                orderName: `${postId}-${document.getElementById('post-title').innerText}`,
+                amount: amount,
+            }).then(async data => {
+                console.log("확인2")
+                const token = localStorage.getItem('token');
+                const response = await fetch('http://localhost:8080/toss/confirm-payment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` ,
+                    },
+                    body: JSON.stringify({
+                        paymentKey: data.paymentKey,
+                        orderId: data.orderId,
+                        amount
+                    }),
+                })
+                if (response.ok) {
+                    location.pathname = '/templates/toss/success.html'
+                }
+            }).catch(err => {
+                console.log("ERR@")
+                console.log(err)
+            });
+        } catch (err) {
+            console.log("ERR!")
+            console.log(err)
+
+            if (err.code === 'USER_CANCEL') {
+                alert('사용자 결제 취소')
+            }
+            else alert(err)
+        }
+    });
+</script>
+</body>
+</html>

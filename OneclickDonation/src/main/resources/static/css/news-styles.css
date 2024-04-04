@@ -1,0 +1,68 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+h1 {
+    color: #ffed4d;
+    text-align: center;
+}
+
+.news-content {
+    margin-top: 20px;
+    text-align: center;
+    position: relative;
+}
+
+.news-content p {
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+.proposal-button,
+.proposal-button1,
+.proposal-button2 {
+    display: inline-block;
+    background-color: #ffed4d;
+    color: #fff;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.proposal-button {
+    position: absolute;
+    right: 40px; /* 소식 생성하기 버튼 위치 조정 */
+}
+
+.proposal-button1 {
+    position: absolute;
+    right: 100px; /* 수정 버튼 위치 조정 */
+}
+
+.proposal-button2 {
+    position: absolute;
+    right: 40px; /* 삭제 버튼 위치 조정 */
+    border: none;
+}
+.back-link {
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+    color: #007bff;
+    text-decoration: none;
+}

@@ -17,7 +17,6 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 @RequiredArgsConstructor
 public class AdminService {
-    private final MemberRepository memberRepository;
     private final MemberUpgradeRepository upgradeRepository;
 
 
@@ -29,23 +28,23 @@ public class AdminService {
 
     // 단체 사용자 신청 수락
     @Transactional
-    public UpgradeAdminDto approveUpgrade(Long id) {
+    public UpgradeAdminDto acceptUpgrade(Long id) {
         MemberUpgrade upgrade = upgradeRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         upgrade.setApproved(true);
-        upgrade.getUpgradeMem().setAuthorities(Role.ROLE_GROUP.name());
-        // 캠페인을 쓸 수 있도록 하기
-
+        upgrade.getMember().setAuthorities(Role.ROLE_GROUP.name());
+        upgrade.getMember().setOrganization(upgrade.getOrganization());
         return UpgradeAdminDto.fromEntity(upgrade);
     }
 
     // 단체 사용자 신청 거절
     @Transactional
-    public UpgradeAdminDto disapproveUpgrade(Long id) {
+    public void rejectUpgrade(Long id, String rejectionReason) {
         MemberUpgrade upgrade = upgradeRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         upgrade.setApproved(false);
-        return UpgradeAdminDto.fromEntity(upgrade);
+        upgrade.setRejectReason(rejectionReason);
+        upgradeRepository.deleteById(id);
     }
 
 }

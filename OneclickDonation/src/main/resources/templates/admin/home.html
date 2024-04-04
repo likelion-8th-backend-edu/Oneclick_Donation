@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Home</title>
+  <link rel="stylesheet" href="/static/css/home-styles.css">
+</head>
+<body>
+<div class="banner">
+  <h1>작은 선물이 큰 변화를 만듭니다.</h1>
+  <ul class="links">
+    <li>
+      <a href="/admin/upgrades" id="admin">단체 신청 목록</a>
+    </li>
+  </ul>
+</div>
+<div class="main">
+  <a href="/post/create" class="proposal-button">캠페인 제안하기</a> <br>
+  <a href="/admin" class="simple-link" style="border-bottom: 2px solid #ff6f61; margin-right: 5px;">모금중 캠페인</a>
+  <a href="/admin/end" class="simple-link">종료 캠페인</a> <br>
+  <div th:if="${page.content.isEmpty()}">
+    <p>진행 중인 캠페인이 없습니다.</p>
+  </div>
+  <div th:unless="${page.content.isEmpty()}">
+    <div th:each="post, postStat : ${page.content}" class="post-box" th:style="'margin-right: ' + (${postStat == null or postStat.last} ? '0' : '20px')" data-post-id="${post.id}">
+      <div class="post-image">
+        <!-- 이미지 불러오기 -->
+        <a th:href="@{/post/{id}(id=${post.id})}">
+          <img th:src="@{'/static/' + ${post.postImage}}" alt="Post Image" id="post-image">
+        </a>
+      </div>
+      <div class="post-details">
+        <h5 th:text="${post.title}" style="text-align: center;"></h5>
+        <h5 th:text="${post.organization}" style="text-align: center; color: #888;" class="or"></h5>
+        <!-- 게이지 바 -->
+        <div class="progress-bar">
+          <div class="progress-bar-fill" th:style="'width: ' + (${(post.supportAmount * 100) / post.targetAmount}) + '%'"></div>
+        </div>
+        <!-- 총 모금 금액 표시 -->
+        <div style="font-size: 14px; color: #000; text-align: left; position: absolute; top: calc(100% + 3px); left: 5px; font-weight: bold;">
+          <span th:text="${post.supportAmount} + '원'"></span>
+        </div>
+        <!-- 백분율 표시 -->
+        <div style="font-size: 14px; color: #ff6f61; text-align: right; position: absolute; top: calc(100% + 3px); right: 5px; font-weight: bold;">
+          <span th:text="${(post.supportAmount * 100) / post.targetAmount} + '%'"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <!-- 페이지네이션 링크 추가 -->
+  <div th:if="${page.totalPages > 1}" class="pagination">
+    <div>
+      <a th:each="i : ${#numbers.sequence(0, page.totalPages-1)}" th:href="@{'/admin?page=' + ${i}}" th:class="${i == page.number} ? 'active'">
+        <span th:text="${i + 1}"></span>
+      </a>
+    </div>
+  </div>
+</div>
+<script src="/static/index.js"></script>
+</body>
+</html>

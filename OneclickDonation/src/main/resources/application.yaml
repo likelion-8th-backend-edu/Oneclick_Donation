@@ -1,20 +1,3 @@
 spring:
-  datasource:
-    url: jdbc:sqlite:db.sqlite
-    driver-class-name: org.sqlite.JDBC
-    username: sa
-    password: password
-  jpa:
-    hibernate:
-      ddl-auto: create
-    database-platform: org.hibernate.community.dialect.SQLiteDialect
-    show-sql: true
-  web:
-    resources:
-      static-locations: file:uploads/
-
-jwt:
-  secret: aaaabbbsdifqbvaesoioegwaaaabbbsdifqbvaesoioegwaaaabbbsdifqbvaes
-
-toss:
-  secret: <toss-secret>
+  profiles:
+    active: dev

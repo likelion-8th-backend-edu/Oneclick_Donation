@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>News</title>
+  <link rel="stylesheet" href="/static/css/news-styles.css">
+</head>
+<body>
+<div class="container">
+  <h1>News</h1>
+  <div class="news-content">
+    <div th:if="${news == null}">
+      <a th:href="@{/post/{id}/newsCreate(id=${post.id})}" class="proposal-button">소식 생성하기</a>
+      <br>
+      <br>
+      <p>새로운 소식이 아직 없어요.</p>
+      <p>기부금이 잘 쓰였는지 확인할 수 있는</p>
+      <p>프로젝트팀 사업 소식과 후기를 준비하고 있어요.</p>
+      <p>곧 훈훈한 소식으로 찾아올게요.</p>
+    </div>
+    <div th:if="${news != null}">
+      <a th:href="@{/post/{id}/news/edit(id=${post.id})}" class="proposal-button1">수정</a>
+      <form id="deleteForm" th:action="@{/post/{id}/news/delete(id=${post.id})}" method="post">
+        <button type="button" onclick="confirmDelete()" class="proposal-button2">삭제</button>
+      </form>
+      <br>
+      <br>
+      <div class="post-details">
+        <div style="text-align: center;">
+          <img th:src="@{'/static/' + ${news.newsImage}}" alt="News Image" id="news-image" style="max-width: 100%; height: auto;">
+        </div>
+        <div style="margin-top: 20px;">
+          <p class="campaign-description" th:text="${news.content}" style="word-wrap: break-word; font-size: 16px;"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a th:href="@{/post/{id}(id=${post.id})}" class="back-link">Back</a>
+</div>
+<script>
+    const postId = location.pathname.split("/")[2]
+    document.addEventListener("DOMContentLoaded", function() {
+        // 토큰이 있으면 요청 보내기
+        fetchData(`/post/${postId}/news`);
+    });
+
+    async function fetchData(url) {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                console.log('데이터 로드 성공:', data);
+            } else {
+                const errorData = await response.json();
+                throw new Error("서버 오류: " + errorData.message);
+            }
+        } catch (error) {
+            console.error("에러 발생:", error);
+        }
+    }
+    function confirmDelete() {
+        // 사용자에게 확인을 받기 위한 알림창 표시
+        if (confirm("정말로 삭제하시겠습니까?")) {
+            // '확인' 버튼이 클릭된 경우 폼 제출
+            document.getElementById("deleteForm").submit();
+        } else {
+            // '취소' 버튼이 클릭된 경우 아무 작업도 하지 않음
+            return false;
+        }
+    }
+</script>
+</body>
+</html>

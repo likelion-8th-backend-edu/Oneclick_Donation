@@ -3,95 +3,145 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>View Post</title>
-  <style>
-      body {
-          font-family: Arial, sans-serif;
-          background-color: #f0f0f0;
-          margin: 0;
-          padding: 0;
-      }
-
-      .container {
-          max-width: 900px;
-          margin: 50px auto;
-          background-color: #fff;
-          padding: 20px;
-          border-radius: 8px;
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
-
-      h1 {
-          color: #ffa500;
-          text-align: center;
-      }
-
-      .post-details {
-          margin-top: 20px;
-      }
-
-      .post-details div {
-          margin-bottom: 10px;
-      }
-
-      .post-details strong {
-          color: #333;
-      }
-
-      .post-details img {
-          max-width: 100%;
-          display: block;
-          margin: 10px auto;
-          border-radius: 8px;
-      }
-
-      .action-buttons {
-          text-align: center;
-          margin-top: 20px;
-      }
-
-      .action-buttons a {
-          background-color: #ffa500;
-          color: #fff;
-          padding: 8px 16px;
-          text-decoration: none;
-          border-radius: 5px;
-          margin-right: 10px;
-      }
-
-      .action-buttons a:hover {
-          background-color: #ff7f00;
-      }
-  </style>
+  <title>[[${post.title}]]</title>
+  <link rel="stylesheet" href="/static/css/view-styles.css">
 </head>
 <body>
 <div class="container">
   <h1 th:text="${post.title}"></h1>
+  <h4 th:text="${post.organization}"></h4>
   <div class="post-details">
     <div>
-      <strong>제목:</strong>
-      <span th:text="${post.title}"></span>
+      <img th:src="@{'/static/' + ${post.postImage}}" alt="Post Image" id="post-image">
     </div>
     <div>
-      <strong>캠페인 설명:</strong>
-      <span th:text="${post.description}"></span>
+      <p class="campaign-description" th:text="${post.description}" style="word-wrap: break-word;"></p>
     </div>
+    <br>
     <div>
-      <strong>이미지:</strong>
-      <img th:src="@{'/uploads/' + ${post.postImage}}" alt="Post Image">
-    </div>
-    <div>
-      <strong>목표 모금액:</strong>
-      <span th:text="${post.targetAmount}"></span>
+      <strong>모금 기간</strong> <br> <span th:text="${post.startDate}"></span> ~ <span th:text="${post.endDate}"></span>
+      <br><br>
+      <strong>목표 모금액</strong> <br> <span id="post-targetAmount" th:text="${post.targetAmount + '원'}"></span>
     </div>
   </div>
+
+  <div class="container">
+    <div class="progress-bar" id="progress-bar">
+      <div class="progress-bar-fill" id="progress-bar-fill"></div>
+      <div class="progress-percent" id="progress-percent"></div>
+    </div>
+  </div>
+  <br>
+  <br>
   <div class="action-buttons">
-    <a th:href="@{'/post/' + ${post.id} + '/edit'}">수정</a>
+    <a th:href="@{/post/{id}/news(id=${post.id})}" class="simple-link" style="border-bottom: 2px solid orange; margin-right: 5px;">소식</a>
+    <a th:href="@{'/post/' + ${post.id} + '/donation'}" class="donation-button">기부하기</a>
+    <a href="/donation" class="home-button" >Home</a>
+    <a th:href="@{'/post/' + ${post.id} + '/edit'}" class="edit-button">수정</a>
+    <form th:action="@{'/post/' + ${post.id} + '/delete'}" method="post">
+      <button type="submit" onclick="confirmDelete()" class="delete-button">삭제</button>
+    </form>
   </div>
-  <form th:action="@{/post/{id}/delete(id=${post.id})}" method="post" style="display: inline;">
-    <button type="submit" style="background-color: #ffa500; color: #fff; padding: 8px 16px; text-decoration: none; border-radius: 5px; border: none; cursor: pointer;">삭제</button>
-  </form>
-  <a href="/donation" class="back-link">Home</a>
 </div>
+
+<div class="container">
+  <div class="comments">
+    <h3>댓글</h3>
+    <div th:unless="${#lists.isEmpty(comment)}" th:each="cmt : ${comment}" class="comment">
+      <p th:text="${cmt.content}"></p>
+      <div class="comment-footer">
+        <form th:action="@{/post/{postId}/comment/{commentId}/delete(postId=${post.id}, commentId=${cmt.id})}" method="post">
+          <button type="submit" class="delete-btn">댓글 삭제</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <h3>댓글 작성</h3>
+  <form th:action="@{/post/{id}/comment(id=${post.id})}" method="post" class="comment-form"> <!-- 댓글 작성 폼에 comment-form 클래스 추가 -->
+    <div class="container">
+      <label>
+        <input type="text" name="content" placeholder="댓글을 작성하세요.">
+      </label>
+    </div>
+    <input type="submit" value="댓글 작성"> <br>
+  </form>
+</div>
+
+<script>
+    // updateProgressBar 함수를 정의합니다.
+    function updateProgressBar(supportAmount, targetAmount) {
+        // 현재 모금액과 목표 모금액을 가져와서 계산합니다.
+        var percent = supportAmount >= targetAmount ? 100 : (supportAmount / targetAmount) * 100;
+        // 게이지 바를 채우는 요소를 가져옵니다.
+        var progressBarFill = document.getElementById("progress-bar-fill");
+        // 게이지 바를 채우는 요소의 너비를 퍼센트에 따라 조정합니다.
+        progressBarFill.style.width = percent + "%";
+        progressBarFill.innerText = percent.toFixed(0) + "% (" + supportAmount + "원" + ")";
+    }
+
+    // 페이지가 로드될 때 서버에서 데이터를 가져와서 게이지 바를 업데이트합니다.
+    document.addEventListener("DOMContentLoaded", function() {
+        // AJAX 요청을 생성합니다.
+        var xhr = new XMLHttpRequest();
+        // 현재 페이지 URL에서 게시물 ID를 가져옵니다.
+        var postId = window.location.pathname.split("/")[2]; // /post/{id}/support-amount-target-amount 에서 {id}를 가져옵니다.
+        // GET 메서드를 사용하여 /{id}/support-amount-target-amount 엔드포인트로 요청을 보냅니다.
+        xhr.open("GET", "/post/" + postId + "/support-amount-target-amount", true);
+        // 응답이 도착하면 이벤트 리스너를 실행합니다.
+        xhr.onload = function () {
+            // 만약 요청이 성공했다면
+            if (xhr.status === 200) {
+                // 서버에서 받은 JSON 데이터를 JavaScript 객체로 변환합니다.
+                var data = JSON.parse(xhr.responseText);
+                // 가져온 데이터를 이용하여 게이지 바를 업데이트합니다.
+                updateProgressBar(data.supportAmount, data.targetAmount);
+            }
+        };
+        // AJAX 요청을 보냅니다.
+        xhr.send();
+    });
+
+    const postId = location.pathname.split("/")[2]
+    // 토큰 가져오기
+    document.addEventListener("DOMContentLoaded", function() {
+        // 토큰이 있으면 요청 보내기
+        fetchData(`/post/${postId}`);
+    });
+
+    async function fetchData(url) {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` // 토큰을 헤더에 포함하여 전달
+                }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                console.log('데이터 로드 성공:', data);
+            } else {
+                const errorData = await response.json();
+                throw new Error("서버 오류: " + errorData.message);
+            }
+        } catch (error) {
+            console.error("에러 발생:", error);
+        }
+    }
+    function confirmDelete() {
+        // 사용자에게 확인을 받기 위한 알림창 표시
+        if (confirm("정말로 삭제하시겠습니까?")) {
+            // '확인' 버튼이 클릭된 경우 폼 제출
+            document.getElementById("deleteForm").submit();
+        } else {
+            // '취소' 버튼이 클릭된 경우 아무 작업도 하지 않음
+            return false;
+        }
+    }
+</script>
 </body>
 </html>

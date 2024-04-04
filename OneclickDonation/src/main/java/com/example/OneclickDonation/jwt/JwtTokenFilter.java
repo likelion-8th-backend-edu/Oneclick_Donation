@@ -1,5 +1,7 @@
 package com.example.OneclickDonation.jwt;
 
+import com.example.OneclickDonation.member.dto.CustomUserDetails;
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -43,9 +45,15 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 // 정당하면 인증정보 객체에 담아서 인증 받은 사용자임을 확인
                 SecurityContext context = SecurityContextHolder.createEmptyContext();
                 // 사용자 정보 회수
-                String username = jwtTokenUtils
-                        .parseClaims(token)
-                        .getSubject();
+                Claims jwtClaims = jwtTokenUtils
+                        .parseClaims(token);
+                String username = jwtClaims.getSubject();
+                String authorities = jwtClaims.get("roles", String.class);
+
+                CustomUserDetails customUserDetails = CustomUserDetails.builder()
+                        .username(username)
+                        .authorities(authorities)
+                        .build();
 
                 UserDetails userDetails = manager.loadUserByUsername(username);
                 for (GrantedAuthority authority : userDetails.getAuthorities()) {
@@ -55,9 +63,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 // 인증 정보 생성 및 권한 주입
                 AbstractAuthenticationToken authenticationToken
                         = new UsernamePasswordAuthenticationToken(
-                        userDetails,
+                        customUserDetails,
                         token,
-                        userDetails.getAuthorities()
+                        customUserDetails.getAuthorities()
                 );
 
                 // 인증 정보 등록

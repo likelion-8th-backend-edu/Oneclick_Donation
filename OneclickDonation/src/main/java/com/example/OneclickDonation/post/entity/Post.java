@@ -54,10 +54,11 @@ public class Post {
     private final List<Comment> comments = new ArrayList<>();
 
     @Setter
-    private String news;
+    @OneToOne(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private News news;
 
-    @Setter
-    private Integer donationPeople;
+
+
 
     public void updateStatus() {
         if (supportAmount >= targetAmount) {
@@ -71,6 +72,10 @@ public class Post {
                 this.status = Status.END;
             }
         }
+    }
+
+    public boolean isEng() {
+        return this.status == Status.END;
     }
 
     @PreUpdate

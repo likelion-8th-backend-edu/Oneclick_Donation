@@ -122,7 +122,6 @@ public class PostService {
         post.setPostImage(dto.getPostImage());
         post.setStartDate(dto.getStartDate());
         post.setEndDate(dto.getEndDate());
-        post.setNews(dto.getNews());
         post.setOrganization(dto.getOrganization());
         post.beforeUpdate();
         // 업데이트된 게시글을 저장하고 PostDto로 변환하여 반환

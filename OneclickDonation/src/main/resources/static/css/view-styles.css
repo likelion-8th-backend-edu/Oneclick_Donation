@@ -42,7 +42,6 @@ h1 {
     margin-top: 20px;
     text-align: right;
     display: flex;
-    justify-content: flex-end; /* 우측 정렬 */
     align-items: center;
 }
 
@@ -75,7 +74,8 @@ h1 {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin-left: 10px;
+    margin-left: auto; /* 오른쪽으로 이동 */
+    margin-right: 10px; /* 왼쪽 여백 추가 */
     cursor: pointer;
     border-radius: 5px;
 }
@@ -125,8 +125,8 @@ h1 {
 .action-buttons button.delete-button{
     background-color: rgba(0, 0, 0, 0.3);
     color: white;
+    margin-left: 10px;
 }
-
 /* Comment Style */
 .comments {
     margin-top: 30px;
@@ -204,4 +204,40 @@ h1 {
     border: 2px solid #ccc;
     border-radius: 8px;
     padding: 10px;
+}
+.simple-link {
+    text-decoration: none;
+    color: orange;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    margin-right: auto; /* 맨 왼쪽에 위치하도록 설정 */
+    margin-left: 0; /* 나머지 링크들과의 간격을 없애기 위해 추가 */
+    border-bottom: 2px solid #ff6f61; /* 소식 링크에만 밑줄을 추가하기 위해 이동 */
+}
+
+/* 댓글 작성 폼 스타일 */
+.comment-form {
+    margin-top: 30px;
+}
+
+.comment-form input[type="text"] {
+    width: calc(100% - 20px); /* 폼 너비 조정 */
+    padding: 10px; /* 내부 여백 설정 */
+    border: 1px solid #ccc; /* 테두리 설정 */
+    border-radius: 5px; /* 테두리 모서리 둥글기 설정 */
+    margin-bottom: 10px; /* 아래쪽 여백 설정 */
+}
+
+.comment-form input[type="submit"] {
+    background-color: #1a75ff; /* 배경색 설정 */
+    color: white; /* 글자색 설정 */
+    border: none; /* 테두리 없애기 */
+    padding: 10px 20px; /* 내부 여백 설정 */
+    border-radius: 5px; /* 테두리 모서리 둥글기 설정 */
+    cursor: pointer; /* 커서 모양 설정 */
+}
+
+.comment-form input[type="submit"]:hover {
+    background-color: #0056b3; /* 호버 시 배경색 변경 */
 }

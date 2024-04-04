@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>글 수정</title>
+  <link rel="stylesheet" href="/static/css/newsEdit-styles.css">
+</head>
+<body>
+<div class="container">
+  <h1>Edit Post</h1>
+  <!-- 수정된 부분: th:action 속성에서 {id} 값을 받아오는 부분이 수정되었습니다. -->
+  <form th:action="@{/post/{id}/news/edit(id=${post.id})}" method="post" enctype="multipart/form-data">    <div class="form-group">
+    <label for="newsImage">대표 이미지:</label>
+    <input type="file" name="newsImage" id="newsImage" accept="image/*" th:value="${news.newsImage}">
+  </div>
+    <div class="form-group">
+      <label for="newsContent">소식 내용:</label>
+      <textarea name="newsContent" id="newsContent" rows="6" required th:text="${news.content}"></textarea>
+    </div>
+    <div class="form-group">
+      <input type="submit" value="수정하기">
+    </div>
+  </form>
+  <!-- 올바른 URL로 이동 -->
+  <a th:href="@{/post/{id}/news(id=${post.id})}" class="back-link">Back</a>
+</div>
+<script>
+    const newsId = location.pathname.split("/")[4]
+    document.addEventListener("DOMContentLoaded", function() {
+        // 토큰이 있으면 요청 보내기
+        fetchData(`/post/news/${newsId}/edit`);
+    });
+
+    async function fetchData(url) {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` // 토큰을 헤더에 포함하여 전달
+                }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                console.log('데이터 로드 성공:', data);
+            } else {
+                const errorData = await response.json();
+                throw new Error("서버 오류: " + errorData.message);
+            }
+        } catch (error) {
+            console.error("에러 발생:", error);
+        }
+    }
+</script>
+</body>
+</html>

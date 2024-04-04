@@ -57,7 +57,6 @@ public class PostController {
             @RequestParam("postTargetAmount") Integer targetAmount,
             @RequestParam("startDate") String startDate,
             @RequestParam("endDate") String endDate,
-            @RequestParam("news") String news,
             @RequestParam("organization") String organization,
             @RequestParam(value = "postImage", required = false) MultipartFile image
     ) {
@@ -65,19 +64,13 @@ public class PostController {
         if (image != null && !image.isEmpty()) {
             imageUrl = fileStorageService.storeFile(image);
         }
-        postService.update(id, new PostDto(title, description, targetAmount, imageUrl, startDate, endDate, news, organization));
+        postService.update(id, new PostDto(title, description, targetAmount, imageUrl, startDate, endDate, organization));
         return "redirect:/post/" + id;
     }
     @PostMapping("/{id}/delete")
     public String deletePost(@PathVariable Long id) {
         postService.delete(id);
         return "redirect:/donation";
-    }
-    @GetMapping("/{id}/news")
-    public String viewNews(@PathVariable Long id, Model model) {
-        PostDto post = postService.readOne(id);
-        model.addAttribute("post", post);
-        return "/post/news";
     }
     @GetMapping("/{id}/support-amount-target-amount")
     @ResponseBody

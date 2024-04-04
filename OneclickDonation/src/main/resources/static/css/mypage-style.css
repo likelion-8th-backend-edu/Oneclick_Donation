@@ -1,0 +1,36 @@
+.links {
+    list-style-type: none;
+    text-align: right;
+    margin-right: 200px;
+}
+
+.links li {
+    display: inline-block;
+    margin: 0 20px 0 0;
+    transition: 0.2s linear;
+}
+
+.links li:nth-child(2) {
+    opacity: 0.6;
+}
+
+.links li:nth-child(2):hover {
+    opacity: 1;
+}
+
+.links li:nth-child(3) {
+    opacity: 0.6;
+    float: right;
+}
+
+.links li:nth-child(3):hover {
+    opacity: 1;
+}
+
+.links li a {
+    text-decoration: none;
+    color: #a6a6a6;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+}
